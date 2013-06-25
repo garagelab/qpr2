@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+
+    <title></title>
+
+  </head>
+
+  <body>
+
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+
+    <script type="text/javascript">
+      
+      var $div = $('<div/>')
+        .text( 'data' )
+        .css( { 'font-family': 'arial,sans-serif' } )
+        .appendTo( $('body') );
+
+      $div.append( '<li>loading...</li>' );
+
+      var url = 'jsonp.php?url='+encodeURIComponent('https://quepasariachuelo.crowdmap.com/api?task=incidents');
+      console.log('get',url);
+
+      /*
+      $.getJSON(url, function(data) { 
+        console.log('--data',data) 
+      });
+      */
+
+      $.ajax({
+        url: url,
+        dataType: 'jsonp',
+        success: function( r ) 
+        {
+          console.log( '--res', r );
+
+          $div.empty();
+
+          var d = JSON.parse( 
+            decodeURIComponent( 
+              r.data ) );
+
+          console.log( '--d', d );
+
+          var reports = d.payload.incidents;
+          var i,j;
+
+          for ( i in reports )
+          {
+            var report = reports[i].incident;
+            var media = reports[i].media;
+
+            var $ul = $('<ul/>');
+
+            $ul.append( 
+              $('<li/>').text( 
+                'id: ' + report.incidentid 
+            ));
+
+            $ul.append( 
+              $('<li/>').text( 
+                'date: ' + report.incidentdate
+            ));
+
+            $ul.append( 
+              $('<li/>').text( 
+                'title: ' + report.incidenttitle
+            ));
+
+            $ul.append( 
+              $('<li/>').text( 
+                //'desc: ' + report.incidentdescription
+            ));
+
+            $ul.append( 
+              $('<li/>').text( 
+                'location: ' + report.locationname
+            ));
+
+            for ( j in media )
+            {
+              $ul.append( 
+                $('<li/>').text( 
+                  'media: ' + media[j].link
+              ));
+            } 
+
+            $ul.appendTo( $div );
+          }
+        }	
+      });
+
+    </script>
+
+  </body>
+</html>
+
