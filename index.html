@@ -1,1 +1,129 @@
-qpr2
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        <link rel="stylesheet" href="./styles/main.css">
+
+        <!--<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.0/pure-min.css">-->
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.0/pure-nr-min.css">
+
+        <script src="scripts/vendor/modernizr.js"></script>
+    </head>
+
+    <body>
+
+      <div class="container">
+
+        <div class="header pure-menu pure-menu-open pure-menu-horizontal">
+          <a href="#" class="pure-menu-heading">Qué Pasa, Riachuelo?</a>
+          <ul>
+            <!--<li class="pure-menu-selected"><a href="#">Qué Pasa, Riachuelo?</a></li>-->
+            <li class="pure-menu-selected"><a href="#">El Mapa</a></li>
+            <li><a href="#">El Proyecto</a></li>
+            <li><a href="#">Metodología</a></li>
+            <li><a href="#">Tecnología utilizada</a></li>
+            <li><a href="#">Quienes Somos</a></li>
+          </ul>
+        </div>         
+
+        <div class="copete">
+          <div class="title">
+            Monitoreo Social de la Cuenca
+          </div>
+
+          <div class="text">
+          El objetivo del proyecto es fortalecer la capacidad de monitoreo social de los residentes y grupos vecinales de la Cuenca y potenciar la incidencia ciudadana en las políticas públicas que se implementan en el territorio. 
+Para ello se creó esta plataforma donde los actores locales pueden monitorear los avances del plan de saneamiento y reportar hechos de contaminación generando una interlocución con agencias publicas. 
+Esta plataforma recolecta datos producidos en el territorio por los vecinos, datos públicos generados por agencias gubernamentales y noticias de medios locales.
+Todos estos datos se encuentran en esta plataforma como datos abiertos y reutilizables.
+          </div>
+
+        </div>         
+
+        <div class="sidebar widget">
+
+          <form class="pure-form">
+            <div class="field">
+              <div class="label">Municipio o Localidad</div>
+              <input type="text" placeholder="buscar...">
+            </div>   
+            <div class="field">
+              <div class="label">Industria, Reporte, Noticia, Documento...</div>
+              <input type="text" placeholder="buscar...">
+            </div>
+          </form>
+
+          <div class="layers">
+
+            <div class="grupo historias">
+              <div class="layer">Historias</div>   
+            </div>
+
+            <!--<div class="separador"></div>   -->
+
+            <div class="grupo social">
+              <div class="layer">Alertas Territoriales</div>   
+              <div class="layer selected">Respuestas</div>   
+              <div class="layer">Normativas</div>   
+              <div class="layer">Noticias</div>   
+            </div>   
+
+            <!--<div class="separador"></div>   -->
+
+            <div class="grupo datos-publicos">
+              <div class="layer">Industrias</div>   
+              <div class="layer">Basurales</div>   
+              <div class="layer">Asentamientos</div>   
+              <div class="layer">Arroyos</div>
+            </div>   
+
+          </div>   
+
+        </div>   
+ 
+        <!--<div class="reportes widget widget-right">-->
+          <!--Reportes...-->
+        <!--</div>-->
+        <div class="blog widget widget-right">
+          Blog...
+        </div>
+
+        <div class="footer pure-menu pure-menu-open pure-menu-horizontal">
+          <img src="./images/farn.png">
+          <img src="./images/fund-ciudad.png">
+          <img src="./images/fopea.png">
+          <img src="./images/eu.png">
+          <img src="./images/gl.png" class="gl">
+        </div>
+
+      </div>
+
+      <div id="map_container">
+        <div id="map"></div>
+      </div>
+
+<a class="twitter-timeline" data-dnt="true" href="https://twitter.com/QpasaRiachuelo" data-widget-id="347426784364609539"></a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g,s)}(document,'script'));
+        </script>
+
+        <script data-main="scripts/main" src="bower_components/requirejs/require.js"></script>
+</body>
+</html>
