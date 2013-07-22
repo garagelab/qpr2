@@ -3,127 +3,165 @@
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-        <link rel="stylesheet" href="./styles/main.css">
 
-        <!--<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.0/pure-min.css">-->
-        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.0/pure-nr-min.css">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <link rel="stylesheet" href="./styles/main.css">
 
-        <script src="scripts/vendor/modernizr.js"></script>
-    </head>
+  <link rel="stylesheet" href="./lib/pure-min.css">
+  <!--<link rel="stylesheet" href="./lib/pure-nr-min.css">-->
 
-    <body>
+  <script src="scripts/vendor/modernizr.js"></script>
+</head>
 
-      <div class="container">
+<body>
 
-        <div class="header pure-menu pure-menu-open pure-menu-horizontal">
-          <a href="#" class="pure-menu-heading">Qué Pasa, Riachuelo?</a>
-          <ul>
-            <!--<li class="pure-menu-selected"><a href="#">Qué Pasa, Riachuelo?</a></li>-->
-            <li class="pure-menu-selected"><a href="#">El Mapa</a></li>
-            <li><a href="#">El Proyecto</a></li>
-            <li><a href="#">Metodología</a></li>
-            <li><a href="#">Tecnología utilizada</a></li>
-            <li><a href="#">Quienes Somos</a></li>
-          </ul>
-        </div>         
+  <div class="container">
 
-        <div class="copete">
-          <div class="title">
-            Monitoreo Social de la Cuenca
+    <div class="header pure-menu pure-menu-open pure-menu-horizontal">
+      <a href="#" class="pure-menu-heading goto-origin">Qué Pasa, Riachuelo?</a>
+      <ul>
+        <!--<li class="pure-menu-selected"><a href="#">selected....</a></li>-->
+        <li><a href="#">Quiénes Somos?</a></li>
+        <li><a href="#">El Proyecto</a></li>
+        <li><a href="#">Datos Abiertos</a></li>
+        <li><a href="#">Cómo visualizar QPR</a></li>
+        <li><a href="#">Manual de Uso</a></li>
+      </ul>
+    </div>         
+
+    <div class="copete">
+      <div class="title">
+        Monitoreo Social de la Cuenca
+      </div>
+
+      <div class="text">
+        El objetivo del proyecto es fortalecer la capacidad de monitoreo social de los residentes y grupos vecinales de la Cuenca y potenciar la incidencia ciudadana en las políticas públicas que se implementan en el territorio. 
+      </div>
+
+    </div>         
+
+    <div class="content"> 
+
+      <div class="sidebar widget"> 
+
+        <!--XXX format: class="layer [name]"-->
+
+        <div class="layers">
+
+          <div class="grupo">
+            <div class="layer enviar-alerta">
+              <span>Enviá tu Alerta</span>
+              <img src="./images/markers/alerta.png">
+            </div>
           </div>
 
-          <div class="text">
-          El objetivo del proyecto es fortalecer la capacidad de monitoreo social de los residentes y grupos vecinales de la Cuenca y potenciar la incidencia ciudadana en las políticas públicas que se implementan en el territorio. 
-Para ello se creó esta plataforma donde los actores locales pueden monitorear los avances del plan de saneamiento y reportar hechos de contaminación generando una interlocución con agencias publicas. 
-Esta plataforma recolecta datos producidos en el territorio por los vecinos, datos públicos generados por agencias gubernamentales y noticias de medios locales.
-Todos estos datos se encuentran en esta plataforma como datos abiertos y reutilizables.
+          <div class="grupo">
+            <div class="layer historias">
+              <span>Monitoreo Social</span>
+              <img src="./images/markers/historia.png">
+            </div>
           </div>
 
-        </div>         
+          <!--<div class="separador"></div>-->
 
-        <div class="sidebar widget">
-
-          <form class="pure-form">
-            <div class="field">
-              <div class="label">Municipio o Localidad</div>
-              <input type="text" placeholder="buscar...">
-            </div>   
-            <div class="field">
-              <div class="label">Industria, Reporte, Noticia, Documento...</div>
-              <input type="text" placeholder="buscar...">
+          <div class="grupo monitoreo">
+            <div class="layer alertas">
+              <span>Alertas Territoriales</span>
+              <img src="./images/markers/alerta.png">
             </div>
-          </form>
-
-          <div class="layers">
-
-            <div class="grupo historias">
-              <div class="layer">Historias</div>   
+            <div class="layer acciones">
+              <span>Acciones/Respuestas</span>
+              <img src="./images/markers/accion.png">
             </div>
+            <div class="layer noticias">
+              <span>Noticias</span>
+              <img src="./images/markers/noticia.png">
+            </div>
+          </div>
 
-            <!--<div class="separador"></div>   -->
+          <!--<div class="separador"></div>-->
 
-            <div class="grupo social">
-              <div class="layer">Alertas Territoriales</div>   
-              <div class="layer selected">Respuestas</div>   
-              <div class="layer">Normativas</div>   
-              <div class="layer">Noticias</div>   
+          <div class="grupo datos-publicos">
+            <div class="layer industrias">
+              <span>Industrias</span>
+              <img src="./images/markers/industria.png">
             </div>   
-
-            <!--<div class="separador"></div>   -->
-
-            <div class="grupo datos-publicos">
-              <div class="layer">Industrias</div>   
-              <div class="layer">Basurales</div>   
-              <div class="layer">Asentamientos</div>   
-              <div class="layer">Arroyos</div>
+            <div class="layer basurales">
+              <span>Basurales</span>
+              <img src="./images/markers/basural.png">
             </div>   
-
+            <div class="layer ecopuntos">
+              <span>Ecopuntos</span>
+              <img src="./images/markers/ecopunto.png">
+            </div>
+            <div class="layer asentamientos">
+              <span>Asentamientos</span>
+              <img src="./images/markers/asentamiento.png">
+            </div>
+            <div class="layer arroyos">
+              <span>Arroyos</span>
+              <img src="./images/markers/arroyo.png">
+            </div>
           </div>   
 
         </div>   
- 
-        <!--<div class="reportes widget widget-right">-->
-          <!--Reportes...-->
+
+        <form class="pure-form">
+          <div class="field">
+            <div class="label">Municipio o Localidad</div>
+            <input type="text" placeholder="buscar...">
+          </div>   
+        </form>
+
+      </div> 
+      <!--/sidebar widget-->
+
+      <a class="twitter-timeline" data-dnt="true" href="https://twitter.com/QpasaRiachuelo" data-widget-id="347426784364609539"></a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+      <!--<div class="reportes widget widget-right">-->
+        <!--Reportes...-->
         <!--</div>-->
-        <div class="blog widget widget-right">
-          Blog...
-        </div>
-
-        <div class="footer pure-menu pure-menu-open pure-menu-horizontal">
-          <img src="./images/farn.png">
-          <img src="./images/fund-ciudad.png">
-          <img src="./images/fopea.png">
-          <img src="./images/eu.png">
-          <img src="./images/gl.png" class="gl">
-        </div>
-
+      <div class="blog widget widget-right">
+        Blog...
       </div>
 
-      <div id="map_container">
-        <div id="map"></div>
-      </div>
+      <div id="map"></div>
 
-<a class="twitter-timeline" data-dnt="true" href="https://twitter.com/QpasaRiachuelo" data-widget-id="347426784364609539"></a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </div>   
 
-        <!--[if lt IE 7]>
-            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
-        <![endif]-->
+    <div class="footer pure-menu pure-menu-open pure-menu-horizontal">
+      <img src="./images/farn.png">
+      <img src="./images/fund-ciudad.png">
+      <img src="./images/fopea.png">
+      <img src="./images/eu.png">
+      <img src="./images/gl.png" class="gl">
+    </div>
 
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-        <script>
-            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-            s.parentNode.insertBefore(g,s)}(document,'script'));
-        </script>
+  </div> 
 
-        <script data-main="scripts/main" src="bower_components/requirejs/require.js"></script>
+  <!--[if lt IE 7]>
+  <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+  <![endif]-->
+
+  <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+  <!--<script>-->
+    <!--var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];-->
+    <!--(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];-->
+      <!--g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';-->
+      <!--s.parentNode.insertBefore(g,s)}(document,'script'));-->
+  <!--</script>-->
+
+  <script src="./lib/parseuri.js"></script>
+  <script src="./lib/chroma.min.js"></script>
+  <script src="./lib/markerclusterer_packed.js"></script>
+
+  <script data-main="scripts/main" src="bower_components/requirejs/require.js"></script>
+
 </body>
 </html>
