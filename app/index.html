@@ -1,0 +1,96 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <link rel="stylesheet" href="./styles/main.css">
+
+  <link rel="stylesheet" href="./lib/pure-min.css">
+  <!--<link rel="stylesheet" href="./lib/pure-nr-min.css">-->
+
+  <link rel="stylesheet" href="./lib/jquery.tipsy.css">
+
+  <!-- build:js scripts/vendor/modernizr.js -->
+  <script src="./bower_components/modernizr/modernizr.js"></script>
+  <!-- endbuild -->
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="header pure-menu pure-menu-open pure-menu-horizontal">
+      <a href="#" class="pure-menu-heading goto-origin">Qué Pasa, Riachuelo?</a>
+      <ul>
+        <!--<li class="pure-menu-selected"><a href="#">selected....</a></li>-->
+        <li><a href="#">Quiénes Somos?</a></li>
+        <li><a href="#">El Proyecto</a></li>
+        <li><a href="#">Datos Abiertos</a></li>
+        <li><a href="#">Cómo visualizar QPR</a></li>
+        <li><a href="#">Manual de Uso</a></li>
+      </ul>
+    </div>         
+
+    <div class="copete">
+      <div class="title">
+        Monitoreo Social de la Cuenca
+      </div>
+
+      <div class="text">
+        El objetivo del proyecto es fortalecer la capacidad de monitoreo social de los residentes y grupos vecinales de la Cuenca y potenciar la incidencia ciudadana en las políticas públicas que se implementan en el territorio. 
+      </div>
+
+    </div>         
+
+    <div class="content">
+
+      <div id="map"></div>
+
+      <div class="layers"></div>
+
+      <div class="widgets"></div>
+
+    </div>   
+
+    <div class="footer pure-menu pure-menu-open pure-menu-horizontal">
+      <img src="./images/farn.png">
+      <img src="./images/fund-ciudad.png">
+      <img src="./images/fopea.png">
+      <img src="./images/eu.png">
+      <img src="./images/gl.png" class="gl">
+    </div>
+
+  </div> 
+
+  <!--<iframe src='http://embed.verite.co/timeline/?source=0Agl_Dv6iEbDadHdKcHlHcTB5bzhvbF9iTWwyMmJHdkE&font=Bevan-PotanoSans&maptype=toner&lang=en&height=500' width='100%' height='500' frameborder='0' style='position:absolute; bottom:-450px;'></iframe>-->
+
+  <!--[if lt IE 7]>
+  <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+  <![endif]-->
+
+  <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+  <!--<script>-->
+    <!--var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];-->
+    <!--(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];-->
+      <!--g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';-->
+      <!--s.parentNode.insertBefore(g,s)}(document,'script'));-->
+  <!--</script>-->
+
+  <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+  <script src="./lib/markerclusterer_packed.js"></script>
+
+  <!-- build:js scripts/main.js -->
+  <script data-main="scripts/main" src="./bower_components/requirejs/require.js"></script>
+  <!-- endbuild -->
+
+</body>
+</html>
+

@@ -1,0 +1,36 @@
+
+.timeline.container
+{
+  //bottom: 60px;
+  bottom: -400px;
+  left: 0px;  
+  //background-color: rgba(255,255,255,0.8);
+}
+
+.timeline .content
+{
+  //width: 600px;
+  //height: 100px;
+  background-color: rgba(255,255,255,0.8);
+  overflow: hidden;
+}
+
+.timeline .content svg
+{
+  display: block;
+  margin: auto;
+}
+
+.timeline .axis text 
+{
+  font: 10px sans-serif;
+}
+
+.timeline .axis line
+,.timeline .axis path 
+{
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+

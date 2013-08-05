@@ -1,0 +1,126 @@
+define( [ 
+    'jquery' 
+    ,'underscore'
+    ,'backbone'
+    ,'models/qpr/feature'
+    ], 
+
+function( $, _, Backbone, Feature ) 
+{
+
+'use strict';
+
+//Industrias.prototype=Object.crate(LayerParser);
+
+function Industrias( opt ) 
+{
+  this.opt = opt;
+
+  this.db = [
+    'cuit'
+    ,'geolocation'
+    ,'fecha'
+    ,'razon_social'
+    ,'producto_1'
+  ];
+}
+
+Industrias.prototype.parse =
+function( layer, data, sync_opt )
+{
+  //console.log( 'industrias.parse', arguments )
+
+  var opt = this.opt;
+
+  var id
+    ,coordarr
+    ,date
+    ,infowin
+    ,descripcion
+    ,nombre
+    ,producto;
+
+  var rows = data.rows;
+  var i = rows.length;
+
+  var idx = {
+    id: this.db.indexOf('cuit')
+    ,loc: this.db.indexOf('geolocation')
+    ,date: this.db.indexOf('fecha')
+    ,nombre: this.db.indexOf('razon_social')
+    ,producto: this.db.indexOf('producto_1')
+  }
+
+  while( i-- )
+  {
+    id = rows[i][ idx.id ];
+    coordarr = (rows[i][idx.loc]).split(' '); 
+    date = rows[i][ idx.date ];
+    nombre = rows[i][ idx.nombre ]; 
+    producto = rows[i][ idx.producto ]; 
+
+    infowin = '<b>'+nombre+'</b><br>'+producto;
+    descripcion = nombre+' '+producto;
+
+    var dateiso = new Date( date )
+      .toISOString();
+
+    layer.add( new Feature({ 
+      id: id
+      ,properties: {
+        type: opt.name
+        ,date: {
+          iso: dateiso
+          ,src: date
+        }
+        ,infowin: infowin
+        ,descripcion: descripcion
+        ,nombre: nombre
+        ,producto: producto
+        ,icon: opt.icon
+      }
+      ,geometry: {
+        type: 'Point'
+        ,coordinates: [
+          parseFloat( coordarr[0] ) 
+          ,parseFloat( coordarr[1] ) 
+        ]
+      }
+    }) );
+
+    //(function() {
+      //var desc = 'industria n';
+      //var addr = rows[i][ idx.loc ];
+      //var delay = 1000;
+      ////console.log('queue',delay*i,addr)
+      //setTimeout( function()
+      //{
+        ////console.log('-req',delay*i,addr)
+        //opt.geocoder.geocode( 
+        //{ 
+          //'address': addr
+        //}, 
+        //function( r, st ) 
+        //{
+          ////console.log('--res',delay*i,addr)
+          //if ( st !== 
+            //google.maps.GeocoderStatus.OK ) {
+            //console.error( "Geocode was not successful for the following reason: " + st); 
+            //return;
+          //}
+          //var coord = r[0].geometry.location;
+          //layer.add_point( 
+          //[
+            //coord.jb, 
+            //coord.kb
+          //], desc );
+        //} );
+      //}, delay * i ); //setTimeout
+    //})();
+  }
+};
+
+return Industrias;
+
+});
+

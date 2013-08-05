@@ -1,0 +1,166 @@
+@import 'vars';
+
+.layers 
+{
+  //top: 0px;
+  //left: 80px;
+  width: $layers_width;
+  height: 100%;
+  font-size: 14px;
+
+  position: absolute;
+  background-color: rgba(230,230,230,0.8);
+}
+
+.layers .grupo 
+{
+  margin: 5px 10px; 
+}
+
+.layers .layer.enviar-alerta
+{
+  background-color: rgba(200, 0, 0, 0.8);
+}
+.layers .layer.enviar-alerta:hover
+{
+  background-color: rgba(200, 0, 0, 1.0);
+}
+
+.layers .layer.historias
+{
+  background-color: rgba(240, 140, 0, 0.6);
+}
+.layers .layer.historias:hover
+{
+  background-color: rgba(240, 140, 0, 0.8);
+}
+.layers .layer.historias.visible
+{
+  background-color: rgba(240, 140, 0, 1.0);
+}
+
+.layers .layer.alertas
+,.layers .layer.acciones
+,.layers .layer.noticias
+{
+  background-color: rgba(255, 200, 0, 0.6);
+}
+.layers .layer.alertas:hover
+,.layers .layer.acciones:hover
+,.layers .layer.noticias:hover
+{
+  background-color: rgba(255, 200, 0, 0.8);
+}
+.layers .layer.alertas.visible
+,.layers .layer.acciones.visible
+,.layers .layer.noticias.visible
+{
+  background-color: rgba(255, 200, 0, 1.0);
+}
+
+.layers .layer.industrias
+,.layers .layer.basurales
+,.layers .layer.ecopuntos
+,.layers .layer.asentamientos
+,.layers .layer.arroyos
+{
+  background-color: rgba(240, 140, 0, 0.6);
+}
+.layers .layer.industrias:hover
+,.layers .layer.basurales:hover
+,.layers .layer.ecopuntos:hover
+,.layers .layer.asentamientos:hover
+,.layers .layer.arroyos:hover
+{
+  background-color: rgba(240, 140, 0, 0.8);
+}
+.layers .layer.industrias.visible
+,.layers .layer.basurales.visible
+,.layers .layer.ecopuntos.visible
+,.layers .layer.asentamientos.visible
+,.layers .layer.arroyos.visible
+{
+  background-color: rgba(240, 140, 0, 1.0);
+}
+
+.layers .layer {
+  margin: 1px 0px; 
+  padding: 5px;
+  height: 20px;
+  line-height: 20px;
+  cursor: pointer;
+}
+
+.layers .layer.historias
+,.layers .layer.enviar-alerta
+{
+  height: 30px;
+  line-height: 30px;
+  font-weight: bold;
+}
+
+.layers .layer img 
+{
+  float: right;
+  position: relative;
+}
+
+.layers .layer.enviar-alerta img 
+{
+  top: 2px;
+}
+
+.layers .layer.historias img 
+{
+  height: 38px;
+  top: -5px;
+  right: 2px;
+}
+
+.layers .layer.alertas img 
+{
+  height: 20px;
+  top: -2px;
+  right: 1px;
+}
+
+.layers .layer.acciones img 
+{
+  height: 20px;
+  right: 2px;
+}
+
+.layers .layer.industrias img
+,.layers .layer.basurales img 
+,.layers .layer.ecopuntos img 
+{
+  height: 20px;
+}
+
+.layers .layer.asentamientos img 
+,.layers .layer.arroyos img 
+{
+  top: -3px;
+  right: -2px;
+}
+
+/*.layers .separador {*/
+  /*margin: 6px 10px;*/
+  /*border: 1px solid gray; */
+/*}*/
+
+.layers .pure-form .field {
+  margin: 20px 10px;
+}
+
+.layers .pure-form .label {
+  color: #444;
+  margin-bottom: 5px;
+}
+
+.layers .pure-form input[type=text] {
+  font-size: 1em;
+  width: 100%;
+  /*margin: 10px;*/
+}
+

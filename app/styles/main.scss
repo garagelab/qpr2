@@ -1,0 +1,102 @@
+@import 'zindices';
+@import 'ui/layer-controls';
+@import 'ui/widgets';
+@import 'detalles/entidad';
+@import 'detalles/timeline';
+@import 'detalles/descripcion';
+@import 'detalles/links-widget';
+
+body {
+  background: #eee;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+#map 
+{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 200px;
+}
+
+.container .header.pure-menu 
+{
+  background-color: #333;
+  //position: fixed;
+  //top: 0px;
+  //height: 40px;
+}
+
+.container .header.pure-menu .pure-menu-heading 
+{
+  color: #fff;
+}
+
+.container .header.pure-menu a, .pure-menu .pure-menu-can-have-children>li:after 
+{
+  color: #aaa;
+}
+
+.container .header.pure-menu li a:hover, 
+.container .header.pure-menu li a:focus 
+{
+  background: #444;
+}
+
+.copete 
+{
+  color: #555;
+  padding: 0px 20px;
+  /*left: 300px;*/
+  /*width: 200px;*/
+  /*font-size: 16px;*/
+}
+
+.copete .title {
+  margin: 10px 0px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.copete .text {
+  margin: 10px 0px;
+  font-size: 14px;
+}
+
+.container .pure-menu.footer {
+  background-color: #eee;
+  /*background-color: rgba(255,255,255,0.3);*/
+  position: fixed;
+  height: 60px;
+  bottom: 0px;
+}
+
+.container .pure-menu.footer img {
+  margin: 14px 10px;
+  height: 30px;
+}
+
+.container .pure-menu.footer img.gl {
+  float: right;
+}
+
+.container .pure-menu {
+  font-size: 18px;
+}
+
+.container .pure-menu .pure-menu-heading {
+  font-weight: bold;
+  color: #000;
+}
+
+.container .pure-menu li a {
+  padding: 7px 20px;
+}
+
