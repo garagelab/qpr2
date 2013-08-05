@@ -164,11 +164,14 @@ var TimelineView = Backbone.View.extend({
     var img = vis.svg
       .selectAll( 'image' );
 
+    var clas = 'icon-' + props.type + '-' + id;
+
     img
       .data( vis.data )
       .enter()
 
       .append( 'image' )
+        .attr( 'class', clas )
         .attr( 'xlink:href', d.icon.url )
         .attr( 'width', d.icon.width )
         .attr( 'height', d.icon.height )
@@ -200,7 +203,7 @@ var TimelineView = Backbone.View.extend({
           return vis.layout.icons.y + yoff;
         })
 
-    $('.timeline .content svg image')
+    $('.timeline .content svg image.'+clas)
       .tipsy({ 
         gravity: 's', 
         html: true, 

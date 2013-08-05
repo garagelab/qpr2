@@ -51,7 +51,7 @@ function( layer, data, sync_opt )
 
     descripcion = r.incidenttitle;
 
-    date = new Date( r.incidentdate )
+    date = new Date( r.incidentdate.replace(' ','T') )
       .toISOString();
 
     layer.add( new Feature({ 

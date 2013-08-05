@@ -60,15 +60,15 @@ var App = function()
   var cur_detalle_view;
  
   var model_factory = {
-    ft: {}
+    fusiontables: {}
     ,crowdmap: {}
   };
 
   var view_factory = {
-    google: {}
+    gfeatureslayer: {}
   };
 
-  model_factory.ft.make = function( name, opt )
+  model_factory.fusiontables.make = function( name, opt )
   {
     //capitalize
     var pclass = name.charAt(0).toUpperCase() + name.slice(1);
@@ -104,7 +104,7 @@ var App = function()
     return model;
   }
 
-  view_factory.google.make = function( name, opt, model )
+  view_factory.gfeatureslayer.make = function( name, opt, model )
   {
     return new GLayerView({
       name: name,
@@ -178,7 +178,7 @@ var App = function()
     return colores;
   }
 
-  function init_layers( config ) 
+  function make_features_layers( map, config ) 
   {  
     var layer, cfg, k, i = config.length;
 
@@ -186,15 +186,14 @@ var App = function()
     {
       cfg = config[i];
       k = cfg.name;
-      layer = make_layer( cfg );
+      layer = make_layer( cfg, map );
       //layers.views[k] = layer.view;
       layers.models[k] = layer.model;
       layers.models[k].fetch();
     }
-    
   }
 
-  function make_layer( opt )
+  function make_layer( opt, map )
   {
     var name = opt.name;
 
@@ -227,8 +226,8 @@ var App = function()
         'select:entidad',
         function( feature )
         {
-          gmap.focus( feature );
-          gmap.infowin().close();
+          map.focus( feature );
+          map.infowin().close();
           add_detalle( feature );
         });
 
@@ -284,7 +283,7 @@ var App = function()
 
   }
 
-  function init_ui( ui )
+  function init_ui( ui, map )
   {
     (ui || (ui = {}))
 
@@ -301,7 +300,7 @@ var App = function()
 
     ui.$origin.click( function(e)
     {
-      gmap.origin(); 
+      map.origin(); 
     });
 
     ui.$enviar_alerta = $('.enviar-alerta');
@@ -324,19 +323,20 @@ var App = function()
   });
   gcuenca.render();
 
-  var ui = init_ui();
+  var ui = init_ui( {}, gmap );
 
   var colores = make_colores();
 
-  init_layers([
+  make_gsubcuencas_layer( gmap.map() );
+  make_features_layers( gmap, [
     {
       name: 'historias'
       ,model: {
-        type: 'ft'
+        type: 'fusiontables'
         ,ftid: '1ub97omGUE5TmYe_fsFaBRNKo2KysE_QMW8iRreg' 
       }
       ,view: {
-        type: 'google'
+        type: 'gfeatureslayer'
         ,icon: {
           url: 'images/markers/historia.png'
           ,height: 48
@@ -349,11 +349,11 @@ var App = function()
     ,{
       name: 'industrias'
       ,model: {
-        type: 'ft'
+        type: 'fusiontables'
         ,ftid: '1iCgpDNL1LWwqnLvGyizaxlBol0jz2DH_lpR2ajw' 
       }
       ,view: {
-        type: 'google'
+        type: 'gfeatureslayer'
         ,icon: {
           url: 'images/markers/industria.png'
         }
@@ -364,11 +364,11 @@ var App = function()
     ,{
       name: 'basurales'
       ,model: {
-        type: 'ft'
+        type: 'fusiontables'
         ,ftid: '1hffu-50r0VQKUh7GKpEShnqOzE9yic_NaD8ZQzE' 
       }
       ,view: {
-        type: 'google'
+        type: 'gfeatureslayer'
         ,icon: {
           url: 'images/markers/basural.png'
         }
@@ -379,11 +379,11 @@ var App = function()
     ,{
       name: 'ecopuntos'
       ,model: {
-        type: 'ft'
+        type: 'fusiontables'
         ,ftid: '1-c4LH4aZ0U38z3EAj529xEgayza6C8zOdaqzJJA' 
       }
       ,view: {
-        type: 'google'
+        type: 'gfeatureslayer'
         ,icon: {
           url: 'images/markers/ecopunto.png'
         }
@@ -394,11 +394,11 @@ var App = function()
     ,{
       name: 'asentamientos'
       ,model: {
-        type: 'ft'
+        type: 'fusiontables'
         ,ftid: '1_fEVSZmIaCJzDQoOgTY7pIcjBLng1MFOoeeTtYY' 
       }
       ,view: {
-        type: 'google'
+        type: 'gfeatureslayer'
         ,icon: {
           url: 'images/markers/asentamiento.png'
         }
@@ -412,7 +412,7 @@ var App = function()
         type: 'crowdmap' 
       }
       ,view: {
-        type: 'google'
+        type: 'gfeatureslayer'
         ,icon: {
           url: 'images/markers/alerta.png'
         }
@@ -423,60 +423,44 @@ var App = function()
   ]); 
 
 
-  //XXX for debugging....
+  function make_gsubcuencas_layer( map ) 
+  {
+    var name = 'subcuencas';
 
-  //function make_gftl_layer( opt ) 
-  //{
+    var layer = 
+      new google.maps.FusionTablesLayer({
 
-    //var ft = new google.maps.FusionTablesLayer({
-      //query: {
-        ////select: '\'address\'',
-        //select: opt.db.join(','),
-        //from: opt.ftid
-      //}
-    //});
+      query: {
+        select: 'geometry'
+        ,from: '1BSNFzXOaGd6wog43nNkZRqBdJ_ai-SkCkB2R2qs'
+      }
 
-    //var view = new Backbone.View({});
-    //view.is_visible = function()
-    //{
-      //return !!ft.getMap();
-    //}
-    //view.toggle = function() 
-    //{
-      //if ( this.is_visible() )
-        //this.hide();
-      //else
-        //this.show();
-    //}
-    //view.show = function()
-    //{
-      //ft.setMap( gmap.map() );
-      //this.trigger(
-        //'change:visibility', true);
-    //}
-    //view.hide = function()
-    //{
-      //ft.setMap( null );
-      //this.trigger(
-        //'change:visibility', false);
-    //}
+      ,styles: [{
+        polygonOptions: {
+          fillColor: '#ffffff'
+          ,fillOpacity: 0.01
+          //,strokeColor: "#aaaaaa"
+          ,strokeColor: "#000000"
+          ,strokeOpacity: 0.3
+          ,strokeWeight: 1    
+        }
+      }]
+    });
 
-    //var ctrl = new LayerControlView({
-      //name: opt.name,
-      //el: '.layer.'+opt.name,
-      //view: view
-    //});
+    var ctrl = new LayerControlView({
+      name: name
+      ,el: '.layer-controls .layer.'+name
+      ,visible: false
+    });
 
-    ////view.show();
-
-    //layers[ opt.name ] = {
-      //model: ft,
-      //view: view,
-      //control: ctrl
-    //};
-
-    //return layers[ opt.name ];
-  //}
+    ctrl.on(
+        'change:visibility',
+        function( v )
+        {
+          if ( v ) layer.setMap( map );
+          else layer.setMap( null );
+        });
+  }
 
 }
 
