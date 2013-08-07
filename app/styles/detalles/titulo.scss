@@ -1,0 +1,48 @@
+@import 'vars';
+
+//.titulo.container
+//{
+  //left: 0px;  
+  //margin-top: 0px;
+//}
+
+.titulo .texto.content
+{
+  background-color: rgba(255,255,255,0.8);
+  @include content-center;
+}
+
+.titulo .texto.content.expanded
+{
+  height: 300px;
+}
+
+.titulo .texto.content .titulo
+{
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.titulo .texto.content .txt
+{
+  font-size: 30px;
+}
+
+.titulo .texto.content .titulo
+,.titulo .texto.content .txt
+{
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
+.titulo .footer
+{
+  height: 10px; 
+  background-color: rgba(255,255,255,0.8);
+}
+
+.titulo .footer:hover
+{
+  background-color: rgba(235,235,235,0.8);
+}
+

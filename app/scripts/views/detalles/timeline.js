@@ -23,8 +23,6 @@ var TimelineView = Backbone.View.extend({
   ,render: function()
   {
     this.$el.html( this.tpl({}) );
-      //test: 'el timeline (x)'
-    //}) ); 
 
     this.init_vis();
 
@@ -67,15 +65,17 @@ var TimelineView = Backbone.View.extend({
     }
 
     var $timeline = this.$el
-      .find('.timeline .content');
+      .find('.content');
 
     var layout = {
       width: 1000
-      ,height: 600
+      ,height: 500
       ,margin: { x: 20 }
       ,loc: { x: 0, y: 30 }
       ,icons: { y: 60 }
     };
+
+    this._bottom = layout.icons.y;
 
     var tipformat = d3.time.format("%d/%m/%Y");
 
@@ -127,6 +127,8 @@ var TimelineView = Backbone.View.extend({
 
   ,add: function( feature )
   {
+    var self = this;
+
     var id = feature.get('id');
     var props = feature.get('properties');
 
@@ -166,6 +168,8 @@ var TimelineView = Backbone.View.extend({
 
     var clas = 'icon-' + props.type + '-' + id;
 
+    this._bottom = vis.layout.icons.y;
+
     img
       .data( vis.data )
       .enter()
@@ -183,8 +187,6 @@ var TimelineView = Backbone.View.extend({
 
         .attr( 'y', function() 
         { 
-          var yoff = 0;
-
           var x = parseFloat(
             this.getAttribute('x') );
 
@@ -197,42 +199,97 @@ var TimelineView = Backbone.View.extend({
               el.getAttribute('width') );
             //ow /= 2;
             if ( x > ox-ow && x < ox+ow )
-              yoff += d.icon.height + 10;
+              self._bottom += d.icon.height+10;
           });
 
-          return vis.layout.icons.y + yoff;
+          return self._bottom;
         })
 
+    //agregar 1 icono mas
+    //para dejar el bottom realmente bottom
+    this._bottom += d.icon.height+10;
+
     $('.timeline .content svg image.'+clas)
-      .tipsy({ 
-        gravity: 's', 
-        html: true, 
-        title: function() 
-        {
-          var d = this.__data__;
 
-          var date = vis.tipformat( d.date );
+      .each( function()
+      {
+        var d = this.__data__;
+        var date = vis.tipformat( d.date );
 
-          //var resumen = d.descripcion 
-            //? d.descripcion
-              //.split(' ').slice(0,5)
-              //.join(' ') + '...'
-            //: '';
+        //var resumen = d.descripcion 
+              //? d.descripcion
+                //.split(' ').slice(0,5)
+                //.join(' ') + '...'
+              //: '';
 
-          return [
-            '<div style="'
-              ,'font-size: 15px;'
-              ,'padding: 10px;'
-            ,'">'
-            ,date
-            ,' '
-            ,d.descripcion
-            ,'</div>'
-          ]
-          .join(''); 
-        }
+        $(this).qtip({
+
+          position: { my: 'bottom left' }
+          ,style: { classes: 'qtip-tipsy' }
+
+          //,content: date+' '+d.descripcion
+          ,content: {
+            title: date,
+            text: [
+              '<div style="'
+                ,'font-family: \'Helvetica Neue\', Helvetica, Arial, sans-serif;'
+                ,'font-size: 15px;'
+                ,'padding: 10px;'
+              ,'">'
+              //,date
+              //,' '
+              ,d.descripcion
+              ,'</div>'
+            ]
+            .join('')
+          }
+
+          ,show: { 
+            effect: false
+            ,delay: 50
+          }   
+
+          ,hide: { 
+            effect: false
+            ,delay: 50
+            ,fixed: true
+          }
+        });
       });
 
+      //.tipsy({ 
+        //gravity: 's', 
+        //html: true, 
+        //title: function() 
+        //{
+          //var d = this.__data__;
+          //var date = vis.tipformat( d.date );
+
+          ////var resumen = d.descripcion 
+            ////? d.descripcion
+              ////.split(' ').slice(0,5)
+              ////.join(' ') + '...'
+            ////: '';
+
+          //return [
+            //'<div style="'
+              //,'font-size: 15px;'
+              //,'padding: 10px;'
+            //,'">'
+            //,date
+            //,' '
+            //,d.descripcion
+            //,'</div>'
+          //]
+          //.join(''); 
+        //}
+      //});
+
+  }
+
+  ,bottom: function()
+  {
+    return this._bottom;
   }
 
 });

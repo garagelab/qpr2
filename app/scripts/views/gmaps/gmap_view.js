@@ -59,6 +59,7 @@ var GMapView = function( opt )
     minZoom: 9,
     streetViewControl: false,
       panControl: false,
+      scrollwheel: false,
       //scaleControl: true,
       //zoomControl: true,
       //overviewMapControl: false,
@@ -121,34 +122,34 @@ var GMapView = function( opt )
 
 }
 
-function MapLayout()
-{
-  var $win = $(window);  
-  var $map = $('#map');
+//function MapLayout()
+//{
+  //var $win = $(window);  
+  //var $map = $('#map');
 
-  var sidebarw = $('.sidebar').width();
-  var footerh = $('.footer').height();
+  //var sidebarw = $('.sidebar').width();
+  //var footerh = $('.footer').height();
 
-  this.update = function()
-  {
-    $map.css({
-      width: $win.width() - sidebarw
-      ,height: $win.height() 
-          - $map.position().top 
-          - footerh
-    });
-  }
+  //this.update = function()
+  //{
+    //$map.css({
+      //width: $win.width() - sidebarw
+      //,height: $win.height() 
+          //- $map.position().top 
+          //- footerh
+    //});
+  //}
 
-  this.on_resize = function( callback )
-  {
-    var timer = 0, delay = 1200;
-    $win.resize( function() 
-    {
-      clearTimeout( timer );
-      timer = setTimeout( callback, delay );
-    });
-  }
-}
+  //this.on_resize = function( callback )
+  //{
+    //var timer = 0, delay = 1200;
+    //$win.resize( function() 
+    //{
+      //clearTimeout( timer );
+      //timer = setTimeout( callback, delay );
+    //});
+  //}
+//}
 
 //GMapView.load_api = function( callback ) 
 //{

@@ -1,8 +1,9 @@
 @import 'zindices';
 @import 'ui/layer-controls';
 @import 'ui/widgets';
-@import 'detalles/entidad';
+@import 'detalles/detalle-entidad';
 @import 'detalles/timeline';
+@import 'detalles/titulo';
 @import 'detalles/descripcion';
 @import 'detalles/links-widget';
 
@@ -70,7 +71,7 @@ html, body {
   font-size: 14px;
 }
 
-.container .pure-menu.footer {
+#footer {
   background-color: #eee;
   /*background-color: rgba(255,255,255,0.3);*/
   position: fixed;
@@ -78,12 +79,12 @@ html, body {
   bottom: 0px;
 }
 
-.container .pure-menu.footer img {
+#footer img {
   margin: 14px 10px;
   height: 30px;
 }
 
-.container .pure-menu.footer img.gl {
+#footer img.gl {
   float: right;
 }
 

@@ -16,27 +16,9 @@ var DescripcionView = Backbone.View.extend({
   { 
     //var opt = this.options;
     //this.$el.addClass( 'descripcion' );
-    this.expanded = false;
   }
 
   ,tpl: _.template( tpl )
-
-  ,events: {
-    //'click .descripcion .footer': 'toogle_size'
-  }
-
-  ,toogle_size: function()
-  {
-    var el = this.$el
-      .find('.descripcion .cuerpo.content');
-
-    if ( ! this.expanded )
-      el.addClass('expanded');
-    else
-      el.removeClass('expanded');
-
-    this.expanded = !this.expanded;
-  }
 
   ,render: function( data )
   {

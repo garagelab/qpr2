@@ -2,63 +2,31 @@
 
 .descripcion.container
 {
-  left: 0px;  
-  margin-top: 0px;
-}
-
-.descripcion .cuerpo.content
-{
-  //height: 100px;
-  margin-left: ($layers_width + $gmaps_controls_width + 20px);
-  margin-right: ($links_widget_width + 20px);
-}
-
-.descripcion .cuerpo.content.expanded
-{
-  height: 300px;
-}
-
-.descripcion .cuerpo.content
-{
-  //width: $detalle_descripcion_width;
   background-color: rgba(255,255,255,0.8);
-  padding-top: 20px;
-  padding-bottom: 20px;
-  overflow-y: auto;
-  font-weight: 200;
-  line-height: 30px;
 }
 
-.descripcion .cuerpo.content .titulo
+.descripcion .texto.content
+{
+  @include content-center;
+  background-color: rgba(255,255,255,0.8);
+  margin-bottom: 100px;
+}
+
+.descripcion .texto.content .titulo
 {
   font-size: 30px;
   font-weight: bold;
 }
 
-.descripcion .cuerpo.content .texto
+.descripcion .texto.content .txt
 {
   font-size: 30px;
 }
 
-.descripcion .cuerpo.content .titulo
-,.descripcion .cuerpo.content .texto
+.descripcion .texto.content .titulo
+,.descripcion .texto.content .txt
 {
-  //idem timeline svg
-  //width: 600px;
-  //margin: auto;  
   margin-left: 40px;
   margin-right: 40px;
-}
-
-.descripcion .footer
-{
-  //width: $detalle_descripcion_width;
-  height: 10px; 
-  background-color: rgba(255,255,255,0.8);
-}
-
-.descripcion .footer:hover
-{
-  background-color: rgba(235,235,235,0.8);
 }
 

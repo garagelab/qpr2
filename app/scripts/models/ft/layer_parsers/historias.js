@@ -75,6 +75,16 @@ function( layer, data, sync_opt )
 
         var coord = r[0].geometry.location;
 
+        //console.log('historia geoloc', coord);
+
+        var latlng = [];
+        var n = 0;
+        for ( var k in coord )
+        {
+          latlng[n] = coord[k];
+          n++;
+        }
+
         layer.add( new Feature({ 
           id: _hid
           ,properties: {
@@ -86,8 +96,7 @@ function( layer, data, sync_opt )
           ,geometry: {
             type: 'Point'
             ,coordinates: [
-              coord.jb, 
-              coord.kb
+              latlng[0], latlng[1]
             ]
           }
         }) );

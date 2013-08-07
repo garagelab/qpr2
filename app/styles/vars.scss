@@ -3,4 +3,11 @@
 $links_widget_width: 200px;
 $layers_width: 200px;
 $gmaps_controls_width: 100px;
+$timeline_bottom: -300px;
+
+@mixin content-center
+{
+  margin-left: ($layers_width + $gmaps_controls_width + 20px);
+  margin-right: ($links_widget_width + 20px);
+}
 
