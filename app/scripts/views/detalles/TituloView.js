@@ -15,8 +15,8 @@ var TituloView = Backbone.View.extend({
   initialize: function() 
   { 
     //var opt = this.options;
-    //this.$el.addClass( 'titulo' );
     //this.expanded = false;
+    this.$el.addClass( 'titulo-view' );
   }
 
   ,tpl: _.template( tpl )

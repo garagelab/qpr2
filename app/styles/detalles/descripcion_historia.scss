@@ -1,11 +1,17 @@
 @import 'vars';
 
+.descripcion-historia-view
+{
+  position: absolute;
+  width: 100%;
+}
+
 .descripcion-historia.ctr-container
 {
   background-color: rgba(255,255,255,0.8);
 }
 
-.descripcion-historia .ctr-content.texto
+.descripcion-historia .texto
 {
   overflow-y: auto;
   font-size: 25px;
@@ -16,7 +22,7 @@
   padding-bottom: 20px;
 }
 
-.descripcion-historia .ctr-content.texto .txt
+.descripcion-historia .texto .txt
 {
   margin-left: 40px;
   margin-right: 40px;

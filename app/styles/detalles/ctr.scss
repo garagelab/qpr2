@@ -17,8 +17,8 @@
 
 .ctr-margin
 {
-  margin-left: ($layers_width);
-  //margin-left: ($layers_width + $gmaps_controls_width + 20px);
-  margin-right: ($sidebar_r_width);
+  margin-left: ($sidebar_l_w);
+  //margin-left: ($sidebar_l_w + $gmaps_ctrls_w + 20px);
+  margin-right: ($sidebar_r_w);
 }
 

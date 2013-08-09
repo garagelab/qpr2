@@ -1,0 +1,45 @@
+@import 'vars';
+
+.feature-view
+{
+  position: absolute;
+  width: 100%;
+  bottom: $feature_view_bottom;
+}
+
+.feature-view .ctr-container
+{
+  background-color: rgba(255,255,255,0.8);
+}
+
+.feature-view .texto
+{
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.feature-view .texto .titulo
+{ 
+  font-size: 30px;
+  line-height: 30px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.feature-view .texto .txt
+{
+  min-height: $feature_view_bottom + 100px;
+  font-size: 25px;
+  font-weight: 200;
+  line-height: 30px;
+  margin-bottom: 100px;
+}
+
+.feature-view .texto .titulo
+,.feature-view .texto .txt
+{
+  margin-left: 40px;
+  margin-right: 40px;
+  margin-top: 10px;
+}
+

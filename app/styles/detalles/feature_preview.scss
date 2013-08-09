@@ -1,11 +1,17 @@
 @import 'vars';
 
+.feature-preview-view
+{
+  position: absolute;
+  width: 100%;
+}
+
 .feature-preview
 {
   height: 500px;  
   padding-top: 20px;
   //bottom: $timeline_bottom;
-  width: $sidebar_r_width;
+  width: $sidebar_r_w;
   //background-color: rgba(255,255,255,0.8);
   //background-color: rgba(0,0,0, 0.1);
   position: absolute;

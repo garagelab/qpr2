@@ -1,8 +1,10 @@
+@import 'vars';
 @import 'zindices';
 @import 'ui/layer_controls';
 @import 'ui/widgets';
 @import 'detalles/ctr';
 @import 'detalles/close';
+@import 'detalles/feature';
 @import 'detalles/timeline';
 @import 'detalles/titulo';
 @import 'detalles/descripcion_historia';
@@ -76,7 +78,7 @@ html, body {
   background-color: #eee;
   /*background-color: rgba(255,255,255,0.3);*/
   position: fixed;
-  height: 60px;
+  height: $footer_h;
   bottom: 0px;
 }
 

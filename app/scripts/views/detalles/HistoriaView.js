@@ -2,18 +2,21 @@ define( [
   'jquery'
   ,'underscore'
   ,'backbone'
+  ,'d3'
   ,'views/detalles/TimelineView'
   ,'views/detalles/TituloView'
   ,'views/detalles/DescripcionHistoriaView'
   ,'views/detalles/FeaturePreview'
+  ,'views/detalles/CloseBtn'
   ], 
 
 function( 
-  $, _, Backbone 
+  $, _, Backbone, d3
   ,TimelineView
   ,TituloView 
   ,DescripcionHistoriaView 
   ,FeaturePreview 
+  ,CloseBtn 
   )
 {
 
@@ -25,8 +28,7 @@ var HistoriaView = Backbone.View.extend({
   { 
     var self = this;
 
-    //var opt = this.options;
-    //this.$el.addClass( 'detalle historia' );
+    this.$el.addClass('historia-view');
 
     this.listenTo( this.model,
       'add', this.feature_added, this );
@@ -34,6 +36,7 @@ var HistoriaView = Backbone.View.extend({
     // init win resize event
     // to update descripcion loc y
     var timer = 0, delay = 1200;
+
     this.on_win_resize = function()
     {
       self.descripcion.$el.hide();
@@ -60,12 +63,14 @@ var HistoriaView = Backbone.View.extend({
     //console.log('render view historia') 
 
     var self = this;
-    var f = this.options.feature; 
+    var feature = this.options.feature; 
+    var props = feature.get('properties');
 
     var titulo = new TituloView();
     this.$el.append( 
         titulo.render({
-          titulo: f.get('id')
+          titulo: props.titulo
+          //titulo: feature.get('id')
         }).el );
 
     var timeline = new TimelineView();
@@ -76,23 +81,12 @@ var HistoriaView = Backbone.View.extend({
     descripcion.$el.hide();
     this.$el.append( 
         descripcion.render({
-          txt: f.get('properties').descripcion
+          txt: props.descripcion
         }).el ); 
 
     var feature_preview = new FeaturePreview();
     feature_preview.$el.hide();
     this.$el.append(feature_preview.render().el);
-
-
-    // css para $el 
-    // para ubicarlos dinamicamente
-    // con update_bottom()
-    var _css = { 
-      position: 'absolute'
-      ,width: '100%'
-    };
-    descripcion.$el.css( _css );
-    feature_preview.$el.css( _css );
 
 
     // wait for $el to be in the dom
@@ -109,32 +103,9 @@ var HistoriaView = Backbone.View.extend({
         self.update_bottom();
     })();
 
-
-    // add close svg
-
-    var $close = this.$el.find('.close-svg'); 
-    var csize = 20;
-
-    var close = d3
-      .select( $close[0] )
-      .append( 'svg' )
-      .append( 'g' )
-      .attr( 'style', 
-        'stroke: rgba(0,0,0, 0.5);'+
-        'stroke-linecap: "round";'+
-        'stroke-width: 1.2;' 
-        );
-
-    close.append( 'line' )
-      .attr( 'x1', 0 )
-      .attr( 'y1', 0 )
-      .attr( 'x2', csize )
-      .attr( 'y2', csize );
-    close.append( 'line' )
-      .attr( 'x1', csize )
-      .attr( 'y1', 0 )
-      .attr( 'x2', 0 )
-      .attr( 'y2', csize );
+    new CloseBtn().appendTo( 
+        this.$el.find('.close-svg'), 
+        20 );
 
     // public
     this.timeline = timeline;

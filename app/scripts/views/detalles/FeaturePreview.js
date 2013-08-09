@@ -15,7 +15,7 @@ var FeaturePreview = Backbone.View.extend({
   initialize: function() 
   { 
     //var opt = this.options;
-    //this.$el.addClass( 'descripcion' );
+    this.$el.addClass('feature-preview-view');
   }
 
   ,tpl: _.template( tpl )

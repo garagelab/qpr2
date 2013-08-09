@@ -12,6 +12,7 @@ define( [
     ,'views/gmaps/gcuenca_view'
     ,'views/ui/LayerControlView'
     ,'views/detalles/HistoriaView'
+    ,'views/detalles/FeatureView'
     //templates
     ,'text!tpl/ui/layer_controls.html'
     ,'text!tpl/ui/widgets.html'
@@ -21,7 +22,8 @@ function(
   $, _, Backbone, 
   FT, Crowdmap, 
   GLayerView, GMapView, GCuencaView,
-  LayerControlView, HistoriaView,
+  LayerControlView, 
+  HistoriaView, FeatureView,
   tpl_layer_controls, tpl_widgets
   ) 
 {
@@ -244,8 +246,8 @@ var App = function()
 
   //TODO 
   //cachear detalle/historias
-  //hacer collection y req al inicio
-  //add detalle para otras entidades
+  //hacer collection y req queue al inicio
+  //add detalle de features
 
   function add_detalle( feature, map )
   {
@@ -255,13 +257,33 @@ var App = function()
       cur_detalle_view = null;
     }
 
+    ui.$widgets.hide();
+
     var props = feature.get('properties');
     var id = feature.get('id');
 
-    if ( props.type !== 'historias' )
-      return;
+    // detalle feature
 
-    ui.$widgets.hide();
+    if ( props.type !== 'historias' )
+    {
+      var fview = new FeatureView({
+        feature: feature
+      });
+
+      fview.on('close', function()
+      {
+        fview.off();
+        ui.$widgets.show();
+      });
+
+      $('body').append( fview.render().el );
+
+      cur_detalle_view = fview;
+
+      return;
+    }
+
+    // detalle historia
 
     var model = new FT.Historia([], {
       ftid: 

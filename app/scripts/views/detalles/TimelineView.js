@@ -2,10 +2,11 @@ define( [
   'jquery'
   ,'underscore'
   ,'backbone'
+  ,'d3'
   ,'text!tpl/detalles/timeline.html'
   ], 
 
-function( $, _, Backbone, tpl ) 
+function( $, _, Backbone, d3, tpl ) 
 {
 
 'use strict';
@@ -15,7 +16,7 @@ var TimelineView = Backbone.View.extend({
   initialize: function() 
   { 
     //var opt = this.options;
-    //this.$el.addClass( 'timeline' );
+    this.$el.addClass('timeline-view');
   }
 
   ,tpl: _.template( tpl )

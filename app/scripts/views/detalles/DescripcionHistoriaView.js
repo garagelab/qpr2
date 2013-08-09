@@ -15,7 +15,7 @@ var DescripcionHistoriaView = Backbone.View.extend({
   initialize: function() 
   { 
     //var opt = this.options;
-    //this.$el.addClass( 'descripcion' );
+    this.$el.addClass('descripcion-historia-view');
   }
 
   ,tpl: _.template( tpl )

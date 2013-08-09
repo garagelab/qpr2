@@ -74,7 +74,7 @@ require.config({
 
 require( [ 
     'app'
-    ,'d3'
+    //,'d3'
     ,'parseuri'
     ,'markerclusterer'
     ,'chroma'
