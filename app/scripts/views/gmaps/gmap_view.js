@@ -90,12 +90,6 @@ var GMapView = function( opt )
   //});
   //layout.update();
 
-  var _infowin = new google.maps.InfoWindow(); 
-
-  this.infowin = function() 
-  {
-    return _infowin;
-  };
 
   this.map = function()
   {

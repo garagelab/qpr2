@@ -147,22 +147,14 @@ var TimelineView = Backbone.View.extend({
 
     var vis = this.vis; 
 
-    var d = {
-      date: new Date( props.date.iso )
-      ,id: id
-      ,titulo: props.titulo
-      ,resumen: props.resumen
-      ,descripcion: props.descripcion
-      ,icon: props.icon
-    };
-
-    vis.data.push( d );
+    vis.data.push( feature );
 
     //vis.domain( 
-        //d3.extent( vis.data, function( d )
-        //{ 
-          //return d.date; 
-        //}) );
+      //d3.extent( vis.data, function( feature )
+      //{ 
+        //var props = feature.get('properties');
+        //return new Date( props.date.iso ); 
+      //}) );
 
     var img = vis.svg
       .selectAll( 'image' );
@@ -177,13 +169,15 @@ var TimelineView = Backbone.View.extend({
 
       .append( 'image' )
         .attr( 'class', clas )
-        .attr( 'xlink:href', d.icon.url )
-        .attr( 'width', d.icon.width )
-        .attr( 'height', d.icon.height )
+        .attr( 'xlink:href', props.icon.url )
+        .attr( 'width', props.icon.width )
+        .attr( 'height', props.icon.height )
 
-        .attr( 'x', function( d ) 
+        .attr( 'x', function( feature ) 
         { 
-          return vis.xscale( d.date );
+          var props = feature.get('properties');
+          var date = new Date( props.date.iso );
+          return vis.xscale( date );
         })
 
         .attr( 'y', function() 
@@ -191,8 +185,9 @@ var TimelineView = Backbone.View.extend({
           var x = parseFloat(
             this.getAttribute('x') );
 
-          img.each( function( d, i )
+          img.each( function( feature, i )
           {
+            var props = feature.get('properties');
             var el = img[0][i];
             var ox =  parseFloat(
               el.getAttribute('x') );
@@ -200,7 +195,7 @@ var TimelineView = Backbone.View.extend({
               el.getAttribute('width') );
             //ow /= 2;
             if ( x > ox-ow && x < ox+ow )
-              self._bottom += d.icon.height+10;
+              self._bottom += props.icon.height+10;
           });
 
           return self._bottom;
@@ -208,14 +203,16 @@ var TimelineView = Backbone.View.extend({
 
     //agregar 1 icono mas
     //para dejar el bottom realmente bottom
-    this._bottom += d.icon.height+10;
+    this._bottom += props.icon.height+10;
 
     vis.svg.select('image.'+clas)
 
       .each( function()
       {
-        var d = this.__data__;
-        var date = vis.tipformat( d.date );
+        var feature = this.__data__;
+        var props = feature.get('properties');
+        var _date = new Date( props.date.iso );
+        var date = vis.tipformat( _date );
 
         $(this).qtip({
 
@@ -234,7 +231,7 @@ var TimelineView = Backbone.View.extend({
                 ,'font-weight: 200;'
                 ,'padding: 10px;'
               ,'">'
-              ,d.titulo
+              ,props.titulo
               ,'</div>'
             ]
             .join('')

@@ -145,20 +145,33 @@ var HistoriaView = Backbone.View.extend({
   }
 
   ,events: {
+
     'click .close': 'close'
+
     ,'mouseenter .timeline image': 
-      'update_feature_preview'
+        'update_feature_preview'
+
+    ,'click .timeline image': 'feature_selected'
+
+  }
+
+  ,feature_selected: function( e )
+  {
+    var feature = e.target.__data__;
+    this.trigger('select:feature', feature);
   }
 
   ,update_feature_preview: function( e )
   {
-    // d3 datum, viene del timeline...
-    var d = e.target.__data__;
+    // d3 datum viene del timeline...
+    var feature = e.target.__data__;
+    var props = feature.get('properties');
+    var date = new Date( props.date.iso );
     var format = d3.time.format("%d/%m/%Y");
     this.feature_preview.render({
-      titulo: d.titulo
-      ,date: format( d.date )
-      ,txt: d.descripcion
+      titulo: props.titulo
+      ,date: format( date )
+      ,txt: props.descripcion
     });
   }
 

@@ -28,11 +28,16 @@ var GLayerView = Backbone.View.extend({
 
     //console.log('glayer view init', opt);
 
+    this._infowin=new google.maps.InfoWindow();
+
     this._visible = opt.visible;
     this.name = opt.name;
 
     this.markers = [];
     this.polygons = [];
+
+    // infowin data+events by feature id
+    this.$infowins = {};
 
     this.listenTo( this.model,
       'add', this.feature_added, this );
@@ -60,28 +65,33 @@ var GLayerView = Backbone.View.extend({
     //var nclusters = cl.getTotalClusters();
     //var clusters = cl.getClusters();
 
-  },
+  }
 
-  dispose: function()
+  ,dispose: function()
   {
     //TODO marker dispose
-    //marker.$infowin.off('click');
-  },
+    for ( var k in this.$infowins )
+    {
+      this.$infowins[k].off('click');
+      this.$infowins[k].remove();
+    }
+    this.$infowins = null;
+  }
 
-  is_visible: function()
+  ,is_visible: function()
   {
     return this._visible;
     //return this.clusterer
       //.getTotalMarkers() > 0;
-  },
+  }
 
-  visible: function( v )
+  ,visible: function( v )
   {
     if ( v ) this.show();
     else this.hide();
-  },
+  }
 
-  show: function()
+  ,show: function()
   {
     if ( this.is_visible() )
     {
@@ -104,9 +114,9 @@ var GLayerView = Backbone.View.extend({
     });
 
     this._visible = true;
-  },
+  }
 
-  hide: function()
+  ,hide: function()
   {
     this.clusterer.clearMarkers();
 
@@ -116,45 +126,41 @@ var GLayerView = Backbone.View.extend({
     });
 
     this._visible = false;
-  },
+  }
 
-  feature_added: function( feature ) 
+  ,feature_added: function( feature ) 
   {
     switch ( feature.get('geometry').type )
     {
       case 'Point':
-      this.markers.push(
-        this.make_marker( feature )
-      );
+
+        this.add_infowin( feature );
+
+        var m = this.add_marker( feature );
+
+        this.clusterer.addMarker( m );
+
+        if ( ! this.is_visible() )
+          this.clusterer.clearMarkers();
+
       break;
 
       case 'Polygon':
-      this.polygons.push(
-        this.make_polygon( feature )
-      );
+
+        this.add_polygon( feature );
+
       break;
     }
-  },
+  }
 
-  make_marker: function( feature ) 
+  ,add_marker: function( feature ) 
   {
     //console.log('glayer add feature', opt);
 
     var self = this;
     var opt = this.options;
-    var map = opt.map;
-    var props = feature.get('properties');
-
-    var infowin = $('<div/>')
-      .append( 
-          '<b>'+props.titulo+'</b>'+
-          '<br>'+props.resumen )
-      .click( function()
-      {
-        //TODO dispose click
-        self.trigger('select:entidad', feature);
-      })
-      [0];
+    var id = feature.get('id');
+    var props = feature.get('properties'); 
 
     var coordarr = feature
       .get('geometry')
@@ -172,7 +178,7 @@ var GLayerView = Backbone.View.extend({
         icon.anchor.x, icon.anchor.y );
 
     var marker = new google.maps.Marker({
-      map: map,
+      map: opt.map,
       position: coord,
       icon: icon
     });
@@ -180,21 +186,61 @@ var GLayerView = Backbone.View.extend({
     google.maps.event.addListener( 
       marker, 'click',
       function( e ) {
-        opt.infowin.setPosition( coord );
-        opt.infowin.setContent( infowin );
-        opt.infowin.open( map );
-        //map.setCenter( coord );
-      });
+        self.infowin( feature );
+      }); 
 
-    this.clusterer.addMarker( marker );
-
-    if ( ! this.is_visible() )
-      this.clusterer.clearMarkers();
+    this.markers.push( marker );
 
     return marker;
-  },
+  }
 
-  make_polygon: function( feature )
+  ,add_infowin: function( feature )
+  {
+    var self = this;
+    var props = feature.get('properties');
+    var id = feature.get('id');
+
+    var $infowin = $('<div/>')
+      .append( 
+          '<b>'+props.titulo+'</b>'+
+          '<br>'+props.resumen )
+
+      // see dispose()
+      .click( function()
+      {
+        self._infowin.close();
+        self.trigger('select:feature', feature);
+      });
+
+    this.$infowins[ id ] = $infowin;
+  }
+
+  // get/set infowin
+  ,infowin: function( feature )
+  {
+    if ( ! feature )
+      return this._infowin;
+
+    var opt = this.options;
+
+    var props = feature.get('properties');
+    var id = feature.get('id');
+
+    var $infowin = this.$infowins[ id ];
+
+    var coordarr = feature
+      .get('geometry')
+      .coordinates;
+
+    var coord = new google.maps.LatLng(
+        coordarr[0], coordarr[1] );
+
+    this._infowin.setPosition( coord );
+    this._infowin.setContent( $infowin[0] );
+    this._infowin.open( opt.map );
+  }
+
+  ,add_polygon: function( feature )
   {
     //console.log('glayer add poly',feature)
 
@@ -222,6 +268,8 @@ var GLayerView = Backbone.View.extend({
 
     if ( this.is_visible() )
       poly.setMap( opt.map );
+
+    this.polygons.push( poly );
 
     return poly;
   }

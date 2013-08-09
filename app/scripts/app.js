@@ -53,22 +53,25 @@ var App = function()
 
   var layers = {
     models: {}
-    //,views: {}
+    ,views: {}
   };
 
   var gmap, gcuenca;
   var cur_detalle_view;
  
-  var model_factory = {
-    fusiontables: {}
-    ,crowdmap: {}
+  var layer_factory = 
+  {
+    model: {
+      fusiontables: {}
+      ,crowdmap: {}
+    }
+    ,view: {
+      gfeatureslayer: {}
+    }
   };
 
-  var view_factory = {
-    gfeatureslayer: {}
-  };
-
-  model_factory.fusiontables.make = function( name, opt )
+  layer_factory.model.fusiontables.make = 
+  function( name, opt )
   {
     //capitalize
     var pclass = name.charAt(0).toUpperCase() + name.slice(1);
@@ -87,7 +90,8 @@ var App = function()
     return model;
   }
 
-  model_factory.crowdmap.make = function( name, opt )
+  layer_factory.model.crowdmap.make = 
+  function( name, opt )
   {
     var pclass = name.charAt(0).toUpperCase() + name.slice(1);
 
@@ -104,13 +108,13 @@ var App = function()
     return model;
   }
 
-  view_factory.gfeatureslayer.make = function( name, opt, model )
+  layer_factory.view.gfeatureslayer.make = 
+  function( name, opt, model )
   {
     return new GLayerView({
       name: name,
       model: model,
       map: gmap.map(), 
-      infowin: gmap.infowin(), 
       color: opt.color,
       visible: opt.visible,
       icon: opt.icon
@@ -187,7 +191,7 @@ var App = function()
       cfg = config[i];
       k = cfg.name;
       layer = make_layer( cfg, map );
-      //layers.views[k] = layer.view;
+      layers.views[k] = layer.view;
       layers.models[k] = layer.model;
       layers.models[k].fetch();
     }
@@ -203,11 +207,13 @@ var App = function()
       //url: opt.view.icon.url
     //}) )
 
-    var model = model_factory[opt.model.type]
-      .make( name, opt.model );
+    var model = layer_factory.model
+      [opt.model.type]
+        .make( name, opt.model );
 
-    var view = view_factory[opt.view.type]
-      .make( name, opt.view, model );
+    var view = layer_factory.view
+      [opt.view.type]
+        .make( name, opt.view, model );
 
     var ctrl = new LayerControlView({
       name: name
@@ -223,12 +229,11 @@ var App = function()
         }); 
 
     view.on(
-        'select:entidad',
+        'select:feature',
         function( feature )
         {
           map.focus( feature );
-          map.infowin().close();
-          add_detalle( feature );
+          add_detalle( feature, map );
         });
 
     return {
@@ -242,7 +247,7 @@ var App = function()
   //hacer collection y req al inicio
   //add detalle para otras entidades
 
-  function add_detalle( feature )
+  function add_detalle( feature, map )
   {
     if ( cur_detalle_view )
     {
@@ -259,27 +264,35 @@ var App = function()
     ui.$widgets.hide();
 
     var model = new FT.Historia([], {
-      ftid: '1uIgt8vsouqvnDg3TZUFZe4bkMqC1IiM8R006Muw'
+      ftid: 
+      '1uIgt8vsouqvnDg3TZUFZe4bkMqC1IiM8R006Muw'
       ,feature: feature
       ,layers: layers.models
     });
 
-    var view = new HistoriaView({
+    var hview = new HistoriaView({
       model: model
       ,feature: feature
     }); 
 
-    view.on('close', function()
+    hview.on('close', function()
     {
-      view.off();
+      hview.off();
       ui.$widgets.show();
     });
 
-    $('body').append( view.render().el );
+    hview.on('select:feature', function(feature)
+    {
+      var props = feature.get('properties');
+      layers.views[props.type].infowin(feature);
+      map.focus( feature );
+    });
+
+    $('body').append( hview.render().el );
 
     model.fetch();
 
-    cur_detalle_view = view;
+    cur_detalle_view = hview;
 
   }
 
