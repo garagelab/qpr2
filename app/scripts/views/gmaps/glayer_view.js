@@ -235,6 +235,7 @@ var GLayerView = Backbone.View.extend({
     var coord = new google.maps.LatLng(
         coordarr[0], coordarr[1] );
 
+    this._infowin.close();
     this._infowin.setPosition( coord );
     this._infowin.setContent( $infowin[0] );
     this._infowin.open( opt.map );
