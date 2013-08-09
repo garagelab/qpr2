@@ -31,7 +31,6 @@ function( layer, data, sync_opt )
     ,geom
     ,coordarr
     ,polyarr
-    ,infowin
     ,descripcion;
 
   var rows = data.rows;
@@ -47,7 +46,6 @@ function( layer, data, sync_opt )
     name = rows[i][ idx.name ];
     geom = rows[i][ idx.geom ].geometry;
 
-    infowin = name;
     descripcion = 'ecopunto ' + name;
 
     switch ( geom.type )
@@ -62,7 +60,8 @@ function( layer, data, sync_opt )
           id: name
           ,properties: {
             type: opt.name
-            ,infowin: infowin
+            ,titulo: name
+            ,resumen: descripcion
             ,descripcion: descripcion
             ,icon: opt.icon
           }
@@ -84,7 +83,8 @@ function( layer, data, sync_opt )
           id: name + _.uniqueId(' polygon ')
           ,properties: {
             type: opt.name
-            ,infowin: infowin
+            ,titulo: name
+            ,resumen: descripcion
             ,descripcion: descripcion
             ,icon: opt.icon
           }

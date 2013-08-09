@@ -1,0 +1,38 @@
+@import 'vars';
+
+.feature-preview
+{
+  height: 500px;  
+  padding-top: 20px;
+  //bottom: $timeline_bottom;
+  width: $sidebar_r_width;
+  //background-color: rgba(255,255,255,0.8);
+  //background-color: rgba(0,0,0, 0.1);
+  position: absolute;
+  right: 0px;
+  //border-left: 1px solid lightgrey;
+}
+
+.feature-preview .titulo
+{
+  font-size: 20px;
+  line-height: 30px;
+  font-weight: bold;
+}
+
+.feature-preview .date
+{
+  font-size: 25px;
+  line-height: 30px;
+  margin: 20px;
+  font-weight: 200;
+}
+
+.feature-preview .txt
+{
+  font-size: 16px;
+  line-height: 20px;
+  margin: 20px;
+  font-weight: 200;
+}
+

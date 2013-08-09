@@ -59,11 +59,9 @@ function( layer, data, sync_opt )
     (function() {
 
       var _hid = hid + '';
-      var _descr = descripcion + '';
-      var _infowin = '<b>'+hid+'</b><br>'+resumen;
-
-      //var _resumen = _descr.split(' ').slice(0,20).join(' ') + '...';
-      //var _infowin = '<b>'+hid+'</b><br>'+_resumen;
+      var _titulo = hid + '';
+      var _resumen = resumen + '';
+      var _descripcion = descripcion + '';
 
       return function( r, st ) 
       {
@@ -89,8 +87,9 @@ function( layer, data, sync_opt )
           id: _hid
           ,properties: {
             type: opt.name
-            ,infowin: _infowin
-            ,descripcion: _descr
+            ,titulo: _titulo
+            ,resumen: _resumen
+            ,descripcion: _descripcion
             ,icon: opt.icon
           }
           ,geometry: {

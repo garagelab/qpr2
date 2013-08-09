@@ -1,19 +1,20 @@
 @import 'vars';
 
-.timeline.container
+.timeline.ctr-container
 {
   bottom: $timeline_bottom;
   left: 0px;  
-  //background-color: rgba(255,255,255,0.8);
-}
-
-.timeline .content
-{
   background-color: rgba(255,255,255,0.8);
-  overflow: hidden;
 }
 
-.timeline .content svg
+.timeline .ctr-content
+{
+  overflow: hidden;
+  //margin-left: ($layers_width);
+  //margin-right: ($sidebar_r_width);
+}
+
+.timeline svg
 {
   display: block;
   margin: auto;

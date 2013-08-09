@@ -1,9 +1,9 @@
 define( [ 
-    'jquery'
-    ,'underscore'
-    ,'backbone'
-    ,'text!tpl/detalles/links-widget.html'
-    ], 
+  'jquery'
+  ,'underscore'
+  ,'backbone'
+  ,'text!tpl/detalles/links_widget.html'
+  ], 
 
 function( $, _, Backbone, tpl ) 
 {

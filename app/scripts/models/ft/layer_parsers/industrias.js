@@ -33,10 +33,12 @@ function( layer, data, sync_opt )
   var opt = this.opt;
 
   var id
-    ,coordarr
     ,date
-    ,infowin
+    ,titulo
+    ,resumen
     ,descripcion
+
+    ,coordarr
     ,nombre
     ,producto;
 
@@ -59,7 +61,8 @@ function( layer, data, sync_opt )
     nombre = rows[i][ idx.nombre ]; 
     producto = rows[i][ idx.producto ]; 
 
-    infowin = '<b>'+nombre+'</b><br>'+producto;
+    titulo = nombre;
+    resumen = producto;
     descripcion = nombre+' '+producto;
 
     var dateiso = new Date( date )
@@ -73,10 +76,11 @@ function( layer, data, sync_opt )
           iso: dateiso
           ,src: date
         }
-        ,infowin: infowin
+        ,titulo: titulo
+        ,resumen: resumen
         ,descripcion: descripcion
-        ,nombre: nombre
-        ,producto: producto
+        //,nombre: nombre
+        //,producto: producto
         ,icon: opt.icon
       }
       ,geometry: {

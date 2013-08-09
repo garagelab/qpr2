@@ -30,10 +30,11 @@ function( layer, data, sync_opt )
 
   var reportes = _data.payload.incidents; 
   var i = reportes.length;
-  var r, resumen;
+  var r;
 
   var date
-    ,infowin
+    ,titulo
+    ,resumen
     ,descripcion;
 
   while( i-- )
@@ -47,9 +48,8 @@ function( layer, data, sync_opt )
 
     resumen = r.incidentdescription.split(' ').slice(0,20).join(' ') + '...';
 
-    infowin = '<b>'+r.incidenttitle+'</b><br>'+resumen;
-
-    descripcion = r.incidenttitle;
+    titulo = r.incidenttitle;
+    descripcion = r.incidentdescription;
 
     date = new Date( r.incidentdate.replace(' ','T') )
       .toISOString();
@@ -62,7 +62,8 @@ function( layer, data, sync_opt )
           iso: date
           ,src: r.incidentdate
         }
-        ,infowin: infowin 
+        ,titulo: titulo 
+        ,resumen: resumen 
         ,descripcion: descripcion 
         ,icon: opt.icon
       }

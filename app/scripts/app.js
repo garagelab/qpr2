@@ -10,10 +10,10 @@ define( [
     ,'views/gmaps/glayer_view'
     ,'views/gmaps/gmap_view'
     ,'views/gmaps/gcuenca_view'
-    ,'views/ui/layer-control'
-    ,'views/detalles/historia'
+    ,'views/ui/LayerControlView'
+    ,'views/detalles/HistoriaView'
     //templates
-    ,'text!tpl/ui/layer-controls.html'
+    ,'text!tpl/ui/layer_controls.html'
     ,'text!tpl/ui/widgets.html'
     ], 
 

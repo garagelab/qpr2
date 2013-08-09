@@ -113,7 +113,7 @@ var GMapView = function( opt )
     var geom = feature.get('geometry');
 
     var coord = new google.maps.LatLng(
-        geom.coordinates[0] - 0.005
+        geom.coordinates[0] - 0.007
         ,geom.coordinates[1] + 0.007 );
 
     _map.setCenter( coord );

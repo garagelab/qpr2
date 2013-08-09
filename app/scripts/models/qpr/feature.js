@@ -17,18 +17,20 @@ function( $, _, Backbone )
 var Feature = Backbone.Model.extend({
 
   defaults: {
-    id: ''
+
+    id: 'x id'
     ,type: 'Feature'
     ,properties: {
 
-      type: ''
+      type: 'x tipo'
       ,date: {
         //ISO-8601 2013-07-31T19:28:10.444Z
         iso: 'YYYY-MM-DDTHH:mm:ss.sssZ'
         ,src: ''
       } 
-      ,descripcion: ''
-      ,infowin: ''
+      ,titulo: 'x titulo'
+      ,resumen: 'x resumen'
+      ,descripcion: 'x descripcion'
     }
 
     ,geometry: {
@@ -47,13 +49,7 @@ var Feature = Backbone.Model.extend({
       //{
         //type: 'Feature'
         //,properties: {
-          //type: ''
-          //,date: {
-            ////ISO-8601 2013-07-31T19:28:10.444Z
-            //iso: 'YYYY-MM-DDTHH:mm:ss.sssZ'
-            //,src: ''
-          //} 
-          //,infowin: ''
+          //qpr std
         //}
         //,geometry: {
           //type: ''

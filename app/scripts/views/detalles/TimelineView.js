@@ -1,9 +1,9 @@
 define( [ 
-    'jquery'
-    ,'underscore'
-    ,'backbone'
-    ,'text!tpl/detalles/timeline.html'
-    ], 
+  'jquery'
+  ,'underscore'
+  ,'backbone'
+  ,'text!tpl/detalles/timeline.html'
+  ], 
 
 function( $, _, Backbone, tpl ) 
 {
@@ -30,7 +30,15 @@ var TimelineView = Backbone.View.extend({
   }
 
   ,init_vis: function()
-  {
+  { 
+
+    var layout = {
+      width: 1000
+      ,height: 500
+      ,margin: { x: 20 }
+      ,timeline: { x: 0, y: 40 }
+      ,icons: { y: 80 }
+    };
 
     function make_format( formats ) 
     {
@@ -64,17 +72,6 @@ var TimelineView = Backbone.View.extend({
         .call( xaxis );
     }
 
-    var $timeline = this.$el
-      .find('.content');
-
-    var layout = {
-      width: 1000
-      ,height: 500
-      ,margin: { x: 20 }
-      ,loc: { x: 0, y: 30 }
-      ,icons: { y: 60 }
-    };
-
     this._bottom = layout.icons.y;
 
     var tipformat = d3.time.format("%d/%m/%Y");
@@ -95,7 +92,8 @@ var TimelineView = Backbone.View.extend({
     var xaxis = d3.svg.axis(); 
 
     var svg = d3
-      .select( $timeline[0] )
+      .select( 
+        this.$el.find('.svg-container')[0] )
       .append( 'svg' )
       .attr( 'width', layout.width )
       .attr( 'height', layout.height );
@@ -104,14 +102,14 @@ var TimelineView = Backbone.View.extend({
       .attr( 'class', 'x axis' )
       .attr( 'transform',
           'translate('+
-            layout.loc.x +','+
-            layout.loc.y +')')
+            layout.timeline.x +','+
+            layout.timeline.y +')')
       //.call( xaxis );
 
     domain([
       new Date( 2003, 0, 1 )
       ,new Date( 2016, 0, 1 )
-    ]);
+    ]); 
 
     // acceso publico para updatear
     this.vis = {
@@ -123,6 +121,7 @@ var TimelineView = Backbone.View.extend({
       ,layout: layout
       //,domain: domain
     };
+
   }
 
   ,add: function( feature )
@@ -141,7 +140,7 @@ var TimelineView = Backbone.View.extend({
       console.warn(
         'feature',
         'id [', id, ']',
-        'de entidad [', props.type, ']',
+        'de tipo [', props.type, ']',
         'no tiene fecha');
       return;
     }
@@ -151,6 +150,8 @@ var TimelineView = Backbone.View.extend({
     var d = {
       date: new Date( props.date.iso )
       ,id: id
+      ,titulo: props.titulo
+      ,resumen: props.resumen
       ,descripcion: props.descripcion
       ,icon: props.icon
     };
@@ -209,36 +210,31 @@ var TimelineView = Backbone.View.extend({
     //para dejar el bottom realmente bottom
     this._bottom += d.icon.height+10;
 
-    $('.timeline .content svg image.'+clas)
+    vis.svg.select('image.'+clas)
 
       .each( function()
       {
         var d = this.__data__;
         var date = vis.tipformat( d.date );
 
-        //var resumen = d.descripcion 
-              //? d.descripcion
-                //.split(' ').slice(0,5)
-                //.join(' ') + '...'
-              //: '';
-
         $(this).qtip({
 
-          position: { my: 'bottom left' }
+          position: { 
+            my: 'bottom right' 
+            ,target: 'mouse'
+          }
           ,style: { classes: 'qtip-tipsy' }
 
-          //,content: date+' '+d.descripcion
           ,content: {
             title: date,
             text: [
               '<div style="'
                 ,'font-family: \'Helvetica Neue\', Helvetica, Arial, sans-serif;'
                 ,'font-size: 15px;'
+                ,'font-weight: 200;'
                 ,'padding: 10px;'
               ,'">'
-              //,date
-              //,' '
-              ,d.descripcion
+              ,d.titulo
               ,'</div>'
             ]
             .join('')
@@ -246,6 +242,7 @@ var TimelineView = Backbone.View.extend({
 
           ,show: { 
             effect: false
+            ,event: 'click mouseenter'
             ,delay: 50
           }   
 
@@ -264,13 +261,6 @@ var TimelineView = Backbone.View.extend({
         //{
           //var d = this.__data__;
           //var date = vis.tipformat( d.date );
-
-          ////var resumen = d.descripcion 
-            ////? d.descripcion
-              ////.split(' ').slice(0,5)
-              ////.join(' ') + '...'
-            ////: '';
-
           //return [
             //'<div style="'
               //,'font-size: 15px;'
@@ -278,7 +268,7 @@ var TimelineView = Backbone.View.extend({
             //,'">'
             //,date
             //,' '
-            //,d.descripcion
+            //,d.titulo
             //,'</div>'
           //]
           //.join(''); 

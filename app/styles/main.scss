@@ -1,11 +1,12 @@
 @import 'zindices';
-@import 'ui/layer-controls';
+@import 'ui/layer_controls';
 @import 'ui/widgets';
-@import 'detalles/detalle-entidad';
+@import 'detalles/ctr';
+@import 'detalles/close';
 @import 'detalles/timeline';
 @import 'detalles/titulo';
-@import 'detalles/descripcion';
-@import 'detalles/links-widget';
+@import 'detalles/descripcion_historia';
+@import 'detalles/feature_preview';
 
 body {
   background: #eee;

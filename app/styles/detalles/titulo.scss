@@ -1,48 +1,32 @@
 @import 'vars';
 
-//.titulo.container
-//{
-  //left: 0px;  
-  //margin-top: 0px;
-//}
-
-.titulo .texto.content
+.titulo.ctr-container
 {
+  bottom: $titulo_bottom;
   background-color: rgba(255,255,255,0.8);
-  @include content-center;
 }
 
-.titulo .texto.content.expanded
+.titulo .ctr-content.texto
 {
-  height: 300px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
-.titulo .texto.content .titulo
+.titulo .ctr-content.texto .titulo
 {
   font-size: 30px;
   font-weight: bold;
 }
 
-.titulo .texto.content .txt
+.titulo .ctr-content.texto .txt
 {
   font-size: 30px;
 }
 
-.titulo .texto.content .titulo
-,.titulo .texto.content .txt
+.titulo .ctr-content.texto .titulo
+,.titulo .ctr-content.texto .txt
 {
   margin-left: 40px;
   margin-right: 40px;
-}
-
-.titulo .footer
-{
-  height: 10px; 
-  background-color: rgba(255,255,255,0.8);
-}
-
-.titulo .footer:hover
-{
-  background-color: rgba(235,235,235,0.8);
 }
 

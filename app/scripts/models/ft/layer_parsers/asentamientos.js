@@ -32,7 +32,6 @@ function( layer, data, sync_opt )
     ,polyarr
     ,geom
     ,name
-    ,infowin
     ,descripcion;
 
   var rows = data.rows;
@@ -56,8 +55,7 @@ function( layer, data, sync_opt )
         || geom.type !== 'Polygon' )
       continue;
 
-    infowin = name;
-    descripcion = name;
+    descripcion = 'asentamiento ' + name;
 
     polyarr = layer
       .reverse_polygon( 
@@ -67,7 +65,8 @@ function( layer, data, sync_opt )
       id: name + _.uniqueId(' polygon ')
       ,properties: {
         type: opt.name
-        ,infowin: infowin
+        ,titulo: name
+        ,resumen: descripcion
         ,descripcion: descripcion
         ,icon: opt.icon
       }
@@ -85,7 +84,8 @@ function( layer, data, sync_opt )
       id: name
       ,properties: {
         type: opt.name
-        ,infowin: infowin
+        ,titulo: name
+        ,resumen: descripcion
         ,descripcion: descripcion
         ,icon: opt.icon
       }

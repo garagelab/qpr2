@@ -1,16 +1,16 @@
 define( [ 
-    'jquery'
-    ,'underscore'
-    ,'backbone'
-    ,'text!tpl/detalles/descripcion.html'
-    ], 
+  'jquery'
+  ,'underscore'
+  ,'backbone'
+  ,'text!tpl/detalles/feature_preview.html'
+  ], 
 
 function( $, _, Backbone, tpl ) 
 {
 
 'use strict';
 
-var DescripcionView = Backbone.View.extend({ 
+var FeaturePreview = Backbone.View.extend({ 
 
   initialize: function() 
   { 
@@ -22,13 +22,18 @@ var DescripcionView = Backbone.View.extend({
 
   ,render: function( data )
   {
+    data = data || {
+      titulo: ''
+      ,date: ''
+      ,txt: ''
+    };
     this.$el.html( this.tpl( data ) );
     return this;
   }
 
 });
 
-return DescripcionView;
+return FeaturePreview;
 
 });
 

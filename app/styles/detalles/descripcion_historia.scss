@@ -1,0 +1,24 @@
+@import 'vars';
+
+.descripcion-historia.ctr-container
+{
+  background-color: rgba(255,255,255,0.8);
+}
+
+.descripcion-historia .ctr-content.texto
+{
+  overflow-y: auto;
+  font-size: 25px;
+  font-weight: 200;
+  line-height: 30px;
+  margin-bottom: 100px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.descripcion-historia .ctr-content.texto .txt
+{
+  margin-left: 40px;
+  margin-right: 40px;
+}
+

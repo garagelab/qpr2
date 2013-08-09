@@ -1,0 +1,24 @@
+@import 'vars';
+
+.ctr-container
+{
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+}
+
+.ctr-content
+{
+  pointer-events: auto;
+  //position: relative;
+  //margin: 0px auto;
+  //margin: 0px 220px 0px 320px;
+}
+
+.ctr-margin
+{
+  margin-left: ($layers_width);
+  //margin-left: ($layers_width + $gmaps_controls_width + 20px);
+  margin-right: ($sidebar_r_width);
+}
+

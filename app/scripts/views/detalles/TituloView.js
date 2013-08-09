@@ -1,9 +1,9 @@
 define( [ 
-    'jquery'
-    ,'underscore'
-    ,'backbone'
-    ,'text!tpl/detalles/titulo.html'
-    ], 
+  'jquery'
+  ,'underscore'
+  ,'backbone'
+  ,'text!tpl/detalles/titulo.html'
+  ], 
 
 function( $, _, Backbone, tpl ) 
 {
@@ -34,7 +34,7 @@ var TituloView = Backbone.View.extend({
   //,toogle_size: function()
   //{
     //var el = this.$el
-      //.find('.titulo .cuerpo.content');
+      //.find('.titulo .cuerpo.ctr-content');
 
     //if ( ! this.expanded )
       //el.addClass('expanded');

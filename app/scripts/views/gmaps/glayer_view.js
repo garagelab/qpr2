@@ -65,7 +65,7 @@ var GLayerView = Backbone.View.extend({
   dispose: function()
   {
     //TODO marker dispose
-    //marker.$descr.off('click');
+    //marker.$infowin.off('click');
   },
 
   is_visible: function()
@@ -145,8 +145,10 @@ var GLayerView = Backbone.View.extend({
     var map = opt.map;
     var props = feature.get('properties');
 
-    var descr = $('<div/>')
-      .append( props.infowin )
+    var infowin = $('<div/>')
+      .append( 
+          '<b>'+props.titulo+'</b>'+
+          '<br>'+props.resumen )
       .click( function()
       {
         //TODO dispose click
@@ -179,7 +181,7 @@ var GLayerView = Backbone.View.extend({
       marker, 'click',
       function( e ) {
         opt.infowin.setPosition( coord );
-        opt.infowin.setContent( descr );
+        opt.infowin.setContent( infowin );
         opt.infowin.open( map );
         //map.setCenter( coord );
       });
