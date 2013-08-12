@@ -4,6 +4,7 @@ define( [
     ,'underscore'
     ,'backbone'
     //models
+    ,'models/qpr/Layer'
     ,'models/ft/FT'
     ,'models/crowdmap/crowdmap'
     //views
@@ -20,10 +21,14 @@ define( [
 
 function( 
   $, _, Backbone, 
+
+  Layer,
   FT, Crowdmap, 
+
   GLayerView, GMapView, GCuencaView,
   LayerControlView, 
   HistoriaView, FeatureView,
+
   tpl_layer_controls, tpl_widgets
   ) 
 {
@@ -75,17 +80,23 @@ var App = function()
   layer_factory.model.fusiontables.make = 
   function( name, opt )
   {
-    //capitalize
-    var pclass = name.charAt(0).toUpperCase() + name.slice(1);
+    //capitalize name
+    var parserclass = name.charAt(0).toUpperCase() + name.slice(1);
 
-    var parser = new FT.LayerParsers[pclass]({
-      name: name
-      ,icon: opt.icon
+    var parser = new FT.LayerParsers
+      [parserclass]({
+        name: name
+        ,icon: opt.icon
+      });
+
+    var api = new FT.API({
+      ftid: opt.ftid
+      ,db: parser.db
     });
 
-    var model = new FT.Layer([], {
+    var model = new Layer([], {
       name: name
-      ,ftid: opt.ftid
+      ,api: api
       ,parser: parser
     });
 
@@ -95,15 +106,23 @@ var App = function()
   layer_factory.model.crowdmap.make = 
   function( name, opt )
   {
-    var pclass = name.charAt(0).toUpperCase() + name.slice(1);
+    //capitalize name
+    var parserclass = name.charAt(0).toUpperCase() + name.slice(1);
 
-    var parser = new Crowdmap.LayerParsers[pclass]({
-      name: name
-      ,icon: opt.icon
+    var parser = new Crowdmap.LayerParsers
+      [parserclass]({
+        name: name
+        ,icon: opt.icon
+      });
+
+    var api = new Crowdmap.API({
+      url: opt.url 
+      ,db: parser.db
     });
 
-    var model = new Crowdmap.Layer([], {
+    var model = new Layer([], {
       name: name
+      ,api: api
       ,parser: parser
     });
 
@@ -362,7 +381,8 @@ var App = function()
 
   var colores = make_colores();
 
-  make_gsubcuencas_layer( gmap.map() );
+  make_gsubcuencas_layer( gmap );
+
   make_features_layers( gmap, [
     {
       name: 'historias'
@@ -445,6 +465,8 @@ var App = function()
       name: 'alertas'
       ,model: {
         type: 'crowdmap' 
+        ,url: 
+        'https://quepasariachuelo.crowdmap.com'
       }
       ,view: {
         type: 'gfeatureslayer'
@@ -455,10 +477,26 @@ var App = function()
       }
     }
 
+    ,{
+      name: 'noticias'
+      ,model: {
+        type: 'crowdmap' 
+        ,url: 
+        'https://qprmonitoreo.crowdmap.com'
+      }
+      ,view: {
+        type: 'gfeatureslayer'
+        ,icon: {
+          url: 'images/markers/noticia.png'
+        }
+        ,color: colores.noticias
+      }
+    }
+
   ]); 
 
 
-  function make_gsubcuencas_layer( map ) 
+  function make_gsubcuencas_layer( gmap ) 
   {
     var name = 'subcuencas';
 
@@ -492,7 +530,7 @@ var App = function()
         'change:visibility',
         function( v )
         {
-          if ( v ) layer.setMap( map );
+          if ( v ) layer.setMap( gmap.map() );
           else layer.setMap( null );
         });
   }

@@ -10,16 +10,18 @@ function( $, _, Backbone, Feature )
 
 'use strict';
 
-function Alertas( opt ) 
+function Noticias( opt ) 
 {
   this.opt = opt;
 
   this.db = {
     task: 'incidents'
+    ,by: 'catname'
+    ,name: 'Noticias'
   };
 }
 
-Alertas.prototype.parse =
+Noticias.prototype.parse =
 function( layer, data, sync_opt )
 {
   var opt = this.opt;
@@ -78,7 +80,7 @@ function( layer, data, sync_opt )
   }
 }
 
-return Alertas;
+return Noticias;
 
 });
 

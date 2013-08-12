@@ -1,20 +1,23 @@
 define( [ 
-    'models/crowdmap/layer'
+    'models/crowdmap/api'
     ,'models/crowdmap/layer_parsers/alertas'
+    ,'models/crowdmap/layer_parsers/noticias'
     ], 
 
 function( 
-  Layer
-  ,LParserAlertas
+  API
+  ,LayerParserAlertas
+  ,LayerParserNoticias
   ) 
 {
 
 'use strict';
 
 return {
-  Layer: Layer
+  API: API
   ,LayerParsers: {
-    Alertas: LParserAlertas
+    Alertas: LayerParserAlertas
+    ,Noticias: LayerParserNoticias
   }
 };
 

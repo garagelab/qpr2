@@ -1,5 +1,6 @@
 define( [ 
-    'models/ft/layer'
+    //'models/ft/layer'
+    'models/ft/api'
     ,'models/ft/historia'
     ,'models/ft/layer_parsers/historias'
     ,'models/ft/layer_parsers/industrias'
@@ -9,7 +10,8 @@ define( [
     ], 
 
 function( 
-  Layer
+  //Layer
+  API
   ,Historia 
   ,LParserHistorias
   ,LParserIndustrias
@@ -22,7 +24,8 @@ function(
 'use strict';
 
 return {
-  Layer: Layer
+  //Layer: Layer
+  API: API
   ,Historia: Historia 
   ,LayerParsers: {
     Historias: LParserHistorias

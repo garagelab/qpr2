@@ -10,13 +10,32 @@ function( $, _ )
 
 //'http://nodejs-chparsons.rhcloud.com/jsonp?url='+encodeURIComponent('https://quepasariachuelo.crowdmap.com/api?task=incidents'
 
-var api = {};
-
-api.url = function( params )
+var Crowdmap_API = function( opt )
 {
+  this.options = opt;
+};
 
+Crowdmap_API.prototype.read = 
+function( model, success, error )
+{
+  var opt = this.options;
+  $.ajax({
+    url: this.url( opt.url, opt.db ),
+    dataType: 'jsonp',
+    success: success
+  });
+};
+
+/*
+ * params Object
+ */
+Crowdmap_API.prototype.url = 
+function( base_url, params )
+{
   return [
-    'https://quepasariachuelo.crowdmap.com/api?'
+    //'https://quepasariachuelo.crowdmap.com/api'
+    base_url
+    ,'/api?'
     ,$.param( params )
     ,'&resp=jsonp'
     ,'&callback=?'
@@ -24,21 +43,21 @@ api.url = function( params )
   .join('');
 
   //var q = [
-    //'https://quepasariachuelo.crowdmap.com/api'
-    //,'?', $.param( params )
+  //'https://quepasariachuelo.crowdmap.com/api'
+  //,'?', $.param( params )
   //]
   //.join('');
 
   //return [
-    //'http://nodejs-chparsons.rhcloud.com/jsonp'
-    //,'?url=' + encodeURIComponent( q )
-    //,'&callback=?'
+  //'http://nodejs-chparsons.rhcloud.com/jsonp'
+  //,'?url=' + encodeURIComponent( q )
+  //,'&callback=?'
   //]
   //.join('');
 
 };
 
-return api;
+return Crowdmap_API;
 
 });
 

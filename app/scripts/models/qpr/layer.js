@@ -3,19 +3,18 @@ define( [
     ,'underscore'
     ,'backbone'
     ,'models/qpr/feature'
-    ,'models/ft/api'
     ], 
 
 /*
  * Layer = Feature Collection
  */
 
-function( $, _, Backbone, Feature, api ) 
+function( $, _, Backbone, Feature ) 
 {
 
 'use strict';
 
-var Layer_FT = Backbone.Collection.extend({
+var Layer = Backbone.Collection.extend({
 
   model: Feature
 
@@ -28,16 +27,20 @@ var Layer_FT = Backbone.Collection.extend({
   {
     var self = this;
     var opt = this.opt;
+
+    var api = opt.api;
     var parser = opt.parser;
+
+    //console.log(this.opt.name,'sync',arguments)
 
     sync_opt || (sync_opt = {});
 
     function success( res ) 
     {
-      //if ( sync_opt.success ) 
-        //sync_opt.success( res );
       parser.parse.apply(
         parser, [ self, res, sync_opt ] );
+      //if ( sync_opt.success ) 
+        //sync_opt.success( res );
     }
 
     function error( res ) 
@@ -49,36 +52,21 @@ var Layer_FT = Backbone.Collection.extend({
     switch ( method ) 
     {
       case 'read':
+      return api.read(model, success, error);
 
-      var query = [
-        'SELECT ',
-        parser.db.join(','),
-        //'*',
-        ' FROM ',
-        opt.ftid
-      ].join('');
+      case 'create':
+      return api.create(model,success,error);
 
-      $.ajax({
-        url: api.url( query ),
-        dataType: 'jsonp',
-        success: success
-      });
+      case 'update':
+      return api.update(model,success,error);
 
-      //return this.read(model,success,error);
+      case 'patch':
+      return api.patch(model,success,error);
 
-      //case 'create':
-      //return this.create(model,success,error);
-
-      //case 'update':
-      //return this.update(model,success,error);
-
-      //case 'patch':
-      //return this.patch(model,success,error);
-
-      //case 'delete':
-      //return this.destroy(model,success,error); 
+      case 'delete':
+      return api.destroy(model,success,error); 
     }
-  }
+  } 
 
   ,reverse_point: function( coords )
   {
@@ -123,7 +111,7 @@ var Layer_FT = Backbone.Collection.extend({
 
 });
 
-return Layer_FT;
+return Layer;
 
 });
 
