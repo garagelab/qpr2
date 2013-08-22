@@ -40,7 +40,7 @@ var GClustererView = Backbone.View.extend({
       ,textSize: 14
     }];
 
-    this.clusterer = new MarkerClusterer(
+    this._clusterer = new MarkerClusterer(
       opt.map, [], 
       {
         maxZoom: 14,
@@ -49,13 +49,13 @@ var GClustererView = Backbone.View.extend({
       });
 
     google.maps.event.addListener(
-      this.clusterer, 'clusteringend', 
+      this._clusterer, 'clusteringend', 
       function () 
       {
         self.trigger( 'update' );
       });
 
-    //var cl = this.clusterer;
+    //var cl = this._clusterer;
     //var nclusters = cl.getTotalClusters();
     //var clusters = cl.getClusters();
   }
@@ -64,7 +64,7 @@ var GClustererView = Backbone.View.extend({
   {
     //TODO marker dispose
     google.maps.event.clearInstanceListeners(
-        this.clusterer );
+        this._clusterer );
   } 
 
   ,is_visible: function()
@@ -88,7 +88,7 @@ var GClustererView = Backbone.View.extend({
 
     _.each( this.markers, function( m )
     {
-      this.clusterer.addMarker( m );
+      this._clusterer.addMarker( m );
     }
     , this );
 
@@ -99,7 +99,7 @@ var GClustererView = Backbone.View.extend({
 
   ,hide: function()
   {
-    this.clusterer.clearMarkers();
+    this._clusterer.clearMarkers();
     this._visible = false;
   }
 
@@ -109,14 +109,19 @@ var GClustererView = Backbone.View.extend({
 
     if ( this.is_visible() )
     {
-      this.clusterer.addMarker( marker );
+      this._clusterer.addMarker( marker );
     }
     else
     {
-      this.clusterer.clearMarkers();
+      this._clusterer.clearMarkers();
     }
 
     //this.trigger( 'update' );
+  }
+
+  ,clusters: function() 
+  {
+    return this._clusterer.getClusters();
   }
 
 });

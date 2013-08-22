@@ -9,7 +9,9 @@ define( [
     ,'models/crowdmap/crowdmap'
     //overlays
     //,'views/gmaps/glayer_view'
-    ,'views/gmaps/gfeatures_view'
+    //,'views/gmaps/gfeatures_view'
+    ,'views/gmaps/gmarkers_view'
+    ,'views/gmaps/gpolygons_view'
     ,'views/gmaps/ginfowins_view'
     ,'views/gmaps/gclusterer_view'
     ,'views/gmaps/gcanvaslayer_view'
@@ -31,7 +33,9 @@ function(
   FT, Crowdmap, 
 
   //GLayerView, 
-  GFeaturesView, 
+  //GFeaturesView, 
+  GMarkersView, 
+  GPolygonsView, 
   GInfowinsView, 
   GClustererView, 
   GCanvasLayerView, 
@@ -83,6 +87,7 @@ var App = function()
       fusiontables: {}
       ,crowdmap: {}
     }
+    ,overlays: {}
   };
 
   layer_factory.model.fusiontables.make = 
@@ -143,6 +148,124 @@ var App = function()
 
     return model;
   } 
+
+  layer_factory.overlays.make = 
+  function( name, opt, model )
+  { 
+
+    var _overlays = {
+
+    markers: new GMarkersView({
+      name: name
+      ,model: model
+      ,map: mapview.map()
+      ,color: opt.color
+      ,visible: opt.visible
+      ,icon: opt.icon
+    })
+
+    ,polygons: new GPolygonsView({
+      name: name
+      ,model: model
+      ,map: mapview.map()
+      ,color: opt.color
+      ,visible: opt.visible
+    })
+
+    ,infowins: new GInfowinsView({
+      name: name
+      ,model: model
+      ,map: mapview.map()
+    })
+
+    ,clusterer: new GClustererView({
+      name: name
+      ,model: model
+      ,map: mapview.map()
+      ,visible: opt.visible
+      ,icon: opt.icon
+    })
+
+    ,canvas_icons: new GCanvasLayerView({
+      name: name
+      ,model: model
+      ,map: mapview.map()
+      ,color: opt.color
+      ,visible: opt.visible
+      ,scale: false
+      ,size: 20
+
+      //feed list of latlng to canvas
+      ,points: function()
+      {
+        var latlngs = [];
+        _.each( 
+          _overlays.clusterer.clusters()
+          ,function( cluster )
+          {
+            latlngs.push( cluster.getCenter() );
+          });
+        return latlngs;
+      }
+    }) 
+
+    }; //end of _overlays
+
+    // optional
+    if ( opt.overlays && opt.overlays
+        .indexOf( 'canvas_markers' ) > -1 )
+    {
+
+      _overlays.canvas_markers =
+        new GCanvasLayerView({
+          name: name
+          ,model: model
+          ,map: mapview.map()
+          ,color: opt.color
+          ,visible: opt.visible
+          ,points: function()
+          {
+            var latlngs = [];
+            _.each( _overlays.markers.markers()
+              ,function( m )
+              {
+                latlngs.push( m.getPosition() );
+              });
+            return latlngs;
+          }
+        });
+
+    }
+
+    _overlays.clusterer.listenTo( 
+        _overlays.markers,  
+        'added:marker',
+        _overlays.clusterer.marker_added, 
+        _overlays.clusterer );
+
+    _overlays.infowins.listenTo( 
+        _overlays.markers,  
+        'select:feature',
+        _overlays.infowins.infowin, 
+        _overlays.infowins );
+
+    _overlays.infowins.on(
+      'select:feature',
+      function( feature )
+      {
+        mapview.focus( feature );
+        add_detalle( feature, mapview );
+      });
+
+    _overlays.canvas_icons.listenTo( 
+      _overlays.clusterer,
+      'update', 
+      _overlays.canvas_icons.render,
+      _overlays.canvas_icons );
+
+    return _overlays;
+
+  }
 
   function make_colores()
   {
@@ -261,100 +384,14 @@ var App = function()
       [opt.model.type]
         .make( name, opt.model );
 
-
-    // views / overlays
-
-    var features_view = new GFeaturesView({
-      name: name
-      ,model: model
-      ,map: mapview.map()
-      ,color: opt.view.color
-      ,visible: opt.view.visible
-      ,icon: opt.view.icon
-    });
-
-    var infowins_view = new GInfowinsView({
-      name: name
-      ,model: model
-      ,map: mapview.map()
-    });
-
-    var clusterer_view = new GClustererView({
-      name: name
-      ,model: model
-      ,map: mapview.map()
-      ,visible: opt.view.visible
-      ,icon: opt.view.icon
-    });
-
-    var canvas_view = new GCanvasLayerView({
-      name: name
-      ,model: model
-      ,map: mapview.map()
-      ,color: opt.view.color
-      ,visible: opt.view.visible
-      ,scale: false
-      ,size: 20
-      //,clusterer: clusterer_view.clusterer
-      ,points: function()
-      {
-        var latlngs = [];
-        _.each( 
-        clusterer_view.clusterer.getClusters()
-        ,function( cluster )
-        {
-          latlngs.push( cluster.getCenter() );
-        });
-        return latlngs;
-      }
-    });
-
-    //return new GLayerView({
-      //name: name
-      //,model: model
-      //,map: mapview.map()
-      //,color: opt.view.color
-      //,visible: opt.view.visible
-      //,icon: opt.view.icon
-    //}); 
-
-    //var view = layer_factory.view
-      //[ opt.view.overlays[0] ]
-        //.make( name, opt.view, model );
-
-    var overlays = {
-      features: features_view
-      ,clusterer: clusterer_view 
-      ,infowins: infowins_view
-      ,canvas: canvas_view
-    };  
-
-    clusterer_view.listenTo( 
-        features_view,  
-        'added:marker',
-        clusterer_view.marker_added, 
-        clusterer_view );
-
-    infowins_view.listenTo( 
-        features_view,  
-        'select:feature',
-        infowins_view.infowin, 
-        infowins_view );
-
-    infowins_view.on(
-      'select:feature',
-      function( feature )
-      {
-        mapview.focus( feature );
-        add_detalle( feature, mapview );
-      });
-
-    canvas_view.listenTo( 
-      clusterer_view,
-      'update', 
-      canvas_view.render,
-      canvas_view );
-
+    var overlays = layer_factory.overlays
+      .make( name, opt.view, model );
+    //for ( var k in opt.view.overlays )
+    //{
+      //overlays[ k ] = layer_factory.overlays
+        //[ opt.view.overlays[ k ] ]
+          //.make( name, opt.view, model );
+    //}
     
     // ui control
 
@@ -582,7 +619,8 @@ var App = function()
 
   var ui = init_ui( {}, mapview );
 
-  var colores = make_colores();
+  //var colores = make_colores();
+  var colores = window.colores;
   set_layer_controls_colors( colores );
 
   make_gsubcuencas_layer( mapview );
@@ -621,6 +659,7 @@ var App = function()
           url: 'images/markers/industria.png'
         }
         ,color: colores.industrias
+        ,overlays: ['canvas_markers']
       }
     }
 

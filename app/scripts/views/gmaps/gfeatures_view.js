@@ -1,3 +1,8 @@
+
+/*
+ * DEPRECATED
+ */
+
 define( [ 
     'jquery'
     ,'underscore'
