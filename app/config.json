@@ -1,0 +1,20 @@
+{
+  "colores": {
+
+    "historias": "#20B2AA" 
+
+    ,"alertas": "#B22222" 
+    ,"noticias": "#D2691E" 
+    ,"acciones": "#A9A9A9" 
+    ,"respuestas": "#A9A9A9" 
+    ,"documentos": "#A9A9A9" 
+    ,"normativas": "#A9A9A9" 
+
+    ,"industrias": "#B22222" 
+    ,"basurales": "#B22222" 
+    ,"asentamientos": "#B22222" 
+    ,"ecopuntos": "#FF8C00" 
+    ,"subcuencas": "#008080" 
+
+  }
+}

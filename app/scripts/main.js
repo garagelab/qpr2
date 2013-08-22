@@ -77,7 +77,8 @@ require.config({
 });
 
 require( [ 
-    'app'
+    'jquery'
+    ,'app'
     //,'d3'
     ,'parseuri'
     ,'chroma'
@@ -87,8 +88,11 @@ require( [
     ,'qtip2'
     ], 
 
-function( App ) 
+function( $, App ) 
 {
-  new App();
+  $.getJSON( 'config.json', 
+    function( config ) {
+      new App( config );
+    });
 });
 

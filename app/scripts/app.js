@@ -50,7 +50,7 @@ function(
 
 'use strict';
 
-var App = function() 
+var App = function( config ) 
 { 
   //TODO remove this hack for testing
 
@@ -620,7 +620,7 @@ var App = function()
   var ui = init_ui( {}, mapview );
 
   //var colores = make_colores();
-  var colores = window.colores;
+  var colores = config.colores;
   set_layer_controls_colors( colores );
 
   make_gsubcuencas_layer( mapview );
