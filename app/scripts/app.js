@@ -296,6 +296,17 @@ var App = function()
       ,scale: false
       ,size: 20
       //,clusterer: clusterer_view.clusterer
+      ,points: function()
+      {
+        var latlngs = [];
+        _.each( 
+        clusterer_view.clusterer.getClusters()
+        ,function( cluster )
+        {
+          latlngs.push( cluster.getCenter() );
+        });
+        return latlngs;
+      }
     });
 
     //return new GLayerView({
@@ -338,18 +349,11 @@ var App = function()
         add_detalle( feature, mapview );
       });
 
-    clusterer_view.on( 
+    canvas_view.listenTo( 
+      clusterer_view,
       'update', 
-      function( clusterer )
-      {
-        var latlngs = [];
-        _.each( clusterer.getClusters(),
-          function( cluster )
-          {
-            latlngs.push( cluster.getCenter() );
-          });
-        canvas_view.update_points( latlngs );
-      });
+      canvas_view.render,
+      canvas_view );
 
     
     // ui control

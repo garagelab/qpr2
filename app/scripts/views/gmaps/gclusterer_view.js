@@ -48,6 +48,13 @@ var GClustererView = Backbone.View.extend({
         styles: cluster_style
       });
 
+    google.maps.event.addListener(
+      this.clusterer, 'clusteringend', 
+      function () 
+      {
+        self.trigger( 'update' );
+      });
+
     //var cl = this.clusterer;
     //var nclusters = cl.getTotalClusters();
     //var clusters = cl.getClusters();
@@ -56,6 +63,8 @@ var GClustererView = Backbone.View.extend({
   ,dispose: function()
   {
     //TODO marker dispose
+    google.maps.event.clearInstanceListeners(
+        this.clusterer );
   } 
 
   ,is_visible: function()
@@ -80,11 +89,12 @@ var GClustererView = Backbone.View.extend({
     _.each( this.markers, function( m )
     {
       this.clusterer.addMarker( m );
-      this.trigger( 'update', this.clusterer );
     }
     , this );
 
     this._visible = true;
+
+    //this.trigger( 'update' );
   }
 
   ,hide: function()
@@ -106,7 +116,7 @@ var GClustererView = Backbone.View.extend({
       this.clusterer.clearMarkers();
     }
 
-    this.trigger( 'update', this.clusterer );
+    //this.trigger( 'update' );
   }
 
 });

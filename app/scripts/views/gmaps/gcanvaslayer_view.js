@@ -28,45 +28,43 @@ var GCanvasLayerView = Backbone.View.extend({
     //this.listenTo( this.model,
       //'add', this.feature_added, this );
 
-    this._latlngs = [];
+    //this._latlngs = [];
 
     this.canvas_layer = new CanvasLayer({
       map: opt.map
       ,animate: false
       ,resizeHandler: 
-        _.bind( canvas_resize, this )
+        _.bind( this.render, this )
       ,updateHandler: 
-        _.bind( canvas_update, this )
+        _.bind( this.render, this )
     });
 
     this.ctx = this.canvas_layer 
         .canvas.getContext('2d'); 
 
-    function canvas_update()
-    {
-      if ( this.is_visible() )
-        this.canvas_render();
-    }
-
-    function canvas_resize(){}
-
   }
 
-  ,canvas_clear: function()
+  ,render: function()
+  {
+    if ( this.is_visible() )
+      this._canvas_render();
+  }
+
+  ,_canvas_clear: function()
   {
     this.ctx.clearRect( 0, 0, 
         this.canvas_layer.canvas.width, 
         this.canvas_layer.canvas.height );
   }
 
-  ,canvas_render: function()
+  ,_canvas_render: function()
   { 
     var opt = this.options;
 
     var canvas_layer = this.canvas_layer; 
     var ctx = this.ctx; 
 
-    this.canvas_clear();
+    this._canvas_clear();
 
     var crgb = chroma
       .color( opt.color ).rgb().join();
@@ -82,24 +80,21 @@ var GCanvasLayerView = Backbone.View.extend({
 
     var map_proj = opt.map.getProjection();
 
-    var off = map_proj
-      .fromLatLngToPoint(
-          canvas_layer.getTopLeft() );
+    var tl = canvas_layer.getTopLeft();
+
+    var off = tl 
+      ? map_proj.fromLatLngToPoint( tl ) 
+      : { x:0, y:0 };
 
     ctx.translate( -off.x, -off.y );
 
     var pt_size = opt.size * 
       ( opt.scale ? 1 : 1/scale );
 
-    var pt_latlng;
     var pt_world;
 
-    //_.each( opt.clusterer.getClusters(), 
-    //function( pt_latlng )
-    _.each( this._latlngs, function( pt_latlng )
+    _.each( opt.points(), function( pt_latlng )
     {
-
-      //pt_latlng = cluster.getCenter();
 
       // project LatLng 
       // to world coordinates and draw
@@ -145,26 +140,20 @@ var GCanvasLayerView = Backbone.View.extend({
       return;
     }
 
-    this.canvas_render();
+    this._canvas_render();
     this._visible = true;
   }
 
   ,hide: function()
   {
-    this.canvas_clear();
+    this._canvas_clear();
     this._visible = false;
-  }
-
-  ,update_points: function( latlngs_arr )
-  {
-    this._latlngs = latlngs_arr;
-    if ( this.is_visible() )
-      this.canvas_render();
   }
 
   //,feature_added: function( feature ) 
   //{
-    //if (feature.get('geometry').type === 'Point')
+    //if (feature.get('geometry')
+          //.type === 'Point')
     //{
       //var coordarr = feature
         //.get('geometry')
@@ -174,8 +163,7 @@ var GCanvasLayerView = Backbone.View.extend({
           //new google.maps.LatLng(
             //coordarr[0], coordarr[1] ) );
 
-      //if ( this.is_visible() )
-        //this.canvas_render();
+      //this.render();
     //}
   //}
 
