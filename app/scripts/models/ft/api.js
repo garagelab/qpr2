@@ -20,9 +20,11 @@ var FT_API = function( opt )
 FT_API.prototype.read = 
 function( model, success, error )
 {
-  var opt = this.options;
+  //var opt = this.options;
   $.ajax({
-    url: this.url( opt.ftid, opt.db ),
+    //url: this.url( opt.ftid, opt.db ),
+    //url: this.url( opt.sql ),
+    url: this.url(),
     dataType: 'jsonp',
     success: success
   });
@@ -32,21 +34,16 @@ function( model, success, error )
  * params Array
  */
 FT_API.prototype.url = 
-function( ftid, params )
+//function( sql )
+function()
 {
-  var query = [
-    'SELECT ',
-    params.join(','),
-    //'*',
-    ' FROM ',
-    ftid
-  ].join('');
+  var sql = this.options.sql;
 
   return [
-    'https://www.googleapis.com/fusiontables/v1/query',
-    '?sql=' + encodeURIComponent(query),
-    '&key=' + apikey,
-    '&callback=?'
+    'https://www.googleapis.com/fusiontables/v1/query'
+    ,'?sql=' + encodeURIComponent( sql )
+    ,'&key=' + apikey
+    ,'&callback=?'
   ].join('');
 };
 

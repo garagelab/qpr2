@@ -1,3 +1,8 @@
+
+/*
+ * DEPRECADO
+ */
+
 define( [ 
     'jquery'
     ,'underscore'
@@ -10,18 +15,19 @@ define( [
  * Historia = Feature Collection
  */
 
-function( $, _, Backbone, Feature, api ) 
+function( $, _, Backbone, Feature, API ) 
 {
 
 'use strict';
 
 var Historia_FT = Backbone.Collection.extend({ 
 
-  model: Feature 
-  
+  model: Feature  
+
   ,initialize: function( models, opt ) 
   {
     this.opt = opt;
+    var hid = this.opt.feature.get('id');
 
     this.db = [
       'hid'
@@ -29,7 +35,26 @@ var Historia_FT = Backbone.Collection.extend({
       ,'fuente'
       ,'link_id'
       ,'url'
-    ];
+    ]; 
+
+    var sql = [
+      'SELECT '
+      ,this.db.join(',')
+      ,' FROM '
+      ,opt.ftid
+      ,' WHERE '
+      ,'hid'
+      ,' = '
+      ,'\''+hid+'\''
+    ].join('')
+
+    this.url = [
+      'https://www.googleapis.com/fusiontables/v1/query'
+      ,'?sql=' + encodeURIComponent( sql )
+      ,'&key=' + apikey
+      ,'&callback=?'
+    ].join(''); 
+
   }
 
   ,parse: function( data )
@@ -84,66 +109,49 @@ var Historia_FT = Backbone.Collection.extend({
 
   }
 
-  ,sync: function( method, model, sync_opt )
-  {
-    var self = this;
+  //,sync: function( method, model, sync_opt )
+  //{
+    //var self = this;
 
-    var db = this.db;
-    var ftid = this.opt.ftid;
-    var hid = this.opt.feature.get('id');
+    //var db = this.db;
+    //var ftid = this.opt.ftid;
+    //var hid = this.opt.feature.get('id');
 
-    sync_opt || (sync_opt = {});
+    //sync_opt || (sync_opt = {});
 
-    function success( res ) 
-    {
-      //if ( sync_opt.success ) 
-        //sync_opt.success( res );
-      self.parse.apply(
-        self, [ res, sync_opt ] );
-    }
+    //function success( res ) 
+    //{
+      //self.parse.apply(
+        //self, [ res, sync_opt ] );
+      ////if ( sync_opt.success ) 
+        ////sync_opt.success( res );
+    //}
 
-    function error( res ) 
-    {
-      if ( sync_opt.error ) 
-        sync_opt.error( res );
-    } 
+    //function error( res ) 
+    //{
+      //if ( sync_opt.error ) 
+        //sync_opt.error( res );
+    //} 
 
-    var query = [
-      'SELECT '
-      ,db.join(',')
-      ,' FROM '
-      ,ftid
-      ,' WHERE '
-      ,'hid'
-      ,' = '
-      ,'\''+hid+'\''
-    ].join('');
+    //var api = new API({
+      //sql: [
+        //'SELECT '
+        //,db.join(',')
+        //,' FROM '
+        //,ftid
+        //,' WHERE '
+        //,'hid'
+        //,' = '
+        //,'\''+hid+'\''
+      //].join('') 
+    //});
 
-    switch ( method ) 
-    {
-      case 'read':
-
-      $.ajax({
-        url: api.url( query ),
-        dataType: 'jsonp',
-        success: success 
-      });
-
-      //return this.read(model,success,error);
-
-      //case 'create':
-      //return this.create(model,success,error);
-
-      //case 'update':
-      //return this.update(model,success,error);
-
-      //case 'patch':
-      //return this.patch(model,success,error);
-
-      //case 'delete':
-      //return this.destroy(model,success,error); 
-    }
-  }
+    //switch ( method ) 
+    //{
+      //case 'read':
+      //return api.read(model,success,error);
+    //}
+  //}
 
 });
 

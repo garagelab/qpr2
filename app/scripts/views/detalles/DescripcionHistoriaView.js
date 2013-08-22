@@ -22,7 +22,9 @@ var DescripcionHistoriaView = Backbone.View.extend({
 
   ,render: function( data )
   {
-    this.$el.html( this.tpl( data ) );
+    this.$el.html( 
+      _.unescape( this.tpl( data ) ) 
+    );
     return this;
   }
 

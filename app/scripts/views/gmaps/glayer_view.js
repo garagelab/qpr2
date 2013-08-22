@@ -1,14 +1,20 @@
+
+/*
+ * DEPRECATED
+ */
+
 define( [ 
     'jquery'
     ,'underscore'
     ,'backbone'
+    ,'canvaslayer'
     ], 
 
 /*
  * TODO dispose lists of features
  */
 
-function( $, _, Backbone ) 
+function( $, _, Backbone, CanvasLayer ) 
 {
 
 'use strict';
@@ -17,6 +23,7 @@ var GLayerView = Backbone.View.extend({
 
   initialize: function() 
   { 
+    var self = this;
     var opt = this.options;
 
     opt.icon = _.defaults( opt.icon, {
@@ -31,13 +38,14 @@ var GLayerView = Backbone.View.extend({
     this._infowin=new google.maps.InfoWindow();
 
     this._visible = opt.visible;
+
     this.name = opt.name;
 
     this.markers = [];
     this.polygons = [];
 
     // infowin data+events by feature id
-    this.$infowins = {};
+    this.$infowins = {}; 
 
     this.listenTo( this.model,
       'add', this.feature_added, this );
@@ -65,6 +73,93 @@ var GLayerView = Backbone.View.extend({
     //var nclusters = cl.getTotalClusters();
     //var clusters = cl.getClusters();
 
+
+    // TODO desacoplar canvas layer
+    // pasarle desde afuera
+    // una lista de puntos a dibujar 
+    // con params: size, color ...
+    // * usarlo para industrias 
+    // pasandole markers
+    // * usarlo para los iconos 
+    // de todos los layers 
+    // pasandole los iconos clusterizados
+
+    this.canvas_layer = new CanvasLayer({
+      map: opt.map
+      ,animate: false
+      ,resizeHandler: 
+        _.bind( canvas_resize, this )
+      ,updateHandler: 
+        _.bind( canvas_update, this )
+    });
+
+    this.canvas_ctx = this.canvas_layer 
+        .canvas.getContext('2d'); 
+
+    function canvas_update()
+    {
+      if ( this.is_visible() )
+        this.canvas_render();
+    }
+
+    function canvas_resize(){}
+
+  }
+
+  ,canvas_clear: function()
+  {
+    this.canvas_ctx.clearRect( 0, 0, 
+        this.canvas_layer.canvas.width, 
+        this.canvas_layer.canvas.height );
+  }
+
+  ,canvas_render: function()
+  { 
+    var opt = this.options;
+
+    var canvas_layer = this.canvas_layer; 
+    var canvas_ctx = this.canvas_ctx; 
+
+    this.canvas_clear();
+
+    var crgb = chroma
+      .color( opt.color ).rgb().join();
+
+    canvas_ctx.fillStyle = 
+      'rgba( '+crgb+', 0.8 )';
+
+    canvas_ctx.setTransform(
+        1, 0, 0, 1, 0, 0 );
+
+    // scale is just 2^zoom
+    var scale = Math.pow( 2, opt.map.zoom );
+    canvas_ctx.scale( scale, scale );
+
+    var map_proj = opt.map.getProjection();
+
+    var off = map_proj
+      .fromLatLngToPoint(
+          canvas_layer.getTopLeft() );
+
+    canvas_ctx.translate( -off.x, -off.y );
+
+    var pt_w = 0.001;
+    var pt_latlng, world_pt;
+
+    _.each( this.markers, function( m )
+    {
+      pt_latlng = m.getPosition();
+
+      // project LatLng 
+      // to world coordinates and draw
+      world_pt = map_proj
+        .fromLatLngToPoint( pt_latlng );
+
+      canvas_ctx.fillRect(
+          world_pt.x, world_pt.y, 
+          pt_w, pt_w );
+
+    });
   }
 
   ,dispose: function()
@@ -76,13 +171,11 @@ var GLayerView = Backbone.View.extend({
       this.$infowins[k].remove();
     }
     this.$infowins = null;
-  }
+  } 
 
   ,is_visible: function()
   {
     return this._visible;
-    //return this.clusterer
-      //.getTotalMarkers() > 0;
   }
 
   ,visible: function( v )
@@ -111,7 +204,9 @@ var GLayerView = Backbone.View.extend({
     _.each( this.polygons, function( p )
     {
       p.setMap( opt.map );
-    });
+    }); 
+
+    this.canvas_render();
 
     this._visible = true;
   }
@@ -125,11 +220,15 @@ var GLayerView = Backbone.View.extend({
       p.setMap( null );
     });
 
+    this.canvas_clear();
+
     this._visible = false;
   }
 
   ,feature_added: function( feature ) 
   {
+    var opt = this.options;
+
     switch ( feature.get('geometry').type )
     {
       case 'Point':
@@ -139,15 +238,22 @@ var GLayerView = Backbone.View.extend({
         var m = this.add_marker( feature );
 
         this.clusterer.addMarker( m );
-
         if ( ! this.is_visible() )
           this.clusterer.clearMarkers();
+
+        // TODO do better for performance
+        // call this when all markers
+        // have been added....
+        if ( this.is_visible() )
+          this.canvas_render();
 
       break;
 
       case 'Polygon':
 
-        this.add_polygon( feature );
+        var p = this.add_polygon( feature );
+        if ( this.is_visible() )
+          p.setMap( opt.map );
 
       break;
     }
@@ -265,10 +371,7 @@ var GLayerView = Backbone.View.extend({
       strokeWeight: 1,
       fillColor: opt.color,
       fillOpacity: 0.4
-    });
-
-    if ( this.is_visible() )
-      poly.setMap( opt.map );
+    }); 
 
     this.polygons.push( poly );
 

@@ -7,6 +7,7 @@ define( [
     ,'models/ft/layer_parsers/basurales'
     ,'models/ft/layer_parsers/ecopuntos'
     ,'models/ft/layer_parsers/asentamientos'
+    ,'models/ft/layer_parsers/historia_detalle'
     ], 
 
 function( 
@@ -18,6 +19,7 @@ function(
   ,LParserBasurales 
   ,LParserEcopuntos 
   ,LParserAsentamientos
+  ,LParserHistoriaDetalle
   ) 
 {
 
@@ -33,6 +35,7 @@ return {
     ,Basurales: LParserBasurales 
     ,Ecopuntos: LParserEcopuntos 
     ,Asentamientos: LParserAsentamientos
+    ,HistoriaDetalle: LParserHistoriaDetalle
   }
 };
 

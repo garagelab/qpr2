@@ -26,62 +26,71 @@
   background-color: rgba(200, 0, 0, 1.0);
 }
 
-.layers .layer.historias
-{
-  background-color: rgba(240, 140, 0, 0.6);
-}
-.layers .layer.historias:hover
-{
-  background-color: rgba(240, 140, 0, 0.8);
-}
-.layers .layer.historias.visible
-{
-  background-color: rgba(240, 140, 0, 1.0);
-}
+//.layers .layer.historias
+//{
+  //background-color: rgba(240, 140, 0, 0.6);
+//}
+//.layers .layer.historias:hover
+//{
+  //background-color: rgba(240, 140, 0, 0.8);
+//}
+//.layers .layer.historias.visible
+//{
+  //background-color: rgba(240, 140, 0, 1.0);
+//}
 
-.layers .layer.alertas
-,.layers .layer.acciones
-,.layers .layer.noticias
-{
-  background-color: rgba(255, 200, 0, 0.6);
-}
-.layers .layer.alertas:hover
-,.layers .layer.acciones:hover
-,.layers .layer.noticias:hover
-{
-  background-color: rgba(255, 200, 0, 0.8);
-}
-.layers .layer.alertas.visible
-,.layers .layer.acciones.visible
-,.layers .layer.noticias.visible
-{
-  background-color: rgba(255, 200, 0, 1.0);
-}
+//.layers .layer.alertas
+//,.layers .layer.acciones
+//,.layers .layer.respuestas
+//,.layers .layer.noticias
+//,.layers .layer.documentos
+//,.layers .layer.normativas
+//{
+  //background-color: rgba(255, 200, 0, 0.6);
+//}
+//.layers .layer.alertas:hover
+//,.layers .layer.acciones:hover
+//,.layers .layer.respuestas:hover
+//,.layers .layer.noticias:hover
+//,.layers .layer.documentos:hover
+//,.layers .layer.normativas:hover
+//{
+  //background-color: rgba(255, 200, 0, 0.8);
+//}
+//.layers .layer.alertas.visible
+//,.layers .layer.acciones.visible
+//,.layers .layer.respuestas.visible
+//,.layers .layer.noticias.visible
+//,.layers .layer.documentos.visible
+//,.layers .layer.normativas.visible
+//{
+  //background-color: rgba(255, 200, 0, 1.0);
+//}
 
-.layers .layer.industrias
-,.layers .layer.basurales
-,.layers .layer.ecopuntos
-,.layers .layer.asentamientos
-,.layers .layer.subcuencas
-{
-  background-color: rgba(240, 140, 0, 0.6);
-}
-.layers .layer.industrias:hover
-,.layers .layer.basurales:hover
-,.layers .layer.ecopuntos:hover
-,.layers .layer.asentamientos:hover
-,.layers .layer.subcuencas:hover
-{
-  background-color: rgba(240, 140, 0, 0.8);
-}
-.layers .layer.industrias.visible
-,.layers .layer.basurales.visible
-,.layers .layer.ecopuntos.visible
-,.layers .layer.asentamientos.visible
-,.layers .layer.subcuencas.visible
-{
-  background-color: rgba(240, 140, 0, 1.0);
-}
+//.layers .layer.industrias
+//,.layers .layer.basurales
+//,.layers .layer.ecopuntos
+//,.layers .layer.asentamientos
+//,.layers .layer.subcuencas
+//{
+  //background-color: rgba(240, 140, 0, 0.6);
+//}
+//.layers .layer.industrias:hover
+//,.layers .layer.basurales:hover
+//,.layers .layer.ecopuntos:hover
+//,.layers .layer.asentamientos:hover
+//,.layers .layer.subcuencas:hover
+//{
+  //background-color: rgba(240, 140, 0, 0.8);
+//}
+//.layers .layer.industrias.visible
+//,.layers .layer.basurales.visible
+//,.layers .layer.ecopuntos.visible
+//,.layers .layer.asentamientos.visible
+//,.layers .layer.subcuencas.visible
+//{
+  //background-color: rgba(240, 140, 0, 1.0);
+//}
 
 .layers .layer {
   margin: 1px 0px; 
@@ -125,6 +134,7 @@
 }
 
 .layers .layer.acciones img 
+,.layers .layer.respuestas img 
 {
   height: 20px;
   right: 2px;

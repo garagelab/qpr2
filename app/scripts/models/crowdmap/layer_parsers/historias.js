@@ -10,18 +10,18 @@ function( $, _, Backbone, Feature )
 
 'use strict';
 
-function Noticias( opt ) 
+function Historias( opt ) 
 {
   this.opt = opt;
 
   this.db = {
     task: 'incidents'
     ,by: 'catname'
-    ,name: 'noticias'
+    ,name: 'historias'
   };
 }
 
-Noticias.prototype.parse =
+Historias.prototype.parse =
 function( layer, data, sync_opt )
 {
   var opt = this.opt;
@@ -29,6 +29,8 @@ function( layer, data, sync_opt )
   var reportes = data.payload.incidents; 
   var i = reportes.length;
   var r;
+
+  var customfields, cfkey;
 
   var date
     ,titulo
@@ -42,7 +44,15 @@ function( layer, data, sync_opt )
     //if ( r.incidentverified === '0' )
       //continue;
 
-    resumen = r.incidentdescription.split(' ').slice(0,20).join(' ') + '...';
+    customfields = reportes[i].customfields;
+    for ( cfkey in customfields )
+    {
+      if ( customfields[cfkey].field_name.toLowerCase() === 'resumen' )
+      {
+        resumen = customfields[cfkey].field_response;
+        break;
+      }
+    }
 
     titulo = r.incidenttitle;
     descripcion = r.incidentdescription;
@@ -52,7 +62,10 @@ function( layer, data, sync_opt )
       .toISOString();
 
     layer.add( new Feature({ 
-      id: r.incidentid
+      //id: r.incidentid
+      //las historias tienen hid = titulo
+      //para filtrar en el FT/links x hid
+      id: r.incidenttitle
       ,properties: {
         type: opt.name
         ,date: {
@@ -76,7 +89,7 @@ function( layer, data, sync_opt )
   }
 }
 
-return Noticias;
+return Historias;
 
 });
 

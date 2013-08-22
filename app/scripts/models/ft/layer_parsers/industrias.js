@@ -10,10 +10,10 @@ function( $, _, Backbone, Feature )
 
 'use strict';
 
-//Industrias.prototype=Object.crate(LayerParser);
-
 function Industrias( opt ) 
 {
+  //_.extend( this, Backbone.Events );
+
   this.opt = opt;
 
   this.db = [
@@ -27,8 +27,9 @@ function Industrias( opt )
 
 Industrias.prototype.parse =
 function( layer, data, sync_opt )
+//function( data, sync_opt )
 {
-  //console.log( 'industrias.parse', arguments )
+  //console.log('industrias.parse',this,arguments);
 
   var opt = this.opt;
 
@@ -68,6 +69,7 @@ function( layer, data, sync_opt )
     var dateiso = new Date( date )
       .toISOString();
 
+    //this.trigger( 'add:feature', new Feature({ 
     layer.add( new Feature({ 
       id: id
       ,properties: {

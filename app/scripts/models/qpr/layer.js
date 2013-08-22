@@ -21,6 +21,16 @@ var Layer = Backbone.Collection.extend({
   ,initialize: function( models, opt ) 
   {
     this.opt = opt;
+    //var self = this;
+    //this.url = opt.api.url();
+    //this.parse = function( data, sync_opt )
+    //{
+      //opt.parser.parse( data, sync_opt );
+    //}
+    //opt.parser.on( 'add:feature', function(f)
+    //{
+      //self.add( f );
+    //});
   }
 
   ,sync: function( method, model, sync_opt )

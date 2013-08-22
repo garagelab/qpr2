@@ -29,9 +29,13 @@ require.config({
       exports: 'chroma'
     }
 
-    ,canvaslayer: {
-      exports: 'CanvasLayer'
-    }
+    //,markerclusterer: {
+      //exports: 'MarkerClusterer'
+    //}
+
+    //,canvaslayer: {
+      //exports: 'CanvasLayer'
+    //}
 
     ,tipsy: {
       deps: [ 'jquery' ]
@@ -76,9 +80,9 @@ require( [
     'app'
     //,'d3'
     ,'parseuri'
-    ,'markerclusterer'
     ,'chroma'
-    ,'canvaslayer'
+    //,'markerclusterer'
+    //,'canvaslayer'
     //,'tipsy'
     ,'qtip2'
     ], 

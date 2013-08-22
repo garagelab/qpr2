@@ -18,25 +18,23 @@ var Crowdmap_API = function( opt )
 Crowdmap_API.prototype.read = 
 function( model, success, error )
 {
-  var opt = this.options;
   $.ajax({
-    url: this.url( opt.url, opt.db ),
+    url: this.url(),
     dataType: 'jsonp',
     success: success
   });
 };
 
-/*
- * params Object
- */
-Crowdmap_API.prototype.url = 
-function( base_url, params )
+Crowdmap_API.prototype.url = function()
 {
+  var base_url = this.options.url;
+  var query = this.options.db;
+
   return [
     //'https://quepasariachuelo.crowdmap.com/api'
     base_url
     ,'/api?'
-    ,$.param( params )
+    ,$.param( query )
     ,'&resp=jsonp'
     ,'&callback=?'
   ]
@@ -44,7 +42,7 @@ function( base_url, params )
 
   //var q = [
   //'https://quepasariachuelo.crowdmap.com/api'
-  //,'?', $.param( params )
+  //,'?', $.param( query )
   //]
   //.join('');
 

@@ -7,8 +7,13 @@ define( [
     ,'models/qpr/Layer'
     ,'models/ft/FT'
     ,'models/crowdmap/crowdmap'
+    //overlays
+    //,'views/gmaps/glayer_view'
+    ,'views/gmaps/gfeatures_view'
+    ,'views/gmaps/ginfowins_view'
+    ,'views/gmaps/gclusterer_view'
+    ,'views/gmaps/gcanvaslayer_view'
     //views
-    ,'views/gmaps/glayer_view'
     ,'views/gmaps/gmap_view'
     ,'views/gmaps/gcuenca_view'
     ,'views/ui/LayerControlView'
@@ -25,7 +30,13 @@ function(
   Layer,
   FT, Crowdmap, 
 
-  GLayerView, GMapView, GCuencaView,
+  //GLayerView, 
+  GFeaturesView, 
+  GInfowinsView, 
+  GClustererView, 
+  GCanvasLayerView, 
+
+  GMapView, GCuencaView,
   LayerControlView, 
   HistoriaView, FeatureView,
 
@@ -63,7 +74,7 @@ var App = function()
     ,views: {}
   };
 
-  var gmap, gcuenca;
+  var mapview, gcuenca;
   var cur_detalle_view;
  
   var layer_factory = 
@@ -71,9 +82,6 @@ var App = function()
     model: {
       fusiontables: {}
       ,crowdmap: {}
-    }
-    ,view: {
-      gfeatureslayer: {}
     }
   };
 
@@ -90,8 +98,15 @@ var App = function()
       });
 
     var api = new FT.API({
-      ftid: opt.ftid
-      ,db: parser.db
+      //ftid: opt.ftid
+      //,db: parser.db
+      sql: [
+        'SELECT '
+        ,parser.db.join(',')
+        //,'*'
+        ,' FROM '
+        ,opt.ftid
+      ].join('') 
     });
 
     var model = new Layer([], {
@@ -127,83 +142,97 @@ var App = function()
     });
 
     return model;
-  }
-
-  layer_factory.view.gfeatureslayer.make = 
-  function( name, opt, model )
-  {
-    return new GLayerView({
-      name: name,
-      model: model,
-      map: gmap.map(), 
-      color: opt.color,
-      visible: opt.visible,
-      icon: opt.icon
-    }); 
   } 
 
   function make_colores()
   {
-    var colores = {};
+
+    // mapa layer:hex
+
+    var colores = {
+      historias: 
+        chroma.color( 240, 140, 0 ).hex()
+    };
+
+    // escala
+
     var carr = [
-      'historias'
+
+      //'historias'
+      'acciones'
+      ,'respuestas'
+      ,'alertas'
+      ,'noticias'
+      ,'documentos'
+      ,'normativas'
+
       ,'industrias'
       ,'basurales'
       ,'ecopuntos'
       ,'asentamientos'
-      ,'alertas'
-      ,'noticias'
-      ,'acciones'
+      ,'subcuencas'
     ];
 
+    //chroma.brewer.RdYlBu
     var cscale = chroma
-      .scale('Set1')
+      .scale('RdYlBu')
+      //.scale('Set1')
       //.scale('Accent')
       //.scale('Dark2')
-      .domain([ 0, carr.length ]);
+      .domain([ 0, carr.length-1 ]); 
 
-    //var colores = {
-      //historias: cscale(0)
-      //,industrias: cscale(1)
-      //,basurales: cscale(2)
-      //,ecopuntos: cscale(3)
-      //,asentamientos: cscale(4)
-      //,alertas: cscale(5)
-      //,noticias: cscale(6)
-      //,acciones: cscale(7)
-    //};
-
-    var c, ckey, crgb;
-    for ( c = 0; c < carr.length; c++ )
+    for ( var c = 0; c < carr.length; c++ )
     {
-      ckey = carr[c];
-      colores[ckey] = cscale(c).hex();
-      crgb = cscale(c).rgb().join(); 
-
-      //var sel = '.sidebar .layer.'+ckey;
-      //$(sel).css(
-          //'background-color', 
-          //'rgba( '+crgb+', 0.6 );' );
-
-      //console.log(
-          //sel,crgb,
-          //$(sel).css('background-color'),
-          //$(sel)
-          //)
-
-      //$(sel+':hover').css(
-          //'background-color', 
-          //'rgba( '+crgb+', 0.8 );' );
-
-      //$(sel+'.visible').css(
-          //'background-color', 
-          //'rgba( '+crgb+', 1.0 );' );
-    }
+      colores[ carr[c] ] = cscale(c).hex();
+    } 
 
     return colores;
   }
 
-  function make_features_layers( map, config ) 
+  function set_layer_controls_colors( colores )
+  {
+    var _css = [ '<style type="text/css">' ];
+
+    for ( var k in colores )
+    {
+      //var crgb = cscale(c).rgb().join(); 
+      var crgb = chroma
+        .color( colores[k] ).rgb().join();
+
+      var sel = '.layer.'+k;
+
+      _css.push( [
+        sel
+        ,'{'
+        ,'background-color:'
+        ,'rgba( '+crgb+', 0.8 );'
+        ,'}'
+      ].join(''));
+
+      _css.push( [
+        sel+':hover'
+        ,'{'
+        ,'background-color:'
+        ,'rgba( '+crgb+', 0.6 );'
+        ,'}'
+      ].join(''));
+
+      _css.push( [
+        sel+'.visible'
+        ,'{'
+        ,'font-weight: bold;'
+        ,'background-color:'
+        ,'rgba( '+crgb+', 1.0 );'
+        ,'}'
+      ].join(''));
+
+    }
+
+    _css.push( '</style>' );
+    $('head').append( _css.join('') );
+  }
+
+  function make_layers( mapview, config ) 
   {  
     var layer, cfg, k, i = config.length;
 
@@ -211,18 +240,18 @@ var App = function()
     {
       cfg = config[i];
       k = cfg.name;
-      layer = make_layer( cfg, map );
+      layer = make_layer( cfg, mapview );
       layers.views[k] = layer.view;
       layers.models[k] = layer.model;
       layers.models[k].fetch();
     }
   }
 
-  function make_layer( opt, map )
+  function make_layer( opt, mapview )
   {
     var name = opt.name;
 
-    // copy icon.url from view to model
+    // copy ref icon.url from view to model
     ( opt.model.icon || (opt.model.icon = opt.view.icon ) )
     //( opt.model.icon || (opt.model.icon = {
       //url: opt.view.icon.url
@@ -232,9 +261,98 @@ var App = function()
       [opt.model.type]
         .make( name, opt.model );
 
-    var view = layer_factory.view
-      [opt.view.type]
-        .make( name, opt.view, model );
+
+    // views / overlays
+
+    var features_view = new GFeaturesView({
+      name: name
+      ,model: model
+      ,map: mapview.map()
+      ,color: opt.view.color
+      ,visible: opt.view.visible
+      ,icon: opt.view.icon
+    });
+
+    var infowins_view = new GInfowinsView({
+      name: name
+      ,model: model
+      ,map: mapview.map()
+    });
+
+    var clusterer_view = new GClustererView({
+      name: name
+      ,model: model
+      ,map: mapview.map()
+      ,visible: opt.view.visible
+      ,icon: opt.view.icon
+    });
+
+    var canvas_view = new GCanvasLayerView({
+      name: name
+      ,model: model
+      ,map: mapview.map()
+      ,color: opt.view.color
+      ,visible: opt.view.visible
+      ,scale: false
+      ,size: 20
+      //,clusterer: clusterer_view.clusterer
+    });
+
+    //return new GLayerView({
+      //name: name
+      //,model: model
+      //,map: mapview.map()
+      //,color: opt.view.color
+      //,visible: opt.view.visible
+      //,icon: opt.view.icon
+    //}); 
+
+    //var view = layer_factory.view
+      //[ opt.view.overlays[0] ]
+        //.make( name, opt.view, model );
+
+    var overlays = {
+      features: features_view
+      ,clusterer: clusterer_view 
+      ,infowins: infowins_view
+      ,canvas: canvas_view
+    };  
+
+    clusterer_view.listenTo( 
+        features_view,  
+        'added:marker',
+        clusterer_view.marker_added, 
+        clusterer_view );
+
+    infowins_view.listenTo( 
+        features_view,  
+        'select:feature',
+        infowins_view.infowin, 
+        infowins_view );
+
+    infowins_view.on(
+      'select:feature',
+      function( feature )
+      {
+        mapview.focus( feature );
+        add_detalle( feature, mapview );
+      });
+
+    clusterer_view.on( 
+      'update', 
+      function( clusterer )
+      {
+        var latlngs = [];
+        _.each( clusterer.getClusters(),
+          function( cluster )
+          {
+            latlngs.push( cluster.getCenter() );
+          });
+        canvas_view.update_points( latlngs );
+      });
+
+    
+    // ui control
 
     var ctrl = new LayerControlView({
       name: name
@@ -243,32 +361,26 @@ var App = function()
     });
 
     ctrl.on(
-        'change:visibility',
-        function( v )
-        {
-          view.visible( v );
-        }); 
+      'change:visibility',
+      function( v )
+      {
+        var k;
+        for ( k in overlays )
+          overlays[k].visible( v );
+      });
 
-    view.on(
-        'select:feature',
-        function( feature )
-        {
-          map.focus( feature );
-          add_detalle( feature, map );
-        });
 
     return {
       model: model
-      ,view: view
+      ,view: { overlays: overlays }
     };
   }
 
   //TODO 
   //cachear detalle/historias
   //hacer collection y req queue al inicio
-  //add detalle de features
 
-  function add_detalle( feature, map )
+  function add_detalle( feature, mapview )
   {
     if ( cur_detalle_view )
     {
@@ -279,37 +391,62 @@ var App = function()
     ui.$widgets.hide();
 
     var props = feature.get('properties');
-    var id = feature.get('id');
 
-    // detalle feature
+    var det;
 
-    if ( props.type !== 'historias' )
+    if ( props.type === 'historias' )
     {
-      var fview = new FeatureView({
-        feature: feature
-      });
-
-      fview.on('close', function()
-      {
-        fview.off();
-        ui.$widgets.show();
-      });
-
-      $('body').append( fview.render().el );
-
-      cur_detalle_view = fview;
-
-      return;
+      det = make_detalle_historia(
+          feature, mapview );
+    }
+    else
+    {
+      det = make_detalle_feature( feature );
     }
 
-    // detalle historia
+    cur_detalle_view = det.view;
+  }
 
-    var model = new FT.Historia([], {
-      ftid: 
-      '1uIgt8vsouqvnDg3TZUFZe4bkMqC1IiM8R006Muw'
-      ,feature: feature
-      ,layers: layers.models
+  function make_detalle_historia( 
+      feature, mapview )
+  {
+
+    var hid = feature.get('id');
+
+    var ftid = 
+    '1uIgt8vsouqvnDg3TZUFZe4bkMqC1IiM8R006Muw';
+
+    var parser = new FT.LayerParsers
+      .HistoriaDetalle({
+        name: hid
+        ,layers: layers.models
+      });
+
+    var api = new FT.API({
+      sql: [
+        'SELECT '
+        ,parser.db.join(',')
+        ,' FROM '
+        ,ftid
+        ,' WHERE '
+        ,'hid'
+        ,' = '
+        ,'\''+hid+'\''
+      ].join('') 
     });
+
+    var model = new Layer([], {
+      name: hid
+      ,api: api
+      ,parser: parser
+    });
+
+    //var model = new FT.Historia([], {
+    //ftid: 
+    //'1uIgt8vsouqvnDg3TZUFZe4bkMqC1IiM8R006Muw'
+    //,feature: feature
+    //,layers: layers.models
+    //});
 
     var hview = new HistoriaView({
       model: model
@@ -320,24 +457,51 @@ var App = function()
     {
       hview.off();
       ui.$widgets.show();
+      cur_detalle_view = null;
     });
 
     hview.on('select:feature', function(feature)
     {
-      var props = feature.get('properties');
-      layers.views[props.type].infowin(feature);
-      map.focus( feature );
+      mapview.focus( feature );
+      layers.views
+        [ feature.get('properties').type ]
+          .overlays.infowins
+          .infowin( feature );
     });
 
     $('body').append( hview.render().el );
 
     model.fetch();
 
-    cur_detalle_view = hview;
-
+    return {
+      model: model
+      ,view: hview
+    }
   }
 
-  function init_ui( ui, map )
+  function make_detalle_feature( feature )
+  {
+
+    var fview = new FeatureView({
+      feature: feature
+    });
+
+    fview.on('close', function()
+    {
+      fview.off();
+      ui.$widgets.show();
+      cur_detalle_view = null;
+    });
+
+    $('body').append( fview.render().el );
+
+    return {
+      model: null
+      ,view: fview
+    }
+  }
+
+  function init_ui( ui, mapview )
   {
     (ui || (ui = {}))
 
@@ -354,13 +518,48 @@ var App = function()
 
     ui.$origin.click( function(e)
     {
-      map.origin(); 
+      mapview.origin(); 
     });
 
+    //TODO q feo......
+    ui.$enviar_alerta_frame = 
+      $('#enviar-alerta-frame-container');
+    ui.$enviar_alerta_frame.css({
+      'width': '1000px'
+      ,'height': '100%'
+      ,'background-color': 'rgba(0,0,0,0.5)'
+      ,'position': 'absolute' 
+      ,'left': '200px' 
+    });
+    //ui.$enviar_alerta_frame.hide();
+    ui.$enviar_alerta_frame.css(
+        'visibility','hidden');
     ui.$enviar_alerta = $('.enviar-alerta');
+
     ui.$enviar_alerta.click( function(e)
     {
-      window.open('https://quepasariachuelo.crowdmap.com/reports/submit', '_blank');  
+      //window.open('https://quepasariachuelo.crowdmap.com/reports/submit', '_blank');  
+
+      if ( ui.$enviar_alerta_frame
+        .css('visibility') === 'hidden' )
+        //.css('display') === 'none' )
+      {
+        ui.$enviar_alerta_frame.append("<iframe id='enviar-alerta-frame' src='//quepasariachuelo.crowdmap.com/reports/submit' width='1000px' height='100%' frameborder='0' style='border:none; overflow-x:hiden; overflow-y:auto;'></iframe>");
+        //ui.$enviar_alerta_frame.show();
+        ui.$enviar_alerta_frame.css(
+            'visibility','visible');
+        ui.$widgets.hide();
+      }
+
+      else
+      {
+        ui.$enviar_alerta_frame.empty();
+        //ui.$enviar_alerta_frame.hide();
+        ui.$enviar_alerta_frame.css(
+            'visibility','hidden');
+        if ( ! cur_detalle_view )
+          ui.$widgets.show();
+      }
     });
 
     return ui;
@@ -368,31 +567,37 @@ var App = function()
 
   // go! 
 
-  gmap = new GMapView({
+  mapview = new GMapView({
     el: document.getElementById("map")
   }); 
 
   gcuenca = new GCuencaView({
-    map: gmap.map()
+    map: mapview.map()
   });
   gcuenca.render();
 
-  var ui = init_ui( {}, gmap );
+  var ui = init_ui( {}, mapview );
 
   var colores = make_colores();
+  set_layer_controls_colors( colores );
 
-  make_gsubcuencas_layer( gmap );
+  make_gsubcuencas_layer( mapview );
 
-  make_features_layers( gmap, [
+  make_layers( mapview, [
+
     {
       name: 'historias'
       ,model: {
-        type: 'fusiontables'
-        ,ftid: '1ub97omGUE5TmYe_fsFaBRNKo2KysE_QMW8iRreg' 
+        type: 'crowdmap' 
+        ,url: 
+        'https://qprmonitoreo.crowdmap.com'
       }
+      //,model: {
+        //type: 'fusiontables'
+        //,ftid: '1ub97omGUE5TmYe_fsFaBRNKo2KysE_QMW8iRreg' 
+      //}
       ,view: {
-        type: 'gfeatureslayer'
-        ,icon: {
+        icon: {
           url: 'images/markers/historia.png'
           ,height: 48
         }
@@ -408,8 +613,7 @@ var App = function()
         ,ftid: '1iCgpDNL1LWwqnLvGyizaxlBol0jz2DH_lpR2ajw' 
       }
       ,view: {
-        type: 'gfeatureslayer'
-        ,icon: {
+        icon: {
           url: 'images/markers/industria.png'
         }
         ,color: colores.industrias
@@ -423,8 +627,7 @@ var App = function()
         ,ftid: '1hffu-50r0VQKUh7GKpEShnqOzE9yic_NaD8ZQzE' 
       }
       ,view: {
-        type: 'gfeatureslayer'
-        ,icon: {
+        icon: {
           url: 'images/markers/basural.png'
         }
         ,color: colores.basurales
@@ -438,8 +641,7 @@ var App = function()
         ,ftid: '1-c4LH4aZ0U38z3EAj529xEgayza6C8zOdaqzJJA' 
       }
       ,view: {
-        type: 'gfeatureslayer'
-        ,icon: {
+        icon: {
           url: 'images/markers/ecopunto.png'
         }
         ,color: colores.ecopuntos
@@ -453,8 +655,7 @@ var App = function()
         ,ftid: '1_fEVSZmIaCJzDQoOgTY7pIcjBLng1MFOoeeTtYY' 
       }
       ,view: {
-        type: 'gfeatureslayer'
-        ,icon: {
+        icon: {
           url: 'images/markers/asentamiento.png'
         }
         ,color: colores.asentamientos
@@ -469,8 +670,7 @@ var App = function()
         'https://quepasariachuelo.crowdmap.com'
       }
       ,view: {
-        type: 'gfeatureslayer'
-        ,icon: {
+        icon: {
           url: 'images/markers/alerta.png'
         }
         ,color: colores.alertas
@@ -485,8 +685,7 @@ var App = function()
         'https://qprmonitoreo.crowdmap.com'
       }
       ,view: {
-        type: 'gfeatureslayer'
-        ,icon: {
+        icon: {
           url: 'images/markers/noticia.png'
         }
         ,color: colores.noticias
@@ -496,7 +695,7 @@ var App = function()
   ]); 
 
 
-  function make_gsubcuencas_layer( gmap ) 
+  function make_gsubcuencas_layer( mapview ) 
   {
     var name = 'subcuencas';
 
@@ -530,8 +729,10 @@ var App = function()
         'change:visibility',
         function( v )
         {
-          if ( v ) layer.setMap( gmap.map() );
-          else layer.setMap( null );
+          if ( v ) 
+            layer.setMap( mapview.map() );
+          else 
+            layer.setMap( null );
         });
   }
 
