@@ -19,6 +19,7 @@ define( [
     ,'views/gmaps/gmap_view'
     ,'views/gmaps/gcuenca_view'
     ,'views/ui/LayerControlView'
+    ,'views/ui/LayerColors'
     ,'views/detalles/HistoriaView'
     ,'views/detalles/FeatureView'
     //templates
@@ -41,8 +42,12 @@ function(
   GCanvasLayerView, 
 
   GMapView, GCuencaView,
+
   LayerControlView, 
-  HistoriaView, FeatureView,
+  LayerColors,
+
+  HistoriaView, 
+  FeatureView,
 
   tpl_layer_controls, tpl_widgets
   ) 
@@ -265,94 +270,6 @@ var App = function( config )
 
     return _overlays;
 
-  }
-
-  function make_colores()
-  {
-
-    // mapa layer:hex
-
-    var colores = {
-      historias: 
-        chroma.color( 240, 140, 0 ).hex()
-    };
-
-    // escala
-
-    var carr = [
-
-      //'historias'
-      'acciones'
-      ,'respuestas'
-      ,'alertas'
-      ,'noticias'
-      ,'documentos'
-      ,'normativas'
-
-      ,'industrias'
-      ,'basurales'
-      ,'ecopuntos'
-      ,'asentamientos'
-      ,'subcuencas'
-    ];
-
-    //chroma.brewer.RdYlBu
-    var cscale = chroma
-      .scale('RdYlBu')
-      //.scale('Set1')
-      //.scale('Accent')
-      //.scale('Dark2')
-      .domain([ 0, carr.length-1 ]); 
-
-    for ( var c = 0; c < carr.length; c++ )
-    {
-      colores[ carr[c] ] = cscale(c).hex();
-    } 
-
-    return colores;
-  }
-
-  function set_layer_controls_colors( colores )
-  {
-    var _css = [ '<style type="text/css">' ];
-
-    for ( var k in colores )
-    {
-      //var crgb = cscale(c).rgb().join(); 
-      var crgb = chroma
-        .color( colores[k] ).rgb().join();
-
-      var sel = '.layer.'+k;
-
-      _css.push( [
-        sel
-        ,'{'
-        ,'background-color:'
-        ,'rgba( '+crgb+', 0.8 );'
-        ,'}'
-      ].join(''));
-
-      _css.push( [
-        sel+':hover'
-        ,'{'
-        ,'background-color:'
-        ,'rgba( '+crgb+', 0.6 );'
-        ,'}'
-      ].join(''));
-
-      _css.push( [
-        sel+'.visible'
-        ,'{'
-        ,'font-weight: bold;'
-        ,'background-color:'
-        ,'rgba( '+crgb+', 1.0 );'
-        ,'}'
-      ].join(''));
-
-    }
-
-    _css.push( '</style>' );
-    $('head').append( _css.join('') );
   }
 
   function make_layers( mapview, config ) 
@@ -619,9 +536,8 @@ var App = function( config )
 
   var ui = init_ui( {}, mapview );
 
-  //var colores = make_colores();
-  var colores = config.colores;
-  set_layer_controls_colors( colores );
+  var colores = new LayerColors();
+  colores.add_css();
 
   make_gsubcuencas_layer( mapview );
 
@@ -643,7 +559,7 @@ var App = function( config )
           url: 'images/markers/historia.png'
           ,height: 48
         }
-        ,color: colores.historias
+        ,color: colores.get('historias')
         ,visible: true
       }
     }
@@ -658,7 +574,7 @@ var App = function( config )
         icon: {
           url: 'images/markers/industria.png'
         }
-        ,color: colores.industrias
+        ,color: colores.get('industrias')
         ,overlays: ['canvas_markers']
       }
     }
@@ -673,7 +589,7 @@ var App = function( config )
         icon: {
           url: 'images/markers/basural.png'
         }
-        ,color: colores.basurales
+        ,color: colores.get('basurales')
       }
     }
 
@@ -687,7 +603,7 @@ var App = function( config )
         icon: {
           url: 'images/markers/ecopunto.png'
         }
-        ,color: colores.ecopuntos
+        ,color: colores.get('ecopuntos')
       }
     }
 
@@ -701,7 +617,7 @@ var App = function( config )
         icon: {
           url: 'images/markers/asentamiento.png'
         }
-        ,color: colores.asentamientos
+        ,color: colores.get('asentamientos')
       }
     }
 
@@ -716,7 +632,7 @@ var App = function( config )
         icon: {
           url: 'images/markers/alerta.png'
         }
-        ,color: colores.alertas
+        ,color: colores.get('alertas')
       }
     }
 
@@ -731,7 +647,7 @@ var App = function( config )
         icon: {
           url: 'images/markers/noticia.png'
         }
-        ,color: colores.noticias
+        ,color: colores.get('noticias')
       }
     }
 

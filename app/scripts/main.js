@@ -81,7 +81,7 @@ require( [
     ,'app'
     //,'d3'
     ,'parseuri'
-    ,'chroma'
+    //,'chroma'
     //,'markerclusterer'
     //,'canvaslayer'
     //,'tipsy'
@@ -90,9 +90,13 @@ require( [
 
 function( $, App ) 
 {
-  $.getJSON( 'config.json', 
-    function( config ) {
-      new App( config );
-    });
+
+  new App();
+
+  //$.getJSON( 'config.json', 
+    //function( config ) {
+      //new App( config );
+    //});
+
 });
 

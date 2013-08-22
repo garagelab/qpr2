@@ -14,83 +14,18 @@
 
 .layers .grupo 
 {
-  margin: 5px 10px; 
+  margin: 5px 10px 20px 10px; 
 }
 
 .layers .layer.enviar-alerta
 {
-  background-color: rgba(200, 0, 0, 0.8);
+  color: lightgray;
+  background-color: rgba(0, 0, 0, 0.8);
 }
 .layers .layer.enviar-alerta:hover
 {
-  background-color: rgba(200, 0, 0, 1.0);
+  background-color: rgba(0, 0, 0, 1.0);
 }
-
-//.layers .layer.historias
-//{
-  //background-color: rgba(240, 140, 0, 0.6);
-//}
-//.layers .layer.historias:hover
-//{
-  //background-color: rgba(240, 140, 0, 0.8);
-//}
-//.layers .layer.historias.visible
-//{
-  //background-color: rgba(240, 140, 0, 1.0);
-//}
-
-//.layers .layer.alertas
-//,.layers .layer.acciones
-//,.layers .layer.respuestas
-//,.layers .layer.noticias
-//,.layers .layer.documentos
-//,.layers .layer.normativas
-//{
-  //background-color: rgba(255, 200, 0, 0.6);
-//}
-//.layers .layer.alertas:hover
-//,.layers .layer.acciones:hover
-//,.layers .layer.respuestas:hover
-//,.layers .layer.noticias:hover
-//,.layers .layer.documentos:hover
-//,.layers .layer.normativas:hover
-//{
-  //background-color: rgba(255, 200, 0, 0.8);
-//}
-//.layers .layer.alertas.visible
-//,.layers .layer.acciones.visible
-//,.layers .layer.respuestas.visible
-//,.layers .layer.noticias.visible
-//,.layers .layer.documentos.visible
-//,.layers .layer.normativas.visible
-//{
-  //background-color: rgba(255, 200, 0, 1.0);
-//}
-
-//.layers .layer.industrias
-//,.layers .layer.basurales
-//,.layers .layer.ecopuntos
-//,.layers .layer.asentamientos
-//,.layers .layer.subcuencas
-//{
-  //background-color: rgba(240, 140, 0, 0.6);
-//}
-//.layers .layer.industrias:hover
-//,.layers .layer.basurales:hover
-//,.layers .layer.ecopuntos:hover
-//,.layers .layer.asentamientos:hover
-//,.layers .layer.subcuencas:hover
-//{
-  //background-color: rgba(240, 140, 0, 0.8);
-//}
-//.layers .layer.industrias.visible
-//,.layers .layer.basurales.visible
-//,.layers .layer.ecopuntos.visible
-//,.layers .layer.asentamientos.visible
-//,.layers .layer.subcuencas.visible
-//{
-  //background-color: rgba(240, 140, 0, 1.0);
-//}
 
 .layers .layer {
   margin: 1px 0px; 
@@ -106,6 +41,7 @@
   height: 30px;
   line-height: 30px;
   font-weight: bold;
+  //margin: 4px 0px;
 }
 
 .layers .layer img 

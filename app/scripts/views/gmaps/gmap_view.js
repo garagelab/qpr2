@@ -107,11 +107,11 @@ var GMapView = function( opt )
     var geom = feature.get('geometry');
 
     var coord = new google.maps.LatLng(
-        geom.coordinates[0] - 0.007
-        ,geom.coordinates[1] + 0.007 );
+        geom.coordinates[0] - 0.03
+        ,geom.coordinates[1] + 0.03 );
 
     _map.setCenter( coord );
-    _map.setZoom( 15 );
+    _map.setZoom( 13 );
   };
 
 }

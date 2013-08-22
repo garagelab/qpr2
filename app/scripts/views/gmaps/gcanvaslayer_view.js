@@ -19,7 +19,7 @@ var GCanvasLayerView = Backbone.View.extend({
 
     _.defaults( opt, {
       scale: true
-      ,size: 0.001
+      ,size: 0.0005
     });
 
     this.name = opt.name;
