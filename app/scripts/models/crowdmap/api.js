@@ -18,11 +18,14 @@ var Crowdmap_API = function( opt )
 Crowdmap_API.prototype.read = 
 function( model, success, error )
 {
-  $.ajax({
-    url: this.url(),
-    dataType: 'jsonp',
-    success: success
-  });
+
+  Architect.jsonp( this.url(), success );
+
+  //$.ajax({
+    //url: this.url(),
+    //dataType: 'jsonp',
+    //success: success
+  //});
 };
 
 Crowdmap_API.prototype.url = function()
@@ -36,7 +39,7 @@ Crowdmap_API.prototype.url = function()
     ,'/api?'
     ,$.param( query )
     ,'&resp=jsonp'
-    ,'&callback=?'
+    //,'&callback=?'
   ]
   .join('');
 

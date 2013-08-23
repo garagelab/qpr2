@@ -12,6 +12,8 @@ function( $, _, Backbone, Feature )
 
 function Noticias( opt ) 
 {
+  _.extend( this, Backbone.Events );
+
   this.opt = opt;
 
   this.db = {
@@ -22,7 +24,7 @@ function Noticias( opt )
 }
 
 Noticias.prototype.parse =
-function( layer, data, sync_opt )
+function( data, sync_opt )
 {
   var opt = this.opt;
 
@@ -51,7 +53,7 @@ function( layer, data, sync_opt )
         r.incidentdate.replace(' ','T') )
       .toISOString();
 
-    layer.add( new Feature({ 
+    this.trigger('add:feature', new Feature({ 
       id: r.incidentid
       ,properties: {
         type: opt.name

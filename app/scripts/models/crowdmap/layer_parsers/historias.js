@@ -12,6 +12,8 @@ function( $, _, Backbone, Feature )
 
 function Historias( opt ) 
 {
+  _.extend( this, Backbone.Events );
+
   this.opt = opt;
 
   this.db = {
@@ -22,7 +24,7 @@ function Historias( opt )
 }
 
 Historias.prototype.parse =
-function( layer, data, sync_opt )
+function( data, sync_opt )
 {
   var opt = this.opt;
 
@@ -61,7 +63,7 @@ function( layer, data, sync_opt )
         r.incidentdate.replace(' ','T') )
       .toISOString();
 
-    layer.add( new Feature({ 
+    this.trigger('add:feature', new Feature({ 
       //id: r.incidentid
       //las historias tienen hid = titulo
       //para filtrar en el FT/links x hid

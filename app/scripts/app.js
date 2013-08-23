@@ -20,36 +20,40 @@ define( [
     ,'views/gmaps/gcuenca_view'
     ,'views/ui/LayerControlView'
     ,'views/ui/LayerColors'
-    ,'views/detalles/HistoriaView'
-    ,'views/detalles/FeatureView'
+    //controllers
+    ,'controllers/HistoriaDetalleCtrler'
+    ,'controllers/FeatureDetalleCtrler'
     //templates
     ,'text!tpl/ui/layer_controls.html'
     ,'text!tpl/ui/widgets.html'
     ], 
 
 function( 
-  $, _, Backbone, 
+  $, _, Backbone
 
-  Layer,
-  FT, Crowdmap, 
+  ,Layer
+  ,FT
+  ,Crowdmap
 
-  //GLayerView, 
-  //GFeaturesView, 
-  GMarkersView, 
-  GPolygonsView, 
-  GInfowinsView, 
-  GClustererView, 
-  GCanvasLayerView, 
+  //,GLayerView
+  //,GFeaturesView
+  ,GMarkersView
+  ,GPolygonsView 
+  ,GInfowinsView 
+  ,GClustererView 
+  ,GCanvasLayerView 
 
-  GMapView, GCuencaView,
+  ,GMapView
+  ,GCuencaView
 
-  LayerControlView, 
-  LayerColors,
+  ,LayerControlView 
+  ,LayerColors
 
-  HistoriaView, 
-  FeatureView,
+  ,HistoriaDetalleCtrler
+  ,FeatureDetalleCtrler
 
-  tpl_layer_controls, tpl_widgets
+  ,tpl_layer_controls
+  ,tpl_widgets
   ) 
 {
 
@@ -57,9 +61,7 @@ function(
 
 var App = function( config ) 
 { 
-  //TODO remove this hack for testing
-
-  var hash = parseUri(location.href).anchorKey;
+  //var hash = parseUri(location.href).anchorKey;
 
   var Router = Backbone.Router.extend({
 
@@ -78,13 +80,10 @@ var App = function( config )
   Backbone.history.start(); 
 
 
-  var layers = {
-    models: {}
-    ,views: {}
-  };
+  var layers = {};
 
   var mapview, gcuenca;
-  var cur_detalle_view;
+  var cur_detalle;
  
   var layer_factory = 
   {
@@ -158,7 +157,9 @@ var App = function( config )
   function( name, opt, model )
   { 
 
-    var _overlays = {
+    var ol = {
+
+    // default overlays
 
     markers: new GMarkersView({
       name: name
@@ -198,14 +199,14 @@ var App = function( config )
       ,color: opt.color
       ,visible: opt.visible
       ,scale: false
-      ,size: 20
+      ,size: opt.icon.background_size || 26
 
-      //feed list of latlng to canvas
+      //feed canvas with list of latlng points
       ,points: function()
       {
         var latlngs = [];
         _.each( 
-          _overlays.clusterer.clusters()
+          ol.clusterer.clusters()
           ,function( cluster )
           {
             latlngs.push( cluster.getCenter() );
@@ -214,47 +215,24 @@ var App = function( config )
       }
     }) 
 
-    }; //end of _overlays
+    }; //end of default overlays
 
-    // optional
-    if ( opt.overlays && opt.overlays
-        .indexOf( 'canvas_markers' ) > -1 )
-    {
 
-      _overlays.canvas_markers =
-        new GCanvasLayerView({
-          name: name
-          ,model: model
-          ,map: mapview.map()
-          ,color: opt.color
-          ,visible: opt.visible
-          ,points: function()
-          {
-            var latlngs = [];
-            _.each( _overlays.markers.markers()
-              ,function( m )
-              {
-                latlngs.push( m.getPosition() );
-              });
-            return latlngs;
-          }
-        });
+    // wire default overlays
 
-    }
-
-    _overlays.clusterer.listenTo( 
-        _overlays.markers,  
+    ol.clusterer.listenTo( 
+        ol.markers,  
         'added:marker',
-        _overlays.clusterer.marker_added, 
-        _overlays.clusterer );
+        ol.clusterer.marker_added, 
+        ol.clusterer );
 
-    _overlays.infowins.listenTo( 
-        _overlays.markers,  
+    ol.infowins.listenTo( 
+        ol.markers,  
         'select:feature',
-        _overlays.infowins.infowin, 
-        _overlays.infowins );
+        ol.infowins.infowin, 
+        ol.infowins );
 
-    _overlays.infowins.on(
+    ol.infowins.on(
       'select:feature',
       function( feature )
       {
@@ -262,13 +240,47 @@ var App = function( config )
         add_detalle( feature, mapview );
       });
 
-    _overlays.canvas_icons.listenTo( 
-      _overlays.clusterer,
+    ol.canvas_icons.listenTo( 
+      ol.clusterer,
       'update', 
-      _overlays.canvas_icons.render,
-      _overlays.canvas_icons );
+      ol.canvas_icons.render,
+      ol.canvas_icons );
 
-    return _overlays;
+
+    // optional overlays
+
+    if ( opt.overlays && opt.overlays
+        .indexOf( 'canvas_points' ) > -1 )
+    {
+
+      ol.canvas_points =
+        new GCanvasLayerView({
+          name: name
+          ,model: model
+          ,map: mapview.map()
+          ,color: opt.color
+          ,visible: opt.visible
+          //,points: function()
+          //{
+            //var latlngs = [];
+            //_.each( 
+              //ol.markers.markers()
+              //,function( m )
+              //{
+                //latlngs.push(m.getPosition());
+              //});
+            //return latlngs;
+          //}
+        });
+
+      ol.canvas_points.listenTo( 
+        model, 'add', 
+        ol.canvas_points.feature_added,
+        ol.canvas_points );
+
+    } 
+
+    return ol;
 
   }
 
@@ -281,9 +293,8 @@ var App = function( config )
       cfg = config[i];
       k = cfg.name;
       layer = make_layer( cfg, mapview );
-      layers.views[k] = layer.view;
-      layers.models[k] = layer.model;
-      layers.models[k].fetch();
+      layers[k] = layer;
+      layer.model.fetch();
     }
   }
 
@@ -303,13 +314,8 @@ var App = function( config )
 
     var overlays = layer_factory.overlays
       .make( name, opt.view, model );
-    //for ( var k in opt.view.overlays )
-    //{
-      //overlays[ k ] = layer_factory.overlays
-        //[ opt.view.overlays[ k ] ]
-          //.make( name, opt.view, model );
-    //}
     
+
     // ui control
 
     var ctrl = new LayerControlView({
@@ -325,138 +331,124 @@ var App = function( config )
         var k;
         for ( k in overlays )
           overlays[k].visible( v );
+
+        update_clusters_size( layers, mapview );
+
       });
 
 
     return {
       model: model
-      ,view: { overlays: overlays }
+      ,view: { 
+        overlays: overlays 
+      }
     };
   }
 
-  //TODO 
-  //cachear detalle/historias
-  //hacer collection y req queue al inicio
+  function update_clusters_size( 
+      layers, mapview )
+  {
+
+    var visible_layers = 0;
+    var cant_layers = 0;
+    var i, j, overlays;
+
+    for ( i in layers )
+    {
+      overlays = layers[i].view.overlays;
+      for ( j in overlays )
+      {
+        if ( overlays[j].is_visible() )
+          visible_layers++;
+        break;
+      }
+      cant_layers++;
+    }
+
+    //var max_size = lerp2d( 
+        //mapview.zoom(), 9, 20, 140, 220 );
+
+    for ( i in layers )
+    {
+      layers[i].view.overlays.clusterer.size(
+        lerp2d( visible_layers, 
+          0, cant_layers, 
+          40, 150 )
+        );
+    }
+  } 
+
+  function close_all_infowins()
+  {}
 
   function add_detalle( feature, mapview )
   {
-    if ( cur_detalle_view )
+    if ( cur_detalle )
     {
-      cur_detalle_view.close();
-      cur_detalle_view = null;
+      cur_detalle.close();
+      cur_detalle = null;
     }
-
-    ui.$widgets.hide();
 
     var props = feature.get('properties');
 
-    var det;
+    var DetalleCtrler = 
+      props.type === 'historias'
+      ? HistoriaDetalleCtrler
+      : FeatureDetalleCtrler;
 
-    if ( props.type === 'historias' )
-    {
-      det = make_detalle_historia(
-          feature, mapview );
-    }
-    else
-    {
-      det = make_detalle_feature( feature );
-    }
+    cur_detalle = new DetalleCtrler(
+        layers, feature, mapview );
 
-    cur_detalle_view = det.view;
+    cur_detalle.on( 'close', function()
+    {
+      cur_detalle.off();
+      cur_detalle = null;
+      ui.$widgets.show();
+    });
+
+    ui.$widgets.hide();
+
   }
 
-  function make_detalle_historia( 
-      feature, mapview )
+  //TODO hacer un layer de verdad de subcuencas
+  function make_gsubcuencas_layer( mapview ) 
   {
+    var name = 'subcuencas';
 
-    var hid = feature.get('id');
+    var layer = 
+      new google.maps.FusionTablesLayer({
 
-    var ftid = 
-    '1uIgt8vsouqvnDg3TZUFZe4bkMqC1IiM8R006Muw';
+      query: {
+        select: 'geometry'
+        ,from: '1BSNFzXOaGd6wog43nNkZRqBdJ_ai-SkCkB2R2qs'
+      }
 
-    var parser = new FT.LayerParsers
-      .HistoriaDetalle({
-        name: hid
-        ,layers: layers.models
+      ,styles: [{
+        polygonOptions: {
+          fillColor: '#ffffff'
+          ,fillOpacity: 0.01
+          ,strokeColor: "#000000"
+          ,strokeOpacity: 0.3
+          ,strokeWeight: 1    
+        }
+      }]
+    });
+
+    var ctrl = new LayerControlView({
+      name: name
+      ,el: '.layer-controls .layer.'+name
+      ,visible: false
+    });
+
+    ctrl.on(
+      'change:visibility',
+      function( v )
+      {
+        if ( v ) 
+          layer.setMap( mapview.map() );
+        else 
+          layer.setMap( null );
       });
-
-    var api = new FT.API({
-      sql: [
-        'SELECT '
-        ,parser.db.join(',')
-        ,' FROM '
-        ,ftid
-        ,' WHERE '
-        ,'hid'
-        ,' = '
-        ,'\''+hid+'\''
-      ].join('') 
-    });
-
-    var model = new Layer([], {
-      name: hid
-      ,api: api
-      ,parser: parser
-    });
-
-    //var model = new FT.Historia([], {
-    //ftid: 
-    //'1uIgt8vsouqvnDg3TZUFZe4bkMqC1IiM8R006Muw'
-    //,feature: feature
-    //,layers: layers.models
-    //});
-
-    var hview = new HistoriaView({
-      model: model
-      ,feature: feature
-    }); 
-
-    hview.on('close', function()
-    {
-      hview.off();
-      ui.$widgets.show();
-      cur_detalle_view = null;
-    });
-
-    hview.on('select:feature', function(feature)
-    {
-      mapview.focus( feature );
-      layers.views
-        [ feature.get('properties').type ]
-          .overlays.infowins
-          .infowin( feature );
-    });
-
-    $('body').append( hview.render().el );
-
-    model.fetch();
-
-    return {
-      model: model
-      ,view: hview
-    }
-  }
-
-  function make_detalle_feature( feature )
-  {
-
-    var fview = new FeatureView({
-      feature: feature
-    });
-
-    fview.on('close', function()
-    {
-      fview.off();
-      ui.$widgets.show();
-      cur_detalle_view = null;
-    });
-
-    $('body').append( fview.render().el );
-
-    return {
-      model: null
-      ,view: fview
-    }
   }
 
   function init_ui( ui, mapview )
@@ -515,7 +507,7 @@ var App = function( config )
         //ui.$enviar_alerta_frame.hide();
         ui.$enviar_alerta_frame.css(
             'visibility','hidden');
-        if ( ! cur_detalle_view )
+        if ( ! cur_detalle )
           ui.$widgets.show();
       }
     });
@@ -523,7 +515,9 @@ var App = function( config )
     return ui;
   }
 
+  
   // go! 
+
 
   mapview = new GMapView({
     el: document.getElementById("map")
@@ -539,9 +533,7 @@ var App = function( config )
   var colores = new LayerColors();
   colores.add_css();
 
-  make_gsubcuencas_layer( mapview );
-
-  make_layers( mapview, [
+  var layers_config = [
 
     {
       name: 'historias'
@@ -558,6 +550,7 @@ var App = function( config )
         icon: {
           url: 'images/markers/historia.png'
           ,height: 48
+          ,background_size: 30
         }
         ,color: colores.get('historias')
         ,visible: true
@@ -575,7 +568,8 @@ var App = function( config )
           url: 'images/markers/industria.png'
         }
         ,color: colores.get('industrias')
-        ,overlays: ['canvas_markers']
+        ,overlays: ['canvas_points']
+        ,visible: true
       }
     }
 
@@ -590,6 +584,7 @@ var App = function( config )
           url: 'images/markers/basural.png'
         }
         ,color: colores.get('basurales')
+        ,visible: true
       }
     }
 
@@ -604,6 +599,7 @@ var App = function( config )
           url: 'images/markers/ecopunto.png'
         }
         ,color: colores.get('ecopuntos')
+        ,visible: true
       }
     }
 
@@ -618,6 +614,7 @@ var App = function( config )
           url: 'images/markers/asentamiento.png'
         }
         ,color: colores.get('asentamientos')
+        ,visible: true
       }
     }
 
@@ -633,6 +630,7 @@ var App = function( config )
           url: 'images/markers/alerta.png'
         }
         ,color: colores.get('alertas')
+        ,visible: true
       }
     }
 
@@ -648,53 +646,24 @@ var App = function( config )
           url: 'images/markers/noticia.png'
         }
         ,color: colores.get('noticias')
+        ,visible: true
       }
     }
 
-  ]); 
+  ]; //end of layers_config
 
 
-  function make_gsubcuencas_layer( mapview ) 
-  {
-    var name = 'subcuencas';
+  make_gsubcuencas_layer( mapview );
 
-    var layer = 
-      new google.maps.FusionTablesLayer({
+  make_layers( mapview, layers_config );   
 
-      query: {
-        select: 'geometry'
-        ,from: '1BSNFzXOaGd6wog43nNkZRqBdJ_ai-SkCkB2R2qs'
-      }
+  update_clusters_size( layers, mapview );
 
-      ,styles: [{
-        polygonOptions: {
-          fillColor: '#ffffff'
-          ,fillOpacity: 0.01
-          //,strokeColor: "#aaaaaa"
-          ,strokeColor: "#000000"
-          ,strokeOpacity: 0.3
-          ,strokeWeight: 1    
-        }
-      }]
-    });
+}
 
-    var ctrl = new LayerControlView({
-      name: name
-      ,el: '.layer-controls .layer.'+name
-      ,visible: false
-    });
-
-    ctrl.on(
-        'change:visibility',
-        function( v )
-        {
-          if ( v ) 
-            layer.setMap( mapview.map() );
-          else 
-            layer.setMap( null );
-        });
-  }
-
+function lerp2d( x, x1, x2, y1, y2 )
+{
+  return (x-x1) / (x2-x1) * (y2-y1) + y1;
 }
 
 return App;

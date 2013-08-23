@@ -90,6 +90,13 @@
   right: -2px;
 }
 
+.layers .layer.documentos img 
+,.layers .layer.normativas img 
+{
+  height: 22px;
+  right: 2px;
+}
+
 /*.layers .separador {*/
   /*margin: 6px 10px;*/
   /*border: 1px solid gray; */
@@ -108,5 +115,24 @@
   font-size: 1em;
   width: 100%;
   /*margin: 10px;*/
+}
+
+.icon.goto-origin
+{
+  position: absolute;
+  top: 0px;
+  left: $sidebar_l_w + 110px;
+  //padding: .5em .5em; 
+  padding: 1.5px 4px; 
+  margin: 5px;
+
+  background-color: white;
+  border: 1px solid #aaa;
+  cursor: pointer;
+  box-shadow: -1px 1px 2px #bbbbbb;
+}
+.icon.goto-origin:hover
+{
+  background-color: #eee;
 }
 

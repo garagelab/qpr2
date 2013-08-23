@@ -37,6 +37,10 @@ require.config({
       //exports: 'CanvasLayer'
     //}
 
+    ,architect: {
+      exports: 'Architect'
+    }
+
     ,tipsy: {
       deps: [ 'jquery' ]
     }
@@ -66,6 +70,7 @@ require.config({
     ,parseuri: '../lib/parseuri'
     ,chroma: '../lib/chroma.min'
     ,canvaslayer: '../lib/CanvasLayer'
+    ,architect: '../lib/architect/architect.min'
 
     ,'eventEmitter/EventEmitter': '../lib/eventemitter'
     ,'eventie/eventie': '../lib/eventie'
@@ -77,19 +82,16 @@ require.config({
 });
 
 require( [ 
-    'jquery'
-    ,'app'
-    //,'d3'
-    ,'parseuri'
-    //,'chroma'
-    //,'markerclusterer'
-    //,'canvaslayer'
+    'app'
+    ,'architect'
+    //,'qtip2'
     //,'tipsy'
-    ,'qtip2'
     ], 
 
-function( $, App ) 
+function( App, Architect ) 
 {
+
+  Architect.setupWorkersPath('lib/architect');
 
   new App();
 

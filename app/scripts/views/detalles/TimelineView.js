@@ -4,6 +4,7 @@ define( [
   ,'backbone'
   ,'d3'
   ,'text!tpl/detalles/timeline.html'
+  ,'qtip2'
   ], 
 
 function( $, _, Backbone, d3, tpl ) 
@@ -218,10 +219,19 @@ var TimelineView = Backbone.View.extend({
         $(this).qtip({
 
           position: { 
-            my: 'bottom right' 
-            ,target: 'mouse'
+            my: 'bottom right'
+            ,adjust: { 
+              x: -props.icon.width
+              ,y: -props.icon.height
+            }
+            //,target: 'mouse'
           }
-          ,style: { classes: 'qtip-tipsy' }
+          ,style: { 
+            classes: 'qtip-tipsy' 
+            //,tip: {
+              //corner: true
+            //}
+          }
 
           ,content: {
             title: date,

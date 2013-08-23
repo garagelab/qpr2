@@ -12,6 +12,8 @@ function( $, _, Backbone, Feature )
 
 function HistoriaDetalle( opt ) 
 {
+  _.extend( this, Backbone.Events );
+
   this.opt = opt;
 
   this.db = [
@@ -25,7 +27,7 @@ function HistoriaDetalle( opt )
 }
 
 HistoriaDetalle.prototype.parse =
-function( _layer, data, sync_opt )
+function( data, sync_opt )
 {
   //console.log( 'historia parse', data );
 
@@ -72,7 +74,7 @@ function( _layer, data, sync_opt )
     if ( ! link_model )
       continue;
 
-    _layer.add( link_model );
+    this.trigger( 'add:feature', link_model ); 
   }
 };
 

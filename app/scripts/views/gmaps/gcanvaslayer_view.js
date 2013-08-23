@@ -19,7 +19,7 @@ var GCanvasLayerView = Backbone.View.extend({
 
     _.defaults( opt, {
       scale: true
-      ,size: 0.0005
+      ,size: 0.0008
     });
 
     this.name = opt.name;
@@ -28,7 +28,7 @@ var GCanvasLayerView = Backbone.View.extend({
     //this.listenTo( this.model,
       //'add', this.feature_added, this );
 
-    //this._latlngs = [];
+    this._latlngs = [];
 
     this.canvas_layer = new CanvasLayer({
       map: opt.map
@@ -93,7 +93,13 @@ var GCanvasLayerView = Backbone.View.extend({
 
     var pt_world;
 
-    _.each( opt.points(), function( pt_latlng )
+    // dejar que los puntos sean inyectados
+    // desde afuera con opt.points()
+    var pts = _.isFunction( opt.points )
+      ? opt.points()
+      : this._latlngs;
+
+    _.each( pts, function( pt_latlng )
     {
 
       // project LatLng 
@@ -150,22 +156,21 @@ var GCanvasLayerView = Backbone.View.extend({
     this._visible = false;
   }
 
-  //,feature_added: function( feature ) 
-  //{
-    //if (feature.get('geometry')
-          //.type === 'Point')
-    //{
-      //var coordarr = feature
-        //.get('geometry')
-        //.coordinates;
+  ,feature_added: function( feature ) 
+  {
+    if (feature.get('geometry')
+          .type === 'Point')
+    {
+      var coordarr = feature
+        .get('geometry')
+        .coordinates;
 
-      //this._latlngs.push( 
-          //new google.maps.LatLng(
-            //coordarr[0], coordarr[1] ) );
+      this._latlngs.push( 
+          new google.maps.LatLng(
+            coordarr[0], coordarr[1] ) );
 
-      //this.render();
-    //}
-  //}
+    }
+  }
 
 });
 

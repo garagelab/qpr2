@@ -44,7 +44,7 @@ var GClustererView = Backbone.View.extend({
       opt.map, [], 
       {
         maxZoom: 14,
-        gridSize: 80, 
+        gridSize: 140, //80, 
         styles: cluster_style
       });
 
@@ -122,6 +122,11 @@ var GClustererView = Backbone.View.extend({
   ,clusters: function() 
   {
     return this._clusterer.getClusters();
+  }
+
+  ,size: function( n )
+  {
+    this._clusterer.setGridSize( n );
   }
 
 });

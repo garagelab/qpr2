@@ -1,7 +1,7 @@
 define( [ 
     //'models/ft/layer'
+    //,'models/ft/historia'
     'models/ft/api'
-    ,'models/ft/historia'
     ,'models/ft/layer_parsers/historias'
     ,'models/ft/layer_parsers/industrias'
     ,'models/ft/layer_parsers/basurales'
@@ -12,8 +12,8 @@ define( [
 
 function( 
   //Layer
+  //,Historia 
   API
-  ,Historia 
   ,LParserHistorias
   ,LParserIndustrias
   ,LParserBasurales 
@@ -27,8 +27,8 @@ function(
 
 return {
   //Layer: Layer
+  //,Historia: Historia 
   API: API
-  ,Historia: Historia 
   ,LayerParsers: {
     Historias: LParserHistorias
     ,Industrias: LParserIndustrias

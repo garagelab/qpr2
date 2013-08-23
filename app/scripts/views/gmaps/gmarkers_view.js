@@ -105,8 +105,24 @@ var GMarkersView = Backbone.View.extend({
     //console.log('gfeatures view add marker'
         //,this.name, feature );
 
-    var self = this;
+    var self = this; 
 
+    var marker = this.make_marker( feature );
+
+    google.maps.event.addListener( 
+      marker, 'click',
+      function( e ) {
+        //self.infowin( feature );
+        self.trigger('select:feature', feature);
+      }); 
+
+    this._markers.push( marker );
+
+    return marker;
+  }
+
+  ,make_marker: function( feature )
+  {
     var opt = this.options;
     var id = feature.get('id');
     var props = feature.get('properties'); 
@@ -128,22 +144,11 @@ var GMarkersView = Backbone.View.extend({
         icon.anchor.y + icon.height/2 );
         //icon.anchor.x, icon.anchor.y );
 
-    var marker = new google.maps.Marker({
+    return new google.maps.Marker({
       //map: opt.map,
       position: coord,
       icon: icon
     });
-
-    google.maps.event.addListener( 
-      marker, 'click',
-      function( e ) {
-        //self.infowin( feature );
-        self.trigger('select:feature', feature);
-      }); 
-
-    this._markers.push( marker );
-
-    return marker;
   }
 
   ,markers: function()

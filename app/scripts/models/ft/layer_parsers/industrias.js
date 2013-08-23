@@ -12,7 +12,7 @@ function( $, _, Backbone, Feature )
 
 function Industrias( opt ) 
 {
-  //_.extend( this, Backbone.Events );
+  _.extend( this, Backbone.Events );
 
   this.opt = opt;
 
@@ -26,8 +26,7 @@ function Industrias( opt )
 }
 
 Industrias.prototype.parse =
-function( layer, data, sync_opt )
-//function( data, sync_opt )
+function( data, sync_opt )
 {
   //console.log('industrias.parse',this,arguments);
 
@@ -44,7 +43,7 @@ function( layer, data, sync_opt )
     ,producto;
 
   var rows = data.rows;
-  var i = rows.length;
+  var row, i = rows.length;
 
   var idx = {
     id: this.db.indexOf('cuit')
@@ -55,12 +54,15 @@ function( layer, data, sync_opt )
   }
 
   while( i-- )
+  //function _process( row )
   {
-    id = rows[i][ idx.id ];
-    coordarr = (rows[i][idx.loc]).split(' '); 
-    date = rows[i][ idx.date ];
-    nombre = rows[i][ idx.nombre ]; 
-    producto = rows[i][ idx.producto ]; 
+    row = rows[i];
+
+    id = row[ idx.id ];
+    coordarr = (row[idx.loc]).split(' '); 
+    date = row[ idx.date ];
+    nombre = row[ idx.nombre ]; 
+    producto = row[ idx.producto ]; 
 
     titulo = nombre;
     resumen = producto;
@@ -69,8 +71,7 @@ function( layer, data, sync_opt )
     var dateiso = new Date( date )
       .toISOString();
 
-    //this.trigger( 'add:feature', new Feature({ 
-    layer.add( new Feature({ 
+    this.trigger( 'add:feature', new Feature({ 
       id: id
       ,properties: {
         type: opt.name
@@ -96,7 +97,7 @@ function( layer, data, sync_opt )
 
     //(function() {
       //var desc = 'industria n';
-      //var addr = rows[i][ idx.loc ];
+      //var addr = row[ idx.loc ];
       //var delay = 1000;
       ////console.log('queue',delay*i,addr)
       //setTimeout( function()
@@ -124,7 +125,29 @@ function( layer, data, sync_opt )
       //}, delay * i ); //setTimeout
     //})();
   }
+
+  //this.process( rows, _process, null, this );
 };
+
+//Industrias.prototype.process =
+//function( arr, _process, callback, ctx )
+//{ 
+  //var t = 25;
+  //var cpy = arr.concat();
+  //setTimeout( function iteration() 
+  //{ 
+    //_process.apply( ctx, [ cpy.shift() ] );
+    //if ( cpy.length > 0 )
+    //{ 
+      //setTimeout( iteration, t );
+    //} 
+    //else 
+    //{
+      //if ( callback ) 
+        //callback( arr );
+    //} 
+  //}, t );
+//};
 
 return Industrias;
 

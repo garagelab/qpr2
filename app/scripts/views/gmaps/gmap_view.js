@@ -99,7 +99,8 @@ var GMapView = function( opt )
   this.origin = function() 
   {
     _map.setCenter( riachuelo );
-    _map.setZoom( zoom );
+    if ( _map.getZoom() !== zoom )
+      _map.setZoom( zoom );
   };
 
   this.focus = function( feature )
@@ -113,6 +114,11 @@ var GMapView = function( opt )
     _map.setCenter( coord );
     _map.setZoom( 13 );
   };
+
+  //this.zoom = function()
+  //{
+    //return _map.getZoom();
+  //}
 
 }
 

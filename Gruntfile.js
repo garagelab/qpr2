@@ -231,22 +231,43 @@ module.exports = function (grunt) {
                 }]
             }
         },
+
         copy: {
-            dist: {
-                files: [{
-                    expand: true,
-                    dot: true,
-                    cwd: '<%= yeoman.app %>',
-                    dest: '<%= yeoman.dist %>',
-                    src: [
-                        'lib/{,*/}*.{css,js}',
-                        '*.{ico,txt,json}',
-                        '.htaccess',
-                        'images/{,*/}*.{webp,gif}'
-                    ]
-                }]
-            }
+          dist: {
+            files: [{
+              expand: true,
+              dot: true,
+              cwd: '<%= yeoman.app %>',
+              dest: '<%= yeoman.dist %>',
+              src: [
+                //'lib/{,*/}*.{css,js}',
+                'lib/{,*/}*.css',
+                'lib/architect/{,*/}*.js',
+                'lib/font-awesome/css/{,*/}*.css',
+                'lib/font-awesome/font/{,*/}*.{eot,svg,ttf,woff,otf}',
+                '*.{ico,txt,json}',
+                '.htaccess',
+                'images/{,*/}*.{webp,gif}'
+              ]
+            }]
+          }
         },
+
+        fontawesome: {
+          dist: {
+            files: [{
+              expand: true,
+              dot: true,
+              cwd: '<%= yeoman.app %>',
+              dest: '<%= yeoman.dist %>',
+              src: [
+                'font-awesome/{,*/}*.{css}'
+                //'lib/{,*/}*.{css,js}',
+              ]
+            }]
+          }
+        },
+
         bower: {
             all: {
                 rjsConfig: '<%= yeoman.app %>/scripts/main.js'
@@ -312,6 +333,7 @@ module.exports = function (grunt) {
         'cssmin',
         'uglify',
         'copy',
+        //'fontawesome',
         'usemin'
     ]);
 

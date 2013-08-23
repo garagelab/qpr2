@@ -1,9 +1,10 @@
 define( [ 
     'jquery'
     ,'underscore'
+    ,'architect'
     ], 
 
-function( $, _ ) 
+function( $, _, Architect ) 
 {
 
 'use strict';
@@ -20,21 +21,20 @@ var FT_API = function( opt )
 FT_API.prototype.read = 
 function( model, success, error )
 {
-  //var opt = this.options;
-  $.ajax({
-    //url: this.url( opt.ftid, opt.db ),
-    //url: this.url( opt.sql ),
-    url: this.url(),
-    dataType: 'jsonp',
-    success: success
-  });
+
+  Architect.jsonp( this.url(), success );
+
+  //$.ajax({
+    //url: this.url(),
+    //dataType: 'jsonp',
+    //success: success
+  //});
 };
 
 /*
  * params Array
  */
 FT_API.prototype.url = 
-//function( sql )
 function()
 {
   var sql = this.options.sql;
@@ -43,8 +43,10 @@ function()
     'https://www.googleapis.com/fusiontables/v1/query'
     ,'?sql=' + encodeURIComponent( sql )
     ,'&key=' + apikey
-    ,'&callback=?'
-  ].join('');
+    //,'&callback=?'
+  ]
+  .join('');
+
 };
 
 return FT_API;

@@ -3,15 +3,20 @@ define( [
     ,'underscore'
     ,'backbone'
     ,'models/qpr/feature'
+    ,'models/qpr/layer_utils'
     ], 
 
-function( $, _, Backbone, Feature ) 
+function( $, _, Backbone, Feature, LayerUtils ) 
 {
 
 'use strict';
 
 function Asentamientos( opt ) 
 {
+  _.extend( this, Backbone.Events );
+
+  this.utils = new LayerUtils();
+
   this.opt = opt;
 
   this.db = [
@@ -22,7 +27,7 @@ function Asentamientos( opt )
 }
 
 Asentamientos.prototype.parse =
-function( layer, data, sync_opt )
+function( data, sync_opt )
 {
   //console.log('asentamientos.parse',arguments)
 
@@ -57,11 +62,11 @@ function( layer, data, sync_opt )
 
     descripcion = 'asentamiento ' + name;
 
-    polyarr = layer
+    polyarr = this.utils
       .reverse_polygon( 
           geom.coordinates[0] );
 
-    layer.add( new Feature({ 
+    this.trigger('add:feature', new Feature({ 
       id: name + _.uniqueId(' polygon ')
       ,properties: {
         type: opt.name
@@ -76,11 +81,11 @@ function( layer, data, sync_opt )
       }
     }) );
 
-    coordarr = layer
+    coordarr = this.utils
       .get_polygon_center( 
           polyarr );
 
-    layer.add( new Feature({ 
+    this.trigger('add:feature', new Feature({ 
       id: name
       ,properties: {
         type: opt.name

@@ -51,7 +51,8 @@ html, body {
 .container .header.pure-menu li a:hover, 
 .container .header.pure-menu li a:focus 
 {
-  background: #444;
+  //background: #444;
+  background: #000;
 }
 
 .copete 
@@ -102,5 +103,18 @@ html, body {
 
 .container .pure-menu li a {
   padding: 7px 20px;
+}
+
+#login
+{
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  padding: 0.2em 1.1em;
+  font-size: 95%;
+
+  color: white;
+  border-radius: 4px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  //background: rgb(66, 184, 221);
+  background: rgb(30,30,30);
 }
 
