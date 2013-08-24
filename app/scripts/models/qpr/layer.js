@@ -20,11 +20,13 @@ var Layer = Backbone.Collection.extend({
 
   ,initialize: function( models, opt ) 
   {
+    var self = this;
     this.opt = opt;
 
     this.url = opt.api.url();
 
-    opt.parser.on( 'add:feature', 
+    opt.parser.on( 
+      'add:feature', 
       _.bind( this.add, this ) );
   }
 
@@ -38,14 +40,17 @@ var Layer = Backbone.Collection.extend({
 
     //console.log(this.opt.name,'sync',arguments)
 
-    sync_opt || (sync_opt = {});
+    //sync_opt || (sync_opt = {});
 
     function success( res ) 
     {
       parser.parse.apply(
         parser, [ res, sync_opt ] );
+
       //if ( sync_opt.success ) 
         //sync_opt.success( res );
+
+      self.trigger('sync', self, res, sync_opt);
     }
 
     function error( res ) 

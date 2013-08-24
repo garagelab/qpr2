@@ -3,9 +3,10 @@ define( [
     ,'underscore'
     ,'backbone'
     ,'models/qpr/feature'
+    ,'utils'
     ], 
 
-function( $, _, Backbone, Feature ) 
+function( $, _, Backbone, Feature, utils ) 
 {
 
 'use strict';
@@ -26,11 +27,7 @@ function Historias( opt )
 Historias.prototype.parse =
 function( data, sync_opt )
 {
-  var opt = this.opt;
-
-  var reportes = data.payload.incidents; 
-  var i = reportes.length;
-  var r;
+  var opt = this.opt; 
 
   var customfields, cfkey;
 
@@ -39,19 +36,30 @@ function( data, sync_opt )
     ,resumen
     ,descripcion;
 
-  while( i-- )
+  var reportes = data.payload.incidents; 
+  var r;
+  //var reporte, i = reportes.length;
+
+  //while( i-- )
+  function parse( reporte )
   {
-    r = reportes[i].incident;
+    //reporte = reportes[i]; 
+
+    r = reporte.incident;
 
     //if ( r.incidentverified === '0' )
-      //continue;
+      ////continue;
+      //return;
 
-    customfields = reportes[i].customfields;
+    customfields = reporte.customfields;
     for ( cfkey in customfields )
     {
-      if ( customfields[cfkey].field_name.toLowerCase() === 'resumen' )
+      if ( customfields[cfkey]
+          .field_name.toLowerCase() 
+          === 'resumen' )
       {
-        resumen = customfields[cfkey].field_response;
+        resumen = customfields[cfkey]
+          .field_response;
         break;
       }
     }
@@ -62,7 +70,7 @@ function( data, sync_opt )
     date = new Date( 
         r.incidentdate.replace(' ','T') )
       .toISOString();
-
+ 
     this.trigger('add:feature', new Feature({ 
       //id: r.incidentid
       //las historias tienen hid = titulo
@@ -89,6 +97,9 @@ function( data, sync_opt )
     }) );
 
   }
+
+  utils.process( reportes, parse, null, this );
+
 }
 
 return Historias;

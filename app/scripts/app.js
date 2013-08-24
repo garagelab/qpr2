@@ -294,8 +294,29 @@ var App = function( config )
       k = cfg.name;
       layer = make_layer( cfg, mapview );
       layers[k] = layer;
-      layer.model.fetch();
+
+      //layer.model.fetch();
+
+      // fetch with 1sec delay
+      _.delay( 
+        _.bind(layer.model.fetch,layer.model)
+        , 1000*i );
     }
+
+    // fetch in sequence....
+    //(function next( seq )
+    //{
+      //if ( seq.length === 0 )
+        //return;
+      //var model = layers[seq.shift()].model; 
+      //model.once( 'sync', function()
+      //{
+        //next( seq );
+      //});
+      //model.fetch();
+    //})
+    //( _.pluck( config, 'name' ) );
+
   }
 
   function make_layer( opt, mapview )
@@ -335,7 +356,6 @@ var App = function( config )
         update_clusters_size( layers, mapview );
 
       });
-
 
     return {
       model: model

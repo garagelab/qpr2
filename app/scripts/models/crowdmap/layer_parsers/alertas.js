@@ -3,9 +3,10 @@ define( [
     ,'underscore'
     ,'backbone'
     ,'models/qpr/feature'
+    ,'utils'
     ], 
 
-function( $, _, Backbone, Feature ) 
+function( $, _, Backbone, Feature, utils ) 
 {
 
 'use strict';
@@ -26,25 +27,25 @@ function( data, sync_opt )
 {
   var opt = this.opt;
 
-  var _data = data;
-  //var _data = JSON.parse(
-    //decodeURIComponent( data.data ) );
-
-  var reportes = _data.payload.incidents; 
-  var i = reportes.length;
-  var r;
-
   var date
     ,titulo
     ,resumen
     ,descripcion;
 
-  while( i-- )
+  var reportes = data.payload.incidents; 
+  var r;
+  //var reporte, i = reportes.length;
+
+  //while( i-- )
+  function parse( reporte )
   {
-    r = reportes[i].incident;
+    //reporte = reportes[i]; 
+
+    r = reporte.incident;
 
     if ( r.incidentverified === '0' )
-      continue;
+      //continue;
+      return;
 
     resumen = r.incidentdescription.split(' ').slice(0,20).join(' ') + '...';
 
@@ -78,6 +79,9 @@ function( data, sync_opt )
     }) );
 
   }
+
+  utils.process( reportes, parse, null, this );
+
 }
 
 return Alertas;

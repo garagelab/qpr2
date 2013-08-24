@@ -3,10 +3,10 @@ define( [
     ,'underscore'
     ,'backbone'
     ,'models/qpr/feature'
-    ,'models/qpr/layer_utils'
+    ,'utils'
     ],  
 
-function( $, _, Backbone, Feature, LayerUtils ) 
+function( $, _, Backbone, Feature, utils ) 
 {
 
 'use strict';
@@ -14,8 +14,6 @@ function( $, _, Backbone, Feature, LayerUtils )
 function Ecopuntos( opt ) 
 {
   _.extend( this, Backbone.Events );
-
-  this.utils = new LayerUtils();
 
   this.opt = opt;
 
@@ -38,18 +36,21 @@ function( data, sync_opt )
     ,polyarr
     ,descripcion;
 
-  var rows = data.rows;
-  var i = rows.length;
-
   var idx = {
     name: this.db.indexOf('name'),
     geom: this.db.indexOf('geometry')
   } 
 
-  while( i-- )
+  var rows = data.rows;
+  //var row, i = rows.length;
+
+  //while( i-- )
+  function parse( row )
   {
-    name = rows[i][ idx.name ];
-    geom = rows[i][ idx.geom ].geometry;
+    //row = rows[i];
+
+    name = row[ idx.name ];
+    geom = row[ idx.geom ].geometry;
 
     descripcion = 'ecopunto ' + name;
 
@@ -57,7 +58,7 @@ function( data, sync_opt )
     {
       case 'Point':
 
-        coordarr = this.utils
+        coordarr = utils
           .reverse_point(
               geom.coordinates) 
 
@@ -80,7 +81,7 @@ function( data, sync_opt )
 
       case 'Polygon':
 
-        polyarr = this.utils
+        polyarr = utils
           .reverse_polygon(
               geom.coordinates[0] );
 
@@ -103,6 +104,8 @@ function( data, sync_opt )
 
     }
   }
+
+  utils.process( rows, parse, null, this );
 };
 
 return Ecopuntos;

@@ -3,9 +3,10 @@ define( [
     ,'underscore'
     ,'backbone'
     ,'models/qpr/feature'
+    ,'utils'
     ], 
 
-function( $, _, Backbone, Feature ) 
+function( $, _, Backbone, Feature, utils ) 
 {
 
 'use strict';
@@ -42,9 +43,6 @@ function( data, sync_opt )
     ,nombre
     ,producto;
 
-  var rows = data.rows;
-  var row, i = rows.length;
-
   var idx = {
     id: this.db.indexOf('cuit')
     ,loc: this.db.indexOf('geolocation')
@@ -53,10 +51,13 @@ function( data, sync_opt )
     ,producto: this.db.indexOf('producto_1')
   }
 
-  while( i-- )
-  //function _process( row )
+  var rows = data.rows;
+  //var row, i = rows.length; 
+
+  //while( i-- )
+  function parse( row )
   {
-    row = rows[i];
+    //row = rows[i];
 
     id = row[ idx.id ];
     coordarr = (row[idx.loc]).split(' '); 
@@ -126,28 +127,8 @@ function( data, sync_opt )
     //})();
   }
 
-  //this.process( rows, _process, null, this );
+  utils.process( rows, parse, null, this );
 };
-
-//Industrias.prototype.process =
-//function( arr, _process, callback, ctx )
-//{ 
-  //var t = 25;
-  //var cpy = arr.concat();
-  //setTimeout( function iteration() 
-  //{ 
-    //_process.apply( ctx, [ cpy.shift() ] );
-    //if ( cpy.length > 0 )
-    //{ 
-      //setTimeout( iteration, t );
-    //} 
-    //else 
-    //{
-      //if ( callback ) 
-        //callback( arr );
-    //} 
-  //}, t );
-//};
 
 return Industrias;
 

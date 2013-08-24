@@ -27,10 +27,12 @@ function( layers, feature, mapview )
   for ( var k in layers )
     layers_models[k] = layers[k].model;
 
+  //console.log('historia detalle ctrler',layers)
+
   var parser = new FT.LayerParsers
     .HistoriaDetalle({
       name: hid
-      ,layers: layers_models
+      ,layers_models: layers_models
     });
 
   var api = new FT.API({

@@ -12,6 +12,8 @@ function( $, _, Backbone, Feature )
 
 function Historias( opt ) 
 {
+  _.extend( this, Backbone.Events );
+
   this.opt = opt;
 
   //tmp
@@ -27,7 +29,7 @@ function Historias( opt )
 }
 
 Historias.prototype.parse =
-function( layer, data, sync_opt )
+function( data, sync_opt )
 {
   //console.log( 'historias.parse', arguments )
 
@@ -83,7 +85,7 @@ function( layer, data, sync_opt )
           n++;
         }
 
-        layer.add( new Feature({ 
+        this.trigger('add:feature',new Feature({ 
           id: _hid
           ,properties: {
             type: opt.name

@@ -3,10 +3,10 @@ define( [
     ,'underscore'
     ,'backbone'
     ,'models/qpr/feature'
-    ,'models/qpr/layer_utils'
+    ,'utils'
     ], 
 
-function( $, _, Backbone, Feature, LayerUtils ) 
+function( $, _, Backbone, Feature, utils ) 
 {
 
 'use strict';
@@ -14,8 +14,6 @@ function( $, _, Backbone, Feature, LayerUtils )
 function Asentamientos( opt ) 
 {
   _.extend( this, Backbone.Events );
-
-  this.utils = new LayerUtils();
 
   this.opt = opt;
 
@@ -39,30 +37,34 @@ function( data, sync_opt )
     ,name
     ,descripcion;
 
-  var rows = data.rows;
-  var i = rows.length;
-
   var idx = {
     name: this.db.indexOf('BARRIO'),
     //loc: this.db.indexOf('center'),
     geom: this.db.indexOf('Poligono')
   }
 
-  while( i-- )
-  {
-    //coordarr = (rows[i][idx.loc]).split(' '); 
-    geom = rows[i][ idx.geom ].geometry;
-    name = rows[i][ idx.name ]; 
+  var rows = data.rows;
+  //var row, i = rows.length;
 
-    //console.log(name,rows[i])
+  //while( i-- )
+  function parse( row )
+  {
+    //row = rows[i];
+
+    //coordarr = (row[idx.loc]).split(' '); 
+    geom = row[ idx.geom ].geometry;
+    name = row[ idx.name ]; 
+
+    //console.log(name,row)
 
     if ( _.isEmpty(geom) 
         || geom.type !== 'Polygon' )
-      continue;
+      //continue;
+      return;
 
     descripcion = 'asentamiento ' + name;
 
-    polyarr = this.utils
+    polyarr = utils
       .reverse_polygon( 
           geom.coordinates[0] );
 
@@ -81,7 +83,7 @@ function( data, sync_opt )
       }
     }) );
 
-    coordarr = this.utils
+    coordarr = utils
       .get_polygon_center( 
           polyarr );
 
@@ -101,6 +103,9 @@ function( data, sync_opt )
     }) );
 
   }
+
+  utils.process( rows, parse, null, this );
+
 };
 
 return Asentamientos;

@@ -3,9 +3,10 @@ define( [
     ,'underscore'
     ,'backbone'
     ,'models/qpr/feature'
+    ,'utils'
     ], 
 
-function( $, _, Backbone, Feature ) 
+function( $, _, Backbone, Feature, utils ) 
 {
 
 'use strict';
@@ -29,53 +30,61 @@ function HistoriaDetalle( opt )
 HistoriaDetalle.prototype.parse =
 function( data, sync_opt )
 {
-  //console.log( 'historia parse', data );
-
   var db = this.db;
-  var layers = this.opt.layers;
-  
-  var rows = data.rows;
-  var i = rows.length;
+  var layers_models = this.opt.layers_models;
 
+  //console.log( 'historia parse', data,
+      //'layers_models', layers_models);
+  
   var j, idx;
 
-  var link, layer, link_model;
+  var link, layer_model, link_feature;
 
   var _data = [];
 
+  var rows = data.rows;
+  var row, i = rows.length;
+
   while( i-- )
+  //function parse( row )
   {
+    row = rows[i];
+
     j = db.length;
     link = {};
     while( j-- ) 
     {
       idx = db.indexOf( db[j] );
-      link[ db[j] ] = rows[i][ idx ];
+      link[ db[j] ] = row[ idx ];
     }
     _data.push( link );
 
     //console.log( 'link', link );
     //console.log(
-        //'\t collection', 
-        //layers[ link.tipo ] );
+        //'\t layer model', 
+        //layers_models[ link.tipo ] );
 
-    layer = layers[ link.tipo ]; 
-    if ( ! layer )
+    layer_model = layers_models[ link.tipo ]; 
+    if ( ! layer_model )
       continue;
+      //return; 
 
     // un layer es una collection
     // de feature/models
     // => podemos hacer get() x id
     // del link model
-    link_model = layer.get( link.link_id );
+    link_feature = layer_model.get(link.link_id);
 
-    //console.log( '\t model', link_model );
+    //console.log( '\t feature', link_feature );
 
-    if ( ! link_model )
+    if ( ! link_feature )
       continue;
+      //return; 
 
-    this.trigger( 'add:feature', link_model ); 
+    this.trigger('add:feature', link_feature); 
   }
+
+  //utils.process( rows, parse, null, this );
 };
 
 return HistoriaDetalle;

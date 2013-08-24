@@ -2,7 +2,7 @@ define( [
     //'models/ft/layer'
     //,'models/ft/historia'
     'models/ft/api'
-    ,'models/ft/layer_parsers/historias'
+    //,'models/ft/layer_parsers/historias'
     ,'models/ft/layer_parsers/industrias'
     ,'models/ft/layer_parsers/basurales'
     ,'models/ft/layer_parsers/ecopuntos'
@@ -14,7 +14,7 @@ function(
   //Layer
   //,Historia 
   API
-  ,LParserHistorias
+  //,LParserHistorias
   ,LParserIndustrias
   ,LParserBasurales 
   ,LParserEcopuntos 
@@ -30,8 +30,8 @@ return {
   //,Historia: Historia 
   API: API
   ,LayerParsers: {
-    Historias: LParserHistorias
-    ,Industrias: LParserIndustrias
+    //Historias: LParserHistorias
+    Industrias: LParserIndustrias
     ,Basurales: LParserBasurales 
     ,Ecopuntos: LParserEcopuntos 
     ,Asentamientos: LParserAsentamientos

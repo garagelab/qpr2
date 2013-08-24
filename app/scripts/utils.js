@@ -1,21 +1,36 @@
 define( [ 
     'jquery'
     ,'underscore'
-    ,'backbone'
-    ,'models/qpr/feature'
     ], 
 
-function( $, _, Backbone, Feature ) 
+function( $, _ ) 
 {
 
 'use strict';
 
-function LayerUtils()
-{}
+return {
 
-LayerUtils.prototype = {
+  process: 
+  function( arr, fn, callback, ctx )
+  { 
+    var t = 0;
+    var cpy = arr.concat();
+    setTimeout( function iteration() 
+    { 
+      fn.apply( ctx, [ cpy.shift() ] );
+      if ( cpy.length > 0 )
+      { 
+        setTimeout( iteration, t );
+      } 
+      else 
+      {
+        if ( callback ) 
+          callback( arr );
+      } 
+    }, t );
+  }
 
-  reverse_point: function( coords )
+  ,reverse_point: function( coords )
   {
     return [ coords[1], coords[0] ];
   }
@@ -59,8 +74,6 @@ LayerUtils.prototype = {
   }
 
 };
-
-return LayerUtils;
 
 });
 
