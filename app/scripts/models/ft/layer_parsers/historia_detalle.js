@@ -17,12 +17,15 @@ function HistoriaDetalle( opt )
 
   this.opt = opt;
 
-  this.db = [
+  this.db = function()
+  {
+    return _db;
+  }
+
+  var _db = [
     'hid'
     ,'tipo'
-    ,'fuente'
     ,'link_id'
-    ,'url'
   ];
 
 }
@@ -30,7 +33,7 @@ function HistoriaDetalle( opt )
 HistoriaDetalle.prototype.parse =
 function( data, sync_opt )
 {
-  var db = this.db;
+  var db = this.db();
   var layers_models = this.opt.layers_models;
 
   //console.log( 'historia parse', data,

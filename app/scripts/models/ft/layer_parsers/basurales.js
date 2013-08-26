@@ -17,10 +17,21 @@ function Basurales( opt )
 
   this.opt = opt;
 
-  this.db = [
-    'name'
-    ,'geometry'
-  ];
+  this.db = function()
+  {
+    return _.values( _db );
+  }
+
+  var _db = {
+    name: 'name'
+    ,geom: 'geometry'
+  };
+
+  this.dbi = {};
+  var i = 0;
+  for ( var k in _db )
+    this.dbi[k] = i++;
+
 }
 
 Basurales.prototype.parse =
@@ -34,12 +45,7 @@ function( data, sync_opt )
     ,geom
     ,coordarr
     ,polyarr
-    ,descripcion;
-
-  var idx = {
-    name: this.db.indexOf('name'),
-    geom: this.db.indexOf('geometry')
-  } 
+    ,descripcion; 
 
   var rows = data.rows;
   //var row, i = rows.length;
@@ -49,8 +55,8 @@ function( data, sync_opt )
   {
     //row = rows[i];
 
-    name = row[ idx.name ];
-    geom = row[ idx.geom ].geometry;
+    name = row[ this.dbi.name ];
+    geom = row[ this.dbi.geom ].geometry;
 
     descripcion = 'basural ' + name;
 

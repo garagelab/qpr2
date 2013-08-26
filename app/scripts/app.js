@@ -3,6 +3,7 @@ define( [
     'jquery'
     ,'underscore'
     ,'backbone'
+    ,'login'
     //models
     ,'models/qpr/Layer'
     ,'models/ft/FT'
@@ -20,6 +21,7 @@ define( [
     ,'views/gmaps/gcuenca_view'
     ,'views/ui/LayerControlView'
     ,'views/ui/LayerColors'
+    ,'views/detalles/FeatureAddToHistoriaView'
     //controllers
     ,'controllers/HistoriaDetalleCtrler'
     ,'controllers/FeatureDetalleCtrler'
@@ -31,6 +33,7 @@ define( [
 function( 
   $, _, Backbone
 
+  ,Login
   ,Layer
   ,FT
   ,Crowdmap
@@ -48,6 +51,7 @@ function(
 
   ,LayerControlView 
   ,LayerColors
+  ,FeatureAddToHistoriaView
 
   ,HistoriaDetalleCtrler
   ,FeatureDetalleCtrler
@@ -80,8 +84,8 @@ var App = function( config )
   Backbone.history.start(); 
 
 
+  var login;
   var layers = {};
-
   var mapview, gcuenca;
   var cur_detalle;
  
@@ -107,16 +111,19 @@ var App = function( config )
       });
 
     var api = new FT.API({
-      //ftid: opt.ftid
-      //,db: parser.db
-      sql: [
-        'SELECT '
-        ,parser.db.join(',')
-        //,'*'
-        ,' FROM '
-        ,opt.ftid
-      ].join('') 
+      read: {
+        params: {
+          sql: [
+            'SELECT '
+            ,parser.db().join(',')
+            //,'*'
+            ,' FROM '
+            ,opt.ftid
+          ].join('') 
+        }
+      }
     });
+    window.apift = api;
 
     var model = new Layer([], {
       name: name
@@ -141,7 +148,9 @@ var App = function( config )
 
     var api = new Crowdmap.API({
       url: opt.url 
-      ,db: parser.db
+      ,read: {
+        params: parser.db()
+      }
     });
 
     var model = new Layer([], {
@@ -410,6 +419,7 @@ var App = function( config )
     }
 
     var props = feature.get('properties');
+    var add_to_historia;
 
     var DetalleCtrler = 
       props.type === 'historias'
@@ -424,9 +434,25 @@ var App = function( config )
       cur_detalle.off();
       cur_detalle = null;
       ui.$widgets.show();
+
+      if ( add_to_historia )
+        add_to_historia.close();
     });
 
     ui.$widgets.hide();
+
+    if ( cur_detalle instanceof 
+        FeatureDetalleCtrler 
+        && login.logged() )
+    {
+      add_to_historia = 
+        new FeatureAddToHistoriaView({
+          feature: feature
+        });
+
+      $('body').append( 
+          add_to_historia.render().el );
+    }
 
   }
 
@@ -536,8 +562,12 @@ var App = function( config )
   }
 
   
-  // go! 
+  // init
 
+
+  login = new Login();
+  login.init();
+  window.login = login;
 
   mapview = new GMapView({
     el: document.getElementById("map")
@@ -678,7 +708,6 @@ var App = function( config )
   make_layers( mapview, layers_config );   
 
   update_clusters_size( layers, mapview );
-
 }
 
 function lerp2d( x, x1, x2, y1, y2 )

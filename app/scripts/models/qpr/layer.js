@@ -23,8 +23,6 @@ var Layer = Backbone.Collection.extend({
     var self = this;
     this.opt = opt;
 
-    this.url = opt.api.url();
-
     opt.parser.on( 
       'add:feature', 
       _.bind( this.add, this ) );

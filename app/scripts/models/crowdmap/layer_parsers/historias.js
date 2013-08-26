@@ -17,7 +17,12 @@ function Historias( opt )
 
   this.opt = opt;
 
-  this.db = {
+  this.db = function()
+  {
+    return _db;
+  }
+
+  var _db = {
     task: 'incidents'
     ,by: 'catname'
     ,name: 'historias'
@@ -72,10 +77,10 @@ function( data, sync_opt )
       .toISOString();
  
     this.trigger('add:feature', new Feature({ 
-      //id: r.incidentid
       //las historias tienen hid = titulo
       //para filtrar en el FT/links x hid
-      id: r.incidenttitle
+      //id: r.incidenttitle
+      id: r.incidentid
       ,properties: {
         type: opt.name
         ,date: {

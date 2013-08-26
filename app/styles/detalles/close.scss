@@ -1,33 +1,43 @@
 @import 'vars';
 
-.close
+button.close
 {
-  height: 20px;
-  //background-color: rgba( 0,0,0, 0.03);
-  background-color: rgb( 245,245,245 );
-}
-
-.close:hover
-{
-  //background-color: rgba( 0,0,0, 0.08);
-  background-color: rgb( 220,220,220 );
-}
-
-.close-svg
-,.close
-{
-  width: 20px;
+  background-color: #eee;
+  font-size: 60%;
+  padding: .5em 0.9em;
   position: absolute;
   top: 10px;
   right: 10px;
-  //right: $sidebar_r_w;
-  //left: $sidebar_l_w;
 }
 
-.close-svg svg
-,.close-svg
-{
-  pointer-events: none;
-  display: block;
-}
+//.close
+//{
+  //height: 20px;
+  ////background-color: rgba( 0,0,0, 0.03);
+  //background-color: rgb( 245,245,245 );
+//}
+
+//.close:hover
+//{
+  ////background-color: rgba( 0,0,0, 0.08);
+  //background-color: rgb( 220,220,220 );
+//}
+
+//.close-svg
+//,.close
+//{
+  //width: 20px;
+  //position: absolute;
+  //top: 10px;
+  //right: 10px;
+  ////right: $sidebar_r_w;
+  ////left: $sidebar_l_w;
+//}
+
+//.close-svg svg
+//,.close-svg
+//{
+  //pointer-events: none;
+  //display: block;
+//}
 

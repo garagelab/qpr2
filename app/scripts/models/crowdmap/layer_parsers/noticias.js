@@ -17,11 +17,17 @@ function Noticias( opt )
 
   this.opt = opt;
 
-  this.db = {
+  this.db = function()
+  {
+    return _db;
+  }
+
+  var _db = {
     task: 'incidents'
     ,by: 'catname'
     ,name: 'noticias'
   };
+
 }
 
 Noticias.prototype.parse =

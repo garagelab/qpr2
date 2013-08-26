@@ -36,16 +36,20 @@ function( layers, feature, mapview )
     });
 
   var api = new FT.API({
-    sql: [
-      'SELECT '
-      ,parser.db.join(',')
-      ,' FROM '
-      ,ftid
-      ,' WHERE '
-      ,'hid'
-      ,' = '
-      ,'\''+hid+'\''
-    ].join('') 
+    read: {
+      params: {
+        sql: [
+          'SELECT '
+          ,parser.db().join(',')
+          ,' FROM '
+          ,ftid
+          ,' WHERE '
+          ,'hid'
+          ,' = '
+          ,'\''+hid+'\''
+        ].join('') 
+      }
+    }
   });
 
   var model = new Layer([], {
@@ -70,8 +74,6 @@ function( layers, feature, mapview )
 
   view.on( 'close', function()
   {
-    view.off();
-
     _.each( extra_markers, function( m )
     {
       m.setMap( null );
@@ -79,8 +81,9 @@ function( layers, feature, mapview )
     extra_markers = null;
 
     this.trigger('close');
-
-  });
+    view.off();
+  }
+  , this );
 
   view.on('select:feature', function( feature )
   {

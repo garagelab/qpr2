@@ -17,11 +17,22 @@ function Asentamientos( opt )
 
   this.opt = opt;
 
-  this.db = [
-    'BARRIO'
-    //,'center'
-    ,'Poligono'
-  ];
+  this.db = function()
+  {
+    return _.values( _db );
+  }
+
+  var _db = {
+    name: 'BARRIO'
+    ,geom: 'Poligono'
+    //,loc: 'center' 
+  };
+
+  this.dbi = {};
+  var i = 0;
+  for ( var k in _db )
+    this.dbi[k] = i++;
+
 }
 
 Asentamientos.prototype.parse =
@@ -35,13 +46,7 @@ function( data, sync_opt )
     ,polyarr
     ,geom
     ,name
-    ,descripcion;
-
-  var idx = {
-    name: this.db.indexOf('BARRIO'),
-    //loc: this.db.indexOf('center'),
-    geom: this.db.indexOf('Poligono')
-  }
+    ,descripcion; 
 
   var rows = data.rows;
   //var row, i = rows.length;
@@ -51,9 +56,9 @@ function( data, sync_opt )
   {
     //row = rows[i];
 
-    //coordarr = (row[idx.loc]).split(' '); 
-    geom = row[ idx.geom ].geometry;
-    name = row[ idx.name ]; 
+    //coordarr=(row[this.dbi.loc]).split(' '); 
+    geom = row[ this.dbi.geom ].geometry;
+    name = row[ this.dbi.name ]; 
 
     //console.log(name,row)
 

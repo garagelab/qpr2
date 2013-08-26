@@ -16,15 +16,25 @@ function Historias( opt )
 
   this.opt = opt;
 
+  this.db = function()
+  {
+    return _.values( _db );
+  }
+
   //tmp
   this._geocoder = new google.maps.Geocoder();
 
-  this.db = [
-    'hid'
-    ,'resumen'
-    ,'descripcion'
-    ,'direccion'
-  ];
+  var _db = {
+    hid: 'hid'
+    ,resumen: 'resumen'
+    ,descripcion: 'descripcion'
+    ,direccion: 'direccion'
+  };
+
+  this.dbi = {};
+  var i = 0;
+  for ( var k in _db )
+    this.dbi[k] = i++;
 
 }
 
@@ -40,19 +50,12 @@ function( data, sync_opt )
   var rows = data.rows;
   var i = rows.length;
 
-  var idx = {
-    hid: this.db.indexOf('hid'),
-    resumen: this.db.indexOf('resumen'),
-    descripcion: this.db.indexOf('descripcion'),
-    direccion: this.db.indexOf('direccion')
-  }
-
   while( i-- )
   {
-    hid = rows[i][ idx.hid ];
-    resumen = rows[i][ idx.resumen ];
-    descripcion = rows[i][ idx.descripcion ];
-    addr = rows[i][ idx.direccion ];
+    hid = rows[i][ this.dbi.hid ];
+    resumen = rows[i][ this.dbi.resumen ];
+    descripcion = rows[i][this.dbi.descripcion];
+    addr = rows[i][ this.dbi.direccion ];
 
     this._geocoder.geocode( 
     { 

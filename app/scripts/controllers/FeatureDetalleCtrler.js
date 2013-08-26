@@ -15,17 +15,18 @@ function( layers, feature, mapview )
 {
   _.extend( this, Backbone.Events );
 
-  // una simple vista......
+  var self = this;
 
   var view = new FeatureView({
-    feature: feature
+    model: feature
   });
 
   view.on( 'close', function()
   {
-    view.off();
     this.trigger('close');
-  });
+    view.off();
+  }
+  , this );
 
   $('body').append( view.render().el );
 

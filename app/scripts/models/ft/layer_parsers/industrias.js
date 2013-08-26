@@ -17,13 +17,24 @@ function Industrias( opt )
 
   this.opt = opt;
 
-  this.db = [
-    'cuit'
-    ,'geolocation'
-    ,'fecha'
-    ,'razon_social'
-    ,'producto_1'
-  ];
+  this.db = function()
+  {
+    return _.values( _db );
+  }
+
+  var _db = {
+    id: 'curt'
+    ,loc: 'geolocation'
+    ,date: 'fecha'
+    ,nombre: 'razon_social'
+    ,producto: 'producto_1'
+  };
+
+  this.dbi = {};
+  var i = 0;
+  for ( var k in _db )
+    this.dbi[k] = i++;
+
 }
 
 Industrias.prototype.parse =
@@ -41,15 +52,7 @@ function( data, sync_opt )
 
     ,coordarr
     ,nombre
-    ,producto;
-
-  var idx = {
-    id: this.db.indexOf('cuit')
-    ,loc: this.db.indexOf('geolocation')
-    ,date: this.db.indexOf('fecha')
-    ,nombre: this.db.indexOf('razon_social')
-    ,producto: this.db.indexOf('producto_1')
-  }
+    ,producto; 
 
   var rows = data.rows;
   //var row, i = rows.length; 
@@ -59,11 +62,11 @@ function( data, sync_opt )
   {
     //row = rows[i];
 
-    id = row[ idx.id ];
-    coordarr = (row[idx.loc]).split(' '); 
-    date = row[ idx.date ];
-    nombre = row[ idx.nombre ]; 
-    producto = row[ idx.producto ]; 
+    id = row[ this.dbi.id ];
+    coordarr = (row[this.dbi.loc]).split(' '); 
+    date = row[ this.dbi.date ];
+    nombre = row[ this.dbi.nombre ]; 
+    producto = row[ this.dbi.producto ]; 
 
     titulo = nombre;
     resumen = producto;
@@ -98,7 +101,7 @@ function( data, sync_opt )
 
     //(function() {
       //var desc = 'industria n';
-      //var addr = row[ idx.loc ];
+      //var addr = row[ this.dbi.loc ];
       //var delay = 1000;
       ////console.log('queue',delay*i,addr)
       //setTimeout( function()

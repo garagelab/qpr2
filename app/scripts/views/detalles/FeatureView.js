@@ -2,15 +2,10 @@ define( [
   'jquery'
   ,'underscore'
   ,'backbone'
-  ,'views/detalles/CloseBtn'
   ,'text!tpl/detalles/feature.html'
   ], 
 
-function( 
-  $, _, Backbone
-  ,CloseBtn
-  ,tpl 
-  )
+function( $, _, Backbone, tpl )
 {
 
 'use strict';
@@ -20,16 +15,13 @@ var FeatureView = Backbone.View.extend({
   initialize: function() 
   { 
     this.$el.addClass('feature-view');
-
-    //this.listenTo( this.model,
-      //'add', this.feature_added, this );
   }
 
   ,tpl: _.template( tpl )
 
   ,render: function()
   {
-    var feature = this.options.feature; 
+    var feature = this.model; 
     var props = feature.get('properties');
 
     this.$el.html( this.tpl({
@@ -37,9 +29,9 @@ var FeatureView = Backbone.View.extend({
       ,txt: props.descripcion
     }) );
 
-    new CloseBtn().appendTo( 
-        this.$el.find('.close-svg'), 
-        20 );
+    //new CloseBtn().appendTo( 
+        //this.$el.find('.close-svg'), 
+        //20 );
 
     return this;
   }

@@ -7,7 +7,6 @@ define( [
   ,'views/detalles/TituloView'
   ,'views/detalles/DescripcionHistoriaView'
   ,'views/detalles/FeaturePreview'
-  ,'views/detalles/CloseBtn'
   ], 
 
 function( 
@@ -16,7 +15,6 @@ function(
   ,TituloView 
   ,DescripcionHistoriaView 
   ,FeaturePreview 
-  ,CloseBtn 
   )
 {
 
@@ -103,9 +101,9 @@ var HistoriaView = Backbone.View.extend({
         self.update_bottom();
     })();
 
-    new CloseBtn().appendTo( 
-        this.$el.find('.close-svg'), 
-        20 );
+    //new CloseBtn().appendTo( 
+        //this.$el.find('.close-svg'), 
+        //20 );
 
     // public
     this.timeline = timeline;
