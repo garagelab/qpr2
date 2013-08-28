@@ -21,7 +21,7 @@ define( [
     ,'views/gmaps/gcuenca_view'
     ,'views/ui/LayerControlView'
     ,'views/ui/LayerColors'
-    ,'views/detalles/FeatureAddToHistoriaView'
+    ,'views/FeatureABMview'
     //controllers
     ,'controllers/HistoriaDetalleCtrler'
     ,'controllers/FeatureDetalleCtrler'
@@ -51,7 +51,7 @@ function(
 
   ,LayerControlView 
   ,LayerColors
-  ,FeatureAddToHistoriaView
+  ,FeatureABMview
 
   ,HistoriaDetalleCtrler
   ,FeatureDetalleCtrler
@@ -88,6 +88,9 @@ var App = function( config )
   var layers = {};
   var mapview, gcuenca;
   var cur_detalle;
+
+  window.layers = layers;
+  window.login = login;
  
   var layer_factory = 
   {
@@ -374,8 +377,7 @@ var App = function( config )
     };
   }
 
-  function update_clusters_size( 
-      layers, mapview )
+  function update_clusters_size(layers,mapview)
   {
 
     var visible_layers = 0;
@@ -419,7 +421,7 @@ var App = function( config )
     }
 
     var props = feature.get('properties');
-    var add_to_historia;
+    var feature_abm;
 
     var DetalleCtrler = 
       props.type === 'historias'
@@ -435,8 +437,8 @@ var App = function( config )
       cur_detalle = null;
       ui.$widgets.show();
 
-      if ( add_to_historia )
-        add_to_historia.close();
+      if ( feature_abm )
+        feature_abm.close();
     });
 
     ui.$widgets.hide();
@@ -445,13 +447,12 @@ var App = function( config )
         FeatureDetalleCtrler 
         && login.logged() )
     {
-      add_to_historia = 
-        new FeatureAddToHistoriaView({
-          feature: feature
-        });
+      feature_abm = new FeatureABMview({
+        feature: feature
+        ,layers: layers
+      });
 
-      $('body').append( 
-          add_to_historia.render().el );
+      $('body').append(feature_abm.render().el);
     }
 
   }
@@ -567,7 +568,6 @@ var App = function( config )
 
   login = new Login();
   login.init();
-  window.login = login;
 
   mapview = new GMapView({
     el: document.getElementById("map")

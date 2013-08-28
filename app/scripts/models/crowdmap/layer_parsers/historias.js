@@ -103,7 +103,11 @@ function( data, sync_opt )
 
   }
 
-  utils.process( reportes, parse, null, this );
+  utils.process( {
+    list: reportes
+    ,iterator: parse
+    ,context: this
+  });
 
 }
 

@@ -109,7 +109,11 @@ function( data, sync_opt )
 
   }
 
-  utils.process( rows, parse, null, this );
+  utils.process( {
+    list: rows
+    ,iterator: parse
+    ,context: this
+  });
 
 };
 

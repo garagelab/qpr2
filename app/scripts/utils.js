@@ -10,24 +10,38 @@ function( $, _ )
 
 return {
 
-  process: 
-  function( arr, fn, callback, ctx )
+  process: function( opt )
   { 
-    var t = 0;
+
+    var arr = opt.list;
+    var fn = opt.iterator;
+    var cb = opt.callback;
+    var ctx = opt.context;
+    var chunks = opt.chunks || 10;
+
+    var delay = 0;
     var cpy = arr.concat();
+
     setTimeout( function iteration() 
     { 
-      fn.apply( ctx, [ cpy.shift() ] );
-      if ( cpy.length > 0 )
-      { 
-        setTimeout( iteration, t );
-      } 
-      else 
+
+      var i = chunks + 0;
+      while( i-- )
       {
-        if ( callback ) 
-          callback( arr );
-      } 
-    }, t );
+
+        fn.apply( ctx, [ cpy.shift() ] );
+
+        if ( cpy.length == 0 )
+        {
+          if ( cb ) cb( arr );
+          return;
+        }
+      }
+
+      setTimeout( iteration, delay );
+
+    }
+    , delay );
   }
 
   ,reverse_point: function( coords )
