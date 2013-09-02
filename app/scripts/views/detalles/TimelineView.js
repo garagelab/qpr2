@@ -126,26 +126,27 @@ var TimelineView = Backbone.View.extend({
 
   }
 
-  ,add: function( feature )
+  ,add: function( feature, date )
   {
     var self = this;
 
     var id = feature.get('id');
     var props = feature.get('properties');
 
+    //var date = props.date;
+
     //console.log('timeline add feature',
         //id, feature );
 
-    // TODO no date !
-    if ( ! props.date )
-    {
-      console.warn(
-        'feature',
-        'id [', id, ']',
-        'de tipo [', props.type, ']',
-        'no tiene fecha');
-      return;
-    }
+    //if ( ! props.date )
+    //{
+      //console.warn(
+        //'feature',
+        //'id [', id, ']',
+        //'de tipo [', props.type, ']',
+        //'no tiene fecha');
+      //return;
+    //}
 
     var vis = this.vis; 
 
@@ -155,13 +156,13 @@ var TimelineView = Backbone.View.extend({
       //d3.extent( vis.data, function( feature )
       //{ 
         //var props = feature.get('properties');
-        //return new Date( props.date.iso ); 
+        //return new Date( date.iso ); 
       //}) );
 
     var img = vis.svg
       .selectAll( 'image' );
 
-    var clas = 'icon-' + props.type + '-' + id;
+    var clas = 'icon-'+props.type+'-'+id.replace(/ /g,'');
 
     this._bottom = vis.layout.icons.y;
 
@@ -178,8 +179,8 @@ var TimelineView = Backbone.View.extend({
         .attr( 'x', function( feature ) 
         { 
           var props = feature.get('properties');
-          var date = new Date( props.date.iso );
-          return vis.xscale( date );
+          return vis.xscale( 
+            new Date( date.iso ) );
         })
 
         .attr( 'y', function() 
@@ -189,7 +190,7 @@ var TimelineView = Backbone.View.extend({
 
           img.each( function( feature, i )
           {
-            var props = feature.get('properties');
+            var props=feature.get('properties');
             var el = img[0][i];
             var ox =  parseFloat(
               el.getAttribute('x') );
@@ -197,91 +198,96 @@ var TimelineView = Backbone.View.extend({
               el.getAttribute('width') );
             //ow /= 2;
             if ( x > ox-ow && x < ox+ow )
-              self._bottom += props.icon.height+10;
+              self._bottom += 
+                props.icon.height+10;
           });
 
           return self._bottom;
         })
 
-    //agregar 1 icono mas
+    //agregar 2?? iconos mas
     //para dejar el bottom realmente bottom
-    this._bottom += props.icon.height+10;
+    this._bottom += (props.icon.height+10)*2;
 
-    vis.svg.select('image.'+clas)
+    //vis.svg.select('image.'+clas)
+    //.each( function() {
+      //var el = this;
 
-      .each( function()
-      {
-        var feature = this.__data__;
-        var props = feature.get('properties');
-        var _date = new Date( props.date.iso );
-        var date = vis.tipformat( _date );
+    _.each( $('image.'+clas), function( el )
+    {
 
-        $(this).qtip({
+      var feature = el.__data__;
+      var props = feature.get('properties');
 
-          position: { 
-            my: 'bottom right'
-            ,adjust: { 
-              x: -props.icon.width
-              ,y: -props.icon.height
-            }
-            //,target: 'mouse'
+      var _date = vis.tipformat( 
+        new Date( date.iso ) );
+
+      $(el).qtip({
+
+        position: { 
+          my: 'bottom right'
+          ,adjust: { 
+            x: -props.icon.width
+            ,y: -props.icon.height
           }
-          ,style: { 
-            classes: 'qtip-tipsy' 
-            //,tip: {
-              //corner: true
-            //}
-          }
+          //,target: 'mouse'
+        }
+        ,style: { 
+          classes: 'qtip-tipsy' 
+          //,tip: {
+            //corner: true
+          //}
+        }
 
-          ,content: {
-            title: date,
-            text: [
-              '<div style="'
-                ,'font-family: \'Helvetica Neue\', Helvetica, Arial, sans-serif;'
-                ,'font-size: 15px;'
-                ,'font-weight: 200;'
-                ,'padding: 10px;'
-              ,'">'
-              ,props.titulo
-              ,'</div>'
-            ]
-            .join('')
-          }
+        ,content: {
+          title: _date,
+          text: [
+            '<div style="'
+              ,'font-family: \'Helvetica Neue\', Helvetica, Arial, sans-serif;'
+              ,'font-size: 15px;'
+              ,'font-weight: 200;'
+              ,'padding: 10px;'
+            ,'">'
+            ,props.titulo
+            ,'</div>'
+          ]
+          .join('')
+        }
 
-          ,show: { 
-            effect: false
-            ,event: 'click mouseenter'
-            ,delay: 50
-          }   
+        ,show: { 
+          effect: false
+          ,event: 'click mouseenter'
+          ,delay: 50
+        }   
 
-          ,hide: { 
-            effect: false
-            ,delay: 50
-            ,fixed: true
-          }
-        });
+        ,hide: { 
+          effect: false
+          ,delay: 50
+          ,fixed: true
+        }
       });
+    });
 
-      //.tipsy({ 
-        //gravity: 's', 
-        //html: true, 
-        //title: function() 
-        //{
-          //var d = this.__data__;
-          //var date = vis.tipformat( d.date );
-          //return [
-            //'<div style="'
-              //,'font-size: 15px;'
-              //,'padding: 10px;'
-            //,'">'
-            //,date
-            //,' '
-            //,d.titulo
-            //,'</div>'
-          //]
-          //.join(''); 
-        //}
-      //});
+    //.tipsy({ 
+      //gravity: 's', 
+      //html: true, 
+      //title: function() 
+      //{
+        //var d = el.__data__;
+        //var date = vis.tipformat( d.date );
+        //return [
+          //'<div style="'
+            //,'font-size: 15px;'
+            //,'padding: 10px;'
+          //,'">'
+          //,date
+          //,' '
+          //,d.titulo
+          //,'</div>'
+        //]
+        //.join(''); 
+      //}
+    //});
 
   }
 

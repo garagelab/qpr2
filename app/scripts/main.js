@@ -77,23 +77,44 @@ require.config({
     ,imagesloaded: '../lib/imagesloaded'
     ,qtip2: '../lib/jquery.qtip.min'
     ,tipsy: '../lib/jquery.tipsy'
+    //,spin: '../bower_components/spin.js/spin'
   }
 
 });
 
 require( [ 
     'app'
+    ,'user'
+    ,'views/gmaps/gmap_view'
     //,'architect'
     //,'qtip2'
     //,'tipsy'
     ], 
 
-function( App ) 
+function( App, User, GMapView ) 
 {
 
   //Architect.setupWorkersPath('lib/architect');
 
   new App();
+
+  //(function next( seq )
+  //{
+    //console.log('next',seq)
+    //if ( seq.length > 0 )
+      //seq.shift()( function() 
+      //{ 
+        //next( seq ); 
+      //});
+  //})
+  //([
+    //GMapView.load_api
+    //,User.load_api
+    //, function()
+    //{
+      //new App();
+    //}
+  //]);
 
   //$.getJSON( 'config.json', 
     //function( config ) {

@@ -20,21 +20,21 @@ var scopes = [
   ,'https://www.googleapis.com/auth/plus.me'
 ];
 
-var Login = function()
+var User = function()
 {
 
   var $el = $('#login');
   var $bt = $el.find('button');
 
-  this.init = function()
+  this.login = function()
   {
-    auth( true ); 
+    //auth( true ); 
 
     //gapi.client.setApiKey( apikey );
-    //gapi.load( 'auth', function()
-    //{
-      //auth( true ); 
-    //});
+    gapi.load( 'auth', function()
+    {
+      auth( true ); 
+    });
   }
 
   this.logged = function()
@@ -109,7 +109,31 @@ var Login = function()
 
 }
 
-return Login;
+User.load_api = function( callback ) 
+{
+  if ( User.load_api.loaded === true )
+  {
+    console.log('user api loaded')
+    callback();
+    return;
+  }
+
+  var _cbname = '_init_user';
+
+  window[_cbname] = function() 
+  {
+    User.load_api.loaded = true;
+    window[_cbname] = null;
+    callback();
+  }
+
+  var s = document.createElement("script");
+  s.type = "text/javascript";
+  s.src = "https://apis.google.com/js/client.js&onload="+_cbname;
+  document.body.appendChild( s );
+}
+
+return User;
 
 });
 

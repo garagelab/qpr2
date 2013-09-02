@@ -3,9 +3,10 @@ define( [
     'jquery'
     ,'underscore'
     ,'backbone'
-    ,'login'
+    ,'user'
     //models
-    ,'models/qpr/Layer'
+    ,'models/qpr/Collection'
+    ,'models/qpr/Feature'
     ,'models/ft/FT'
     ,'models/crowdmap/crowdmap'
     //overlays
@@ -21,10 +22,10 @@ define( [
     ,'views/gmaps/gcuenca_view'
     ,'views/ui/LayerControlView'
     ,'views/ui/LayerColors'
-    ,'views/FeatureABMview'
     //controllers
     ,'controllers/HistoriaDetalleCtrler'
     ,'controllers/FeatureDetalleCtrler'
+    ,'controllers/FeatureABMctrler'
     //templates
     ,'text!tpl/ui/layer_controls.html'
     ,'text!tpl/ui/widgets.html'
@@ -33,8 +34,9 @@ define( [
 function( 
   $, _, Backbone
 
-  ,Login
-  ,Layer
+  ,User
+  ,Collection
+  ,Feature
   ,FT
   ,Crowdmap
 
@@ -51,10 +53,10 @@ function(
 
   ,LayerControlView 
   ,LayerColors
-  ,FeatureABMview
 
   ,HistoriaDetalleCtrler
   ,FeatureDetalleCtrler
+  ,FeatureABMctrler
 
   ,tpl_layer_controls
   ,tpl_widgets
@@ -65,7 +67,6 @@ function(
 
 var App = function( config ) 
 { 
-  //var hash = parseUri(location.href).anchorKey;
 
   var Router = Backbone.Router.extend({
 
@@ -84,13 +85,13 @@ var App = function( config )
   Backbone.history.start(); 
 
 
-  var login;
+  var user;
   var layers = {};
   var mapview, gcuenca;
   var cur_detalle;
 
   window.layers = layers;
-  window.login = login;
+  window.user = user;
  
   var layer_factory = 
   {
@@ -107,34 +108,32 @@ var App = function( config )
     //capitalize name
     var parserclass = name.charAt(0).toUpperCase() + name.slice(1);
 
-    var parser = new FT.LayerParsers
+    var parser = new FT.Parsers
       [parserclass]({
         name: name
         ,icon: opt.icon
       });
 
     var api = new FT.API({
-      read: {
-        params: {
-          sql: [
-            'SELECT '
-            ,parser.db().join(',')
-            //,'*'
-            ,' FROM '
-            ,opt.ftid
-          ].join('') 
-        }
-      }
+      ftid: opt.ftid
+      ,read: { cols: parser.db() }
     });
-    window.apift = api;
 
-    var model = new Layer([], {
-      name: name
+    var collection = new Collection([], {
+      model: Feature
+      ,name: name
       ,api: api
       ,parser: parser
     });
 
-    return model;
+    // TODO dispose layer collection
+    collection.listenTo( 
+      parser, 
+      'add:feature', 
+      collection.add,
+      collection );
+
+    return collection;
   }
 
   layer_factory.model.crowdmap.make = 
@@ -143,7 +142,7 @@ var App = function( config )
     //capitalize name
     var parserclass = name.charAt(0).toUpperCase() + name.slice(1);
 
-    var parser = new Crowdmap.LayerParsers
+    var parser = new Crowdmap.Parsers
       [parserclass]({
         name: name
         ,icon: opt.icon
@@ -156,13 +155,21 @@ var App = function( config )
       }
     });
 
-    var model = new Layer([], {
-      name: name
+    var collection = new Collection([], {
+      model: Feature
+      ,name: name
       ,api: api
       ,parser: parser
     });
 
-    return model;
+    // TODO dispose layer collection
+    collection.listenTo( 
+      parser, 
+      'add:feature', 
+      collection.add,
+      collection );
+
+    return collection;
   } 
 
   layer_factory.overlays.make = 
@@ -410,7 +417,13 @@ var App = function( config )
   } 
 
   function close_all_infowins()
-  {}
+  {
+    _.each( layers, function( layer ) 
+    {
+      layer.view.overlays.infowins
+        .infowin().close();
+    });
+  }
 
   function add_detalle( feature, mapview )
   {
@@ -423,36 +436,51 @@ var App = function( config )
     var props = feature.get('properties');
     var feature_abm;
 
+    var config = {
+      type: 'fusiontables'
+      ,ftid: '1uIgt8vsouqvnDg3TZUFZe4bkMqC1IiM8R006Muw' 
+    };
+
     var DetalleCtrler = 
       props.type === 'historias'
-      ? HistoriaDetalleCtrler
-      : FeatureDetalleCtrler;
+        ? HistoriaDetalleCtrler
+        : FeatureDetalleCtrler;
 
-    cur_detalle = new DetalleCtrler(
-        layers, feature, mapview );
+    cur_detalle = new DetalleCtrler({
+      layers: layers
+      ,feature: feature
+      ,mapview: mapview
+      ,config: config 
+    });
 
     cur_detalle.on( 'close', function()
     {
       cur_detalle.off();
       cur_detalle = null;
-      ui.$widgets.show();
 
       if ( feature_abm )
+      {
         feature_abm.close();
+        feature_abm = null;
+      }
+
+      ui.$widgets.show();
+
+      close_all_infowins();
     });
 
     ui.$widgets.hide();
 
     if ( cur_detalle instanceof 
         FeatureDetalleCtrler 
-        && login.logged() )
+        && user.logged() )
     {
-      feature_abm = new FeatureABMview({
+      feature_abm = new FeatureABMctrler({
         feature: feature
         ,layers: layers
+        ,user: user
+        ,config: config 
       });
-
-      $('body').append(feature_abm.render().el);
     }
 
   }
@@ -515,6 +543,7 @@ var App = function( config )
 
     ui.$origin.click( function(e)
     {
+      //close_all_infowins();
       mapview.origin(); 
     });
 
@@ -566,8 +595,8 @@ var App = function( config )
   // init
 
 
-  login = new Login();
-  login.init();
+  user = new User();
+  user.login();
 
   mapview = new GMapView({
     el: document.getElementById("map")

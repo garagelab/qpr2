@@ -2,71 +2,33 @@ define( [
     'jquery'
     ,'underscore'
     ,'backbone'
-    ,'models/qpr/Layer'
+    ,'models/qpr/Collection'
+    ,'models/qpr/FeatureHistoria'
     ,'models/ft/FT'
     ,'views/detalles/HistoriaView'
     ], 
 
 function( $, _, Backbone, 
-  Layer, FT, HistoriaView ) 
+  Collection, FeatureHistoria, 
+  FT, HistoriaView ) 
 {
 
 'use strict';
 
-var HistoriaDetalleCtrler = 
-function( layers, feature, mapview )
+var HistoriaDetalleCtrler = function( opt )
 {
   _.extend( this, Backbone.Events );
 
-  var hid = feature.get('id');
+  var layers = opt.layers;
+  var feature = opt.feature;
+  var mapview = opt.mapview;
 
-  var ftid = 
-  '1uIgt8vsouqvnDg3TZUFZe4bkMqC1IiM8R006Muw';
-
-  var layers_models = {};
-  for ( var k in layers )
-    layers_models[k] = layers[k].model;
-
-  //console.log('historia detalle ctrler',layers)
-
-  var parser = new FT.LayerParsers
-    .HistoriaDetalle({
-      name: hid
-      ,layers_models: layers_models
-    });
-
-  var api = new FT.API({
-    read: {
-      params: {
-        sql: [
-          'SELECT '
-          ,parser.db().join(',')
-          ,' FROM '
-          ,ftid
-          ,' WHERE '
-          ,'hid'
-          ,' = '
-          ,'\''+hid+'\''
-        ].join('') 
-      }
-    }
-  });
-
-  var model = new Layer([], {
-    name: hid
-    ,api: api
-    ,parser: parser
-  });
-
-  //var model = new FT.Historia([], {
-    //ftid: 
-    //'1uIgt8vsouqvnDg3TZUFZe4bkMqC1IiM8R006Muw'
-    //,feature: feature
-    //,layers: layers_models
-  //});
+  var collection = HistoriaDetalleCtrler
+    .factory.model[opt.config.type]
+    .make( opt );
 
   var view = new HistoriaView({
-    model: model
+    collection: collection
     ,feature: feature
   }); 
 
@@ -81,7 +43,9 @@ function( layers, feature, mapview )
     extra_markers = null;
 
     this.trigger('close');
+    
     view.off();
+    collection.off();
   }
   , this );
 
@@ -119,7 +83,7 @@ function( layers, feature, mapview )
 
   $('body').append( view.render().el );
 
-  model.fetch();
+  collection.fetch();
 
   this.close = function()
   {
@@ -127,6 +91,64 @@ function( layers, feature, mapview )
     view.close();
   }
 
+};
+
+HistoriaDetalleCtrler
+.factory = {
+  model: {
+    fusiontables: {
+      make: function(opt){}
+    }
+  }
+};
+
+HistoriaDetalleCtrler
+.factory.model.fusiontables.make = 
+function( opt )
+{
+  var layers = opt.layers;
+  var ftid = opt.config.ftid;
+  var hid = opt.feature.get('properties').id;
+
+  var parser = new FT.Parsers.HistoriaDetalle({
+    name: 'historia_'+hid
+    ,layers: layers
+  });
+
+  var api = new FT.API({
+    ftid: ftid
+    ,read: {
+      cols: parser.db()
+      ,filters: [
+        ,' WHERE '
+        ,'hid'
+        ,' = '
+        ,'\''+ hid +'\''
+      ]
+      .join('')
+    }
+  });
+
+  var collection = new Collection([], {
+    model: FeatureHistoria
+    ,name: hid
+    ,api: api
+    ,parser: parser
+  });
+
+  collection.listenTo( 
+    parser, 
+    'add:feature_historia', 
+    collection.add,
+    collection );
+
+  //var model = new FT.Historia([], {
+    //ftid
+    //,feature: feature
+    //,layers: layers
+  //});
+
+  return collection;
 };
 
 return HistoriaDetalleCtrler;

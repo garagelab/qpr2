@@ -89,7 +89,7 @@ var GInfowinsView = Backbone.View.extend({
       // see dispose()
       .click( function()
       {
-        self._infowin.close();
+        //self._infowin.close();
         self.trigger('select:feature', feature);
       });
 

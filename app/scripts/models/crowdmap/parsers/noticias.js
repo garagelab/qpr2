@@ -2,7 +2,7 @@ define( [
     'jquery' 
     ,'underscore'
     ,'backbone'
-    ,'models/qpr/feature'
+    ,'models/qpr/Feature'
     ,'utils'
     ], 
 
@@ -67,7 +67,8 @@ function( data, sync_opt )
     this.trigger('add:feature', new Feature({ 
       id: r.incidentid
       ,properties: {
-        type: opt.name
+        id: r.incidentid
+        ,type: opt.name
         ,date: {
           iso: date
           ,src: r.incidentdate

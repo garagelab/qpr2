@@ -15,48 +15,112 @@ var FT_API = function( opt )
   this.options = opt;
 };
 
+FT_API.prototype.access = function( callback )
+{
+
+  var ftid = this.options.ftid;
+  var _fn = this.access;
+
+  if ( !_fn.tables )
+    _req_tables();
+  else 
+    _cb();
+
+  function _cb()
+  {
+    callback( _.indexOf(_fn.tables, ftid) > -1 );
+  }
+
+  function _req_tables()
+  {
+    gapi.client.request({
+      path: '/fusiontables/v1/tables'
+      ,callback: function( res ) 
+      {
+        _fn.tables = res.items 
+          ? _.pluck( res.items, 'tableId' )
+          : [];
+        _cb();
+      }
+    });
+  }
+
+};
+
+FT_API.prototype.destroy = 
+function( model, success, error )
+{
+  //console.log( 'ft destroy', arguments ); 
+
+  var ftid = this.options.ftid;
+  var ROWID = model.get('ROWID');
+
+  gapi.client.request({
+
+    path: '/fusiontables/v1/query'
+    ,method: 'POST'
+    ,params: {
+      sql: [
+        'DELETE FROM '
+        ,ftid
+        ,' WHERE '
+        ,'ROWID'
+        ,' = '
+        ,'\''+ ROWID +'\''
+      ]
+      .join('')
+    }
+
+    ,callback: function( res ) 
+    {
+      if ( success ) success( res );
+    }
+
+  });
+
+}
+
 FT_API.prototype.create = 
 function( model, success, error )
 {
 
-  console.log( 'ft create' ); 
+  var ftid = this.options.ftid;
+  var data = model.toJSON();
 
-  var ftid = '1uIgt8vsouqvnDg3TZUFZe4bkMqC1IiM8R006Muw';
-
-  var data = {
-    hid: "'4'"
-    ,tipo: "'industrias'"
-    ,link_id: "'1002553'"
-  };
-
-  var keys = [], vals = [];
-  for ( var k in data )
+  var keys = _.keys(data).join(',');
+  var vals = _.map( _.values(data), function(d)
   {
-    keys.push( k );
-    vals.push( data[k] );
-  }
+    return '\''+d+'\'';
+  })
+  .join(',');
 
   gapi.client.request({
+
     path: '/fusiontables/v1/query'
     ,method: 'POST'
     ,params: {
       sql: [
         'INSERT INTO '
         ,ftid
-        ,' (' + keys.join(',') + ') '
+        ,' (' + keys + ') '
         ,'VALUES'
-        ,' (' + vals.join(',') + ')'
+        ,' (' + vals + ')'
       ]
       .join('')
     }
+
+    ,callback: function( res ) 
+    {
+      if ( success ) success({
+        ROWID: res.rows[0][0]
+      });
+    }
+
     //,headers: {
       //'Authorization': 
         //'Bearer ' + tk.access_token
-    //}
-    ,callback: function( res ) 
-    {
-      console.log( 'ft create res', res ); 
-    }
+    //} 
+
   });
 
 };
@@ -65,7 +129,16 @@ FT_API.prototype.read =
 function( model, success, error )
 {
 
-  var sql = this.options.read.params.sql;
+  var ftid = this.options.ftid;
+
+  var sql = [
+    'SELECT '
+    ,this.options.read.cols.join(',')
+    ,' FROM '
+    ,ftid
+    ,this.options.read.filters || ''
+  ]
+  .join('');
 
   var url = [
     'https://www.googleapis.com/fusiontables/v1/query'

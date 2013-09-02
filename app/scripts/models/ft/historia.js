@@ -27,7 +27,7 @@ var Historia_FT = Backbone.Collection.extend({
   ,initialize: function( models, opt ) 
   {
     this.opt = opt;
-    var hid = this.opt.feature.get('id');
+    var hid = opt.feature.get('properties').id;
 
     this.db = [
       'hid'
@@ -115,7 +115,7 @@ var Historia_FT = Backbone.Collection.extend({
 
     //var db = this.db;
     //var ftid = this.opt.ftid;
-    //var hid = this.opt.feature.get('id');
+    //var hid = this.opt.feature.get('properties').id;
 
     //sync_opt || (sync_opt = {});
 

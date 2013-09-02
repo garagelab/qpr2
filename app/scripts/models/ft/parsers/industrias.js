@@ -2,7 +2,7 @@ define( [
     'jquery' 
     ,'underscore'
     ,'backbone'
-    ,'models/qpr/feature'
+    ,'models/qpr/Feature'
     ,'utils'
     ], 
 
@@ -72,15 +72,13 @@ function( data, sync_opt )
     resumen = producto;
     descripcion = nombre+' '+producto;
 
-    var dateiso = new Date( date )
-      .toISOString();
-
     this.trigger( 'add:feature', new Feature({ 
       id: id
       ,properties: {
-        type: opt.name
+        id: id
+        ,type: opt.name
         ,date: {
-          iso: dateiso
+          iso: new Date( date ).toISOString()
           ,src: date
         }
         ,titulo: titulo

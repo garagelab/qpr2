@@ -151,28 +151,29 @@ var GMapView = function( opt )
   //}
 //}
 
-//GMapView.load_api = function( callback ) 
-//{
-  //if ( GMapView.load_api.loaded === true )
-  //{
-    //callback();
-    //return;
-  //}
+GMapView.load_api = function( callback ) 
+{
+  if ( GMapView.load_api.loaded === true )
+  {
+    console.log('gmaps api loaded')
+    callback();
+    return;
+  }
 
-  //var _cbname = '_init_map';
+  var _cbname = '_init_map';
 
-  //window[_cbname] = function() 
-  //{
-    //GMapView.load_api.loaded = true;
-    //window[_cbname] = null;
-    //callback();
-  //}
+  window[_cbname] = function() 
+  {
+    GMapView.load_api.loaded = true;
+    window[_cbname] = null;
+    callback();
+  }
 
-  //var s = document.createElement("script");
-  //s.type = "text/javascript";
-  //s.src = "http://maps.googleapis.com/maps/api/js?sensor=false&callback="+_cbname;
-  //document.body.appendChild( s );
-//}
+  var s = document.createElement("script");
+  s.type = "text/javascript";
+  s.src = "https://maps.googleapis.com/maps/api/js?sensor=false&callback="+_cbname;
+  document.body.appendChild( s );
+}
 
 return GMapView;
 

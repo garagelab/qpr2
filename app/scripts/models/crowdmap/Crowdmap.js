@@ -1,15 +1,15 @@
 define( [ 
     'models/crowdmap/api'
-    ,'models/crowdmap/layer_parsers/historias'
-    ,'models/crowdmap/layer_parsers/alertas'
-    ,'models/crowdmap/layer_parsers/noticias'
+    ,'models/crowdmap/parsers/historias'
+    ,'models/crowdmap/parsers/alertas'
+    ,'models/crowdmap/parsers/noticias'
     ], 
 
 function( 
   API
-  ,LayerParserHistorias
-  ,LayerParserAlertas
-  ,LayerParserNoticias
+  ,ParserHistorias
+  ,ParserAlertas
+  ,ParserNoticias
   ) 
 {
 
@@ -17,10 +17,10 @@ function(
 
 return {
   API: API
-  ,LayerParsers: {
-    Historias: LayerParserHistorias
-    ,Alertas: LayerParserAlertas
-    ,Noticias: LayerParserNoticias
+  ,Parsers: {
+    Historias: ParserHistorias
+    ,Alertas: ParserAlertas
+    ,Noticias: ParserNoticias
   }
 };
 

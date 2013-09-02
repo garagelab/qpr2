@@ -2,11 +2,13 @@ define( [
     'jquery' 
     ,'underscore'
     ,'backbone'
-    ,'models/qpr/feature'
+    ,'models/qpr/Feature'
+    ,'models/qpr/FeatureHistoria'
     ,'utils'
     ], 
 
-function( $, _, Backbone, Feature, utils ) 
+function( $, _, Backbone, 
+  Feature, FeatureHistoria, utils ) 
 {
 
 'use strict';
@@ -26,6 +28,7 @@ function HistoriaDetalle( opt )
     'hid'
     ,'tipo'
     ,'link_id'
+    ,'fecha'
   ];
 
 }
@@ -34,18 +37,24 @@ HistoriaDetalle.prototype.parse =
 function( data, sync_opt )
 {
   var db = this.db();
-  var layers_models = this.opt.layers_models;
+  var layers = this.opt.layers;
 
   //console.log( 'historia parse', data,
-      //'layers_models', layers_models);
-  
+      //'layers', layers);
+
   var j, idx;
 
-  var link, layer_model, link_feature;
-
-  var _data = [];
+  var link, layer_coll, link_feature, date;
 
   var rows = data.rows;
+
+  // se llego ningun link para esta historia
+  if ( ! rows )
+  {
+    console.warn('la historia con data', data, 'no tiene links');
+    return;
+  }
+
   var row, i = rows.length;
 
   while( i-- )
@@ -60,15 +69,14 @@ function( data, sync_opt )
       idx = db.indexOf( db[j] );
       link[ db[j] ] = row[ idx ];
     }
-    _data.push( link );
 
     //console.log( 'link', link );
     //console.log(
         //'\t layer model', 
-        //layers_models[ link.tipo ] );
+        //layers[ link.tipo ] );
 
-    layer_model = layers_models[ link.tipo ]; 
-    if ( ! layer_model )
+    layer_coll = layers[ link.tipo ].model;
+    if ( ! layer_coll )
       continue;
       //return; 
 
@@ -76,7 +84,7 @@ function( data, sync_opt )
     // de feature/models
     // => podemos hacer get() x id
     // del link model
-    link_feature = layer_model.get(link.link_id);
+    link_feature = layer_coll.get(link.link_id);
 
     //console.log( '\t feature', link_feature );
 
@@ -84,7 +92,18 @@ function( data, sync_opt )
       continue;
       //return; 
 
-    this.trigger('add:feature', link_feature); 
+    //this.trigger('add:feature', link_feature); 
+
+    date = link.fecha;
+
+    this.trigger('add:feature_historia',
+        new FeatureHistoria({
+          feature: link_feature
+          ,date: {
+            iso: new Date( date ).toISOString()
+            ,src: date
+          }
+        }) ); 
   }
 
   //utils.process( rows, parse, null, this );

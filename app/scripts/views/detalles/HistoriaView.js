@@ -28,8 +28,8 @@ var HistoriaView = Backbone.View.extend({
 
     this.$el.addClass('historia-view');
 
-    this.listenTo( this.model,
-      'add', this.feature_added, this );
+    this.listenTo( this.collection,
+      'add', this.feature_historia_added, this );
 
     // init win resize event
     // to update descripcion loc y
@@ -50,9 +50,12 @@ var HistoriaView = Backbone.View.extend({
     $(window).on('resize', this.on_win_resize);
   }
 
-  ,feature_added: function( feature ) 
+  ,feature_historia_added: 
+  function( feature_historia ) 
   {
-    this.timeline.add( feature ); 
+    this.timeline.add( 
+        feature_historia.get('feature')
+        ,feature_historia.get('date') );
     this.update_bottom();
   }
 
@@ -135,11 +138,17 @@ var HistoriaView = Backbone.View.extend({
     // d3 datum viene del timeline...
     var feature = e.target.__data__;
     var props = feature.get('properties');
-    var date = new Date( props.date.iso );
+
     var format = d3.time.format("%d/%m/%Y");
+
+    // puede no tener fecha el dato original...
+    var date = props.date 
+      ? format( new Date( props.date.iso ) )
+      : '';
+
     this.feature_preview.render({
       titulo: props.titulo
-      ,date: format( date )
+      ,date: date
       ,txt: props.descripcion
     });
   }

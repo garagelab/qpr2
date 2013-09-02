@@ -17,7 +17,7 @@ return {
     var fn = opt.iterator;
     var cb = opt.callback;
     var ctx = opt.context;
-    var chunks = opt.chunks || 10;
+    var chunks = opt.chunks || 5;
 
     var delay = 0;
     var cpy = arr.concat();

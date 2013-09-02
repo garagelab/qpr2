@@ -1,0 +1,58 @@
+
+<div class="abm-container">
+
+  <div><h6>Historias</h6></div>
+
+  <% _.each( historias, function( h ) { %> 
+
+    <div class="abm-historia">
+      <div class="id <%= h.id %>" style="display:none;"><%= h.id %></div>
+
+      <button class="upload-feature pure-button">
+        <i class="icon-upload"></i>
+      </button>
+
+      <button class="remove-feature pure-button">
+        <i class="icon-remove"></i>
+      </button>
+
+      <!--<button class="spinner pure-button pure-button-disabled">-->
+        <!--<i class="icon-spinner"></i>-->
+      <!--</button>-->
+
+      <span><%= h.properties.titulo %></span>
+
+    </div>
+
+  <% }); %>
+
+</div>
+
+<!--<button class="pure-button">-->
+  <!--<i class="icon-upload"></i>-->
+<!--</button>-->
+
+<!--<form class="pure-form">-->
+
+  <!--<fieldset>-->
+
+    <!--<legend>agregar esta entidad a una historia...</legend>-->
+
+    <!--<input type="search" list="historias">-->
+    <!--<datalist id="historias">-->
+      <!--<option value="h1">-->
+      <!--<option value="h2">-->
+    <!--</datalist>-->
+
+    <!--[><label for="historia">historia</label><]-->
+    <!--[><select id="historia"><]-->
+      <!--[><option>seleccionar...</option><]-->
+    <!--[></select><]-->
+
+    <!--<button class="pure-button">-->
+      <!--<i class="icon-upload"></i>-->
+    <!--</button>-->
+
+  <!--</fieldset>-->
+<!--</form>-->
+

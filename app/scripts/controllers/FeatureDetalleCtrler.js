@@ -10,12 +10,13 @@ function( $, _, Backbone, FeatureView )
 
 'use strict';
 
-var FeatureDetalleCtrler = 
-function( layers, feature, mapview )
+var FeatureDetalleCtrler = function( opt )
 {
   _.extend( this, Backbone.Events );
 
   var self = this;
+
+  var feature = opt.feature;
 
   var view = new FeatureView({
     model: feature
@@ -34,6 +35,11 @@ function( layers, feature, mapview )
   {
     //va a triggerear evento close de view
     view.close();
+  }
+
+  this.$el = function()
+  {
+    return view.$el;
   }
 
 };

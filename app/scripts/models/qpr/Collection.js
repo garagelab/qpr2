@@ -2,41 +2,31 @@ define( [
     'jquery'
     ,'underscore'
     ,'backbone'
-    ,'models/qpr/feature'
     ], 
 
-/*
- * Layer = Feature Collection
- */
-
-function( $, _, Backbone, Feature ) 
+function( $, _, Backbone ) 
 {
 
 'use strict';
 
-var Layer = Backbone.Collection.extend({
+var Collection = Backbone.Collection.extend({
 
-  model: Feature
+  //model: Feature
 
-  ,initialize: function( models, opt ) 
+  initialize: function( models, opt ) 
   {
-    var self = this;
     this.opt = opt;
-
-    opt.parser.on( 
-      'add:feature', 
-      _.bind( this.add, this ) );
   }
 
   ,sync: function( method, model, sync_opt )
   {
+    //console.log('Collection sync',arguments)
+
     var self = this;
     var opt = this.opt;
 
     var api = opt.api;
     var parser = opt.parser;
-
-    //console.log(this.opt.name,'sync',arguments)
 
     //sync_opt || (sync_opt = {});
 
@@ -78,7 +68,7 @@ var Layer = Backbone.Collection.extend({
 
 });
 
-return Layer;
+return Collection;
 
 });
 

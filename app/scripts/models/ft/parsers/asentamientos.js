@@ -2,7 +2,7 @@ define( [
     'jquery' 
     ,'underscore'
     ,'backbone'
-    ,'models/qpr/feature'
+    ,'models/qpr/Feature'
     ,'utils'
     ], 
 
@@ -73,10 +73,12 @@ function( data, sync_opt )
       .reverse_polygon( 
           geom.coordinates[0] );
 
+    var id = name + _.uniqueId(' polygon ');
     this.trigger('add:feature', new Feature({ 
-      id: name + _.uniqueId(' polygon ')
+      id: id
       ,properties: {
-        type: opt.name
+        id: id
+        ,type: opt.name
         ,titulo: name
         ,resumen: descripcion
         ,descripcion: descripcion
@@ -95,7 +97,8 @@ function( data, sync_opt )
     this.trigger('add:feature', new Feature({ 
       id: name
       ,properties: {
-        type: opt.name
+        id: name
+        ,type: opt.name
         ,titulo: name
         ,resumen: descripcion
         ,descripcion: descripcion

@@ -2,7 +2,7 @@ define( [
     'jquery' 
     ,'underscore'
     ,'backbone'
-    ,'models/qpr/feature'
+    ,'models/qpr/Feature'
     ,'utils'
     ], 
 
@@ -79,10 +79,11 @@ function( data, sync_opt )
     this.trigger('add:feature', new Feature({ 
       //las historias tienen hid = titulo
       //para filtrar en el FT/links x hid
-      //id: r.incidenttitle
       id: r.incidentid
       ,properties: {
-        type: opt.name
+        //id: r.incidenttitle
+        id: r.incidentid
+        ,type: opt.name
         ,date: {
           iso: date
           ,src: r.incidentdate
