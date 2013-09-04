@@ -25,6 +25,8 @@ function Asentamientos( opt )
   var _db = {
     name: 'BARRIO'
     ,geom: 'Poligono'
+    ,partido: 'PARTIDO'
+    ,localidad: 'LOCALIDAD'
     //,loc: 'center' 
   };
 
@@ -48,6 +50,10 @@ function( data, sync_opt )
     ,name
     ,descripcion; 
 
+  var locacion
+    ,localidad
+    ,partido;
+
   var rows = data.rows;
   //var row, i = rows.length;
 
@@ -60,6 +66,9 @@ function( data, sync_opt )
     geom = row[ this.dbi.geom ].geometry;
     name = row[ this.dbi.name ]; 
 
+    localidad = row[ this.dbi.localidad ]; 
+    partido = row[ this.dbi.partido ]; 
+
     //console.log(name,row)
 
     if ( _.isEmpty(geom) 
@@ -68,6 +77,8 @@ function( data, sync_opt )
       return;
 
     descripcion = 'asentamiento ' + name;
+
+    locacion = localidad + ', ' + partido;
 
     polyarr = utils
       .reverse_polygon( 
@@ -83,6 +94,7 @@ function( data, sync_opt )
         ,resumen: descripcion
         ,descripcion: descripcion
         ,icon: opt.icon
+        ,locacion: locacion
       }
       ,geometry: {
         type: 'Polygon'
@@ -103,6 +115,7 @@ function( data, sync_opt )
         ,resumen: descripcion
         ,descripcion: descripcion
         ,icon: opt.icon
+        ,locacion: locacion
       }
       ,geometry: {
         type: 'Point'

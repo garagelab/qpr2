@@ -19,9 +19,14 @@ var HistoriaDetalleCtrler = function( opt )
 {
   _.extend( this, Backbone.Events );
 
-  var layers = opt.layers;
   var feature = opt.feature;
+  var layers = opt.layers;
   var mapview = opt.mapview;
+
+  this.feature = function()
+  {
+    return feature;
+  }
 
   var collection = HistoriaDetalleCtrler
     .factory.model[opt.config.type]

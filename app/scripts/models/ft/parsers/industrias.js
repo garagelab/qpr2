@@ -28,6 +28,7 @@ function Industrias( opt )
     ,date: 'fecha'
     ,nombre: 'razon_social'
     ,producto: 'producto_1'
+    ,locacion: 'location'
   };
 
   this.dbi = {};
@@ -52,6 +53,7 @@ function( data, sync_opt )
 
     ,coordarr
     ,nombre
+    ,locacion
     ,producto; 
 
   var rows = data.rows;
@@ -66,6 +68,7 @@ function( data, sync_opt )
     coordarr = (row[this.dbi.loc]).split(' '); 
     date = row[ this.dbi.date ];
     nombre = row[ this.dbi.nombre ]; 
+    locacion = row[ this.dbi.locacion ]; 
     producto = row[ this.dbi.producto ]; 
 
     titulo = nombre;
@@ -84,9 +87,8 @@ function( data, sync_opt )
         ,titulo: titulo
         ,resumen: resumen
         ,descripcion: descripcion
-        //,nombre: nombre
-        //,producto: producto
         ,icon: opt.icon
+        ,locacion: locacion
       }
       ,geometry: {
         type: 'Point'

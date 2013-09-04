@@ -255,7 +255,6 @@ var App = function( config )
       'select:feature',
       function( feature )
       {
-        mapview.focus( feature );
         add_detalle( feature, mapview );
       });
 
@@ -421,14 +420,19 @@ var App = function( config )
     _.each( layers, function( layer ) 
     {
       layer.view.overlays.infowins
+        //.hide();
         .infowin().close();
     });
   }
 
   function add_detalle( feature, mapview )
   {
+    mapview.focus( feature );
+
     if ( cur_detalle )
     {
+      if ( cur_detalle.feature() === feature )
+        return;
       cur_detalle.close();
       cur_detalle = null;
     }
@@ -648,7 +652,7 @@ var App = function( config )
         }
         ,color: colores.get('industrias')
         ,overlays: ['canvas_points']
-        ,visible: true
+        //,visible: true
       }
     }
 
@@ -663,7 +667,7 @@ var App = function( config )
           url: 'images/markers/basural.png'
         }
         ,color: colores.get('basurales')
-        ,visible: true
+        //,visible: true
       }
     }
 
@@ -678,7 +682,7 @@ var App = function( config )
           url: 'images/markers/ecopunto.png'
         }
         ,color: colores.get('ecopuntos')
-        ,visible: true
+        //,visible: true
       }
     }
 
@@ -693,7 +697,7 @@ var App = function( config )
           url: 'images/markers/asentamiento.png'
         }
         ,color: colores.get('asentamientos')
-        ,visible: true
+        //,visible: true
       }
     }
 
@@ -709,7 +713,7 @@ var App = function( config )
           url: 'images/markers/alerta.png'
         }
         ,color: colores.get('alertas')
-        ,visible: true
+        //,visible: true
       }
     }
 
@@ -725,7 +729,7 @@ var App = function( config )
           url: 'images/markers/noticia.png'
         }
         ,color: colores.get('noticias')
-        ,visible: true
+        //,visible: true
       }
     }
 

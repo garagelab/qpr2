@@ -48,7 +48,7 @@ function( data, sync_opt )
 
   var rows = data.rows;
 
-  // se llego ningun link para esta historia
+  // no llego ningun link para esta historia
   if ( ! rows )
   {
     console.warn('la historia con data', data, 'no tiene links');

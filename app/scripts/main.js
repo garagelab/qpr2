@@ -66,6 +66,7 @@ require.config({
     ,underscore: '../bower_components/underscore-amd/underscore'
 
     ,markerclusterer: '../lib/markerclusterer_packed'
+    ,infobox: '../lib/infobox_packed'
     ,d3: '../bower_components/d3/d3'
     ,parseuri: '../lib/parseuri'
     ,chroma: '../lib/chroma.min'

@@ -2,9 +2,10 @@ define( [
     'jquery'
     ,'underscore'
     ,'backbone'
+    ,'text!tpl/infowin.html'
     ], 
 
-function( $, _, Backbone ) 
+function( $, _, Backbone, tpl ) 
 {
 
 'use strict';
@@ -28,6 +29,9 @@ var GInfowinsView = Backbone.View.extend({
     this._visible = opt.visible;
   }
 
+  // solo 1 infowin x layer ?
+  ,tpl: _.template( tpl )
+
   ,dispose: function()
   {
     for ( var k in this.$infowins )
@@ -41,7 +45,7 @@ var GInfowinsView = Backbone.View.extend({
 
   ,is_visible: function()
   {
-    return this._visible;
+    return !!this._visible;
   }
 
   ,visible: function( v )
@@ -63,6 +67,7 @@ var GInfowinsView = Backbone.View.extend({
 
   ,hide: function()
   {
+    this._infowin.close();
     this._visible = false;
   }
 
@@ -81,10 +86,30 @@ var GInfowinsView = Backbone.View.extend({
     var props = feature.get('properties');
     var id = feature.get('id');
 
+    var temas = props.temas
+      ? _.without(
+          props.temas.split(',')
+          ,props.type )
+        .join(',')
+      : '';
+
     var $infowin = $('<div/>')
-      .append( 
-          '<b>'+props.titulo+'</b>'+
-          '<br>'+props.resumen )
+
+      .addClass( 'infowin' )
+      .html(
+          this.tpl({
+            titulo: props.titulo
+            ,resumen: props.resumen
+            ,type: props.type
+            ,temas: temas
+            ,locacion: props.locacion
+            ,date: props.date 
+              ? props.date.src
+              : ''
+          }) )
+      //.append( 
+          //'<b>'+props.titulo+'</b>'+
+          //'<br>'+props.resumen )
 
       // see dispose()
       .click( function()
@@ -96,7 +121,6 @@ var GInfowinsView = Backbone.View.extend({
     this.$infowins[ id ] = $infowin;
   }
 
-  // get/set infowin
   ,infowin: function( feature )
   {
     if ( ! feature )

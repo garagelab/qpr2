@@ -21,35 +21,83 @@ var GMapView = function( opt )
   var zoom = 10;
 
   var map_styles = [
+
+    //{
+      //stylers: [
+        //{
+          //"hue": "#f1c40f"
+        //}
+      //]
+    //}
+
     {
-      featureType: "poi.business",
-        stylers: [
+      featureType: "poi.business"
+      ,stylers: [
         { visibility: "off" }
       ]
-    },{
-      featureType: "road",
-        elementType: "labels",
-        stylers: [
+    }
+
+    //,{ 
+      //featureType: "poi", //parks?
+      //stylers: [
+        //{ visibility: "on" }
+        //,{ color: "#1abc9c" }
+      //]
+    //}
+
+    ,{
+      featureType: "road"
+      ,elementType: "labels"
+      ,stylers: [
         { visibility: "on" }
-      ]
-    },{
-      featureType: "road",
-        elementType: "geometry",
-        stylers: [
-        { visibility: "simplified" },
-        { lightness: 80 }
-      ]
-    },{
-      featureType: "transit.line",
-      stylers: [
-      { visibility: "off" }
-      ]
-    },{
-      featureType: "transit.station.bus",
-      stylers: [
-      { visibility: "off" }
+        //,{ color: "#34495e" }
       ]
     }
+
+    ,{
+      featureType: "road"
+      ,elementType: "geometry"
+      ,stylers: [
+        { visibility: "simplified" }
+        ,{ lightness: 80 }
+      ]
+    }
+
+    ,{
+      featureType: "transit.line"
+      ,stylers: [
+        { visibility: "off" }
+      ]
+    }
+
+    ,{
+      featureType: "transit.station.bus"
+      ,stylers: [
+        { visibility: "off" }
+      ]
+    }
+
+    ,{
+      featureType: "water"
+      ,stylers: [
+         { visibility: "on" }
+         ,{ 
+           color: 
+             "#3498db" 
+             //"#2980b9" 
+             //"#34495e" 
+         }
+      ]
+    }
+
+    ,{
+      featureType: "landscape"
+      ,stylers: [
+        { "visibility": "on" }
+        ,{ "color": "#ecf0f1" }
+      ]
+    }
+
   ];
 
   var _map = new google.maps.Map( el, {
@@ -108,7 +156,7 @@ var GMapView = function( opt )
     var geom = feature.get('geometry');
 
     var coord = new google.maps.LatLng(
-        geom.coordinates[0] - 0.03
+        geom.coordinates[0] - 0.02
         ,geom.coordinates[1] + 0.03 );
 
     _map.setCenter( coord );

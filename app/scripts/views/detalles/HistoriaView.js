@@ -53,9 +53,17 @@ var HistoriaView = Backbone.View.extend({
   ,feature_historia_added: 
   function( feature_historia ) 
   {
-    this.timeline.add( 
-        feature_historia.get('feature')
-        ,feature_historia.get('date') );
+    var feature=feature_historia.get('feature');
+
+    // XXX aca se puede decidir que fecha
+    // usar para el timeline
+    // si la fecha del feature en la historia
+    // o la fecha del feature mismo
+    var date = feature_historia.get('date');
+    //var date = feature.get('properties').date;
+
+    this.timeline.add( feature, date );
+
     this.update_bottom();
   }
 

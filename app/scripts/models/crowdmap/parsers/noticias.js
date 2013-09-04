@@ -38,6 +38,8 @@ function( data, sync_opt )
   var date
     ,titulo
     ,resumen
+    ,locacion
+    ,temas
     ,descripcion;
 
   var reportes = data.payload.incidents; 
@@ -59,6 +61,14 @@ function( data, sync_opt )
 
     titulo = r.incidenttitle;
     descripcion = r.incidentdescription;
+    locacion = r.locationname;
+
+    temas = [];
+    _.each( reporte.categories, function(cat)
+    {
+      temas.push( cat.category.title );
+    });
+    temas = temas.join(',');
 
     date = new Date( 
         r.incidentdate.replace(' ','T') )
@@ -77,6 +87,8 @@ function( data, sync_opt )
         ,resumen: resumen 
         ,descripcion: descripcion 
         ,icon: opt.icon
+        ,locacion: locacion
+        ,temas: temas
       }
       ,geometry: {
         type: 'Point'

@@ -129,7 +129,7 @@ var GCanvasLayerView = Backbone.View.extend({
 
   ,is_visible: function()
   {
-    return this._visible;
+    return !!this._visible;
   }
 
   ,visible: function( v )

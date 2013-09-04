@@ -1,0 +1,60 @@
+$infowin_type_radius: .25em;
+
+.gm-style div.infowin *
+{
+  font-size: 14px;
+  font-weight: 200;
+  line-height: 20px;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.infowin
+{
+  min-width: 250px;
+  max-width: 450px;
+}
+
+.infowin div.titulo
+{
+  font-weight: bold;
+  margin: 10px 4px;
+}
+
+.infowin div.date
+{
+  position: absolute;
+  float: right;
+  right: 0px;
+  top: 0px;
+  font-weight: bold;
+  margin: 0px 10px;
+}
+
+.infowin .type
+{
+  margin: 2px 0px 6px 0px;
+}
+
+.infowin .type span
+{
+  color: white;
+  padding: 3px 6px; 
+  font-weight: bold;
+  -webkit-border-radius: $infowin_type_radius;
+  -moz-border-radius: $infowin_type_radius;
+  border-radius: $infowin_type_radius;
+}
+
+.infowin .locacion
+,.infowin .temas
+{
+  color: gray;
+}
+
+.infowin .temas
+,.infowin .locacion
+,.infowin .resumen
+{
+  margin: 0px 4px;
+}
+

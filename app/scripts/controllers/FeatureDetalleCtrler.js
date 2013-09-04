@@ -17,6 +17,29 @@ var FeatureDetalleCtrler = function( opt )
   var self = this;
 
   var feature = opt.feature;
+  var layers = opt.layers;
+  var mapview = opt.mapview;
+
+  this.feature = function()
+  {
+    return feature;
+  }
+
+  var layer = layers
+    [ feature.get('properties').type ];
+
+  var marker;
+  var lmarkers = layer.view.overlays.markers;
+
+  if ( ! lmarkers.is_visible() )
+  {
+    if ( marker ) marker.setMap( null );
+    marker = lmarkers.make_marker( feature );
+    marker.setMap( mapview.map() );
+  }
+
+  layer.view.overlays.infowins
+    .infowin( feature );
 
   var view = new FeatureView({
     model: feature
@@ -24,7 +47,12 @@ var FeatureDetalleCtrler = function( opt )
 
   view.on( 'close', function()
   {
+    if ( marker ) 
+      marker.setMap( null );
+    marker = null;
+
     this.trigger('close');
+
     view.off();
   }
   , this );

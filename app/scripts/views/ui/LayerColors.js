@@ -97,7 +97,11 @@ LayerColors.prototype.add_css = function()
     var crgb = chroma
       .color( colores[k] ).rgb().join();
 
-    var sel = '.layer.'+k;
+    var sel = [
+      '.infowin .'+k 
+      ,'.layer.'+k 
+    ]
+    .join(',');
 
     _css.push( [
       sel
