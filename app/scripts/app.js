@@ -251,6 +251,12 @@ var App = function( config )
         ol.infowins.infowin, 
         ol.infowins );
 
+    //ol.infowins.listenTo( 
+        //ol.polygons,  
+        //'select:feature',
+        //ol.infowins.infowin, 
+        //ol.infowins );
+
     ol.infowins.on(
       'select:feature',
       function( feature )
@@ -455,15 +461,17 @@ var App = function( config )
       ,feature: feature
       ,mapview: mapview
       ,config: config 
-    });
+    }); 
 
-    cur_detalle.on( 'close', function()
+    cur_detalle.on( 'close', 
+    function()
     {
       cur_detalle.off();
       cur_detalle = null;
 
       if ( feature_abm )
       {
+        feature_abm.off();
         feature_abm.close();
         feature_abm = null;
       }
@@ -485,11 +493,19 @@ var App = function( config )
         ,user: user
         ,config: config 
       });
+
+      feature_abm.on( 'select:historia', 
+      function( e )
+      {
+        add_detalle( 
+          e.feature_historia, mapview );
+      });
+
     }
 
   }
 
-  //TODO hacer un layer de verdad de subcuencas
+  //TODO hacer un layer de verdad
   function make_gsubcuencas_layer( mapview ) 
   {
     var name = 'subcuencas';
@@ -512,6 +528,20 @@ var App = function( config )
         }
       }]
     });
+
+    google.maps.event.addListener(
+      layer, 'click',
+      function( e )
+      {
+        //dejamos solo la tabla....
+        e.infoWindowHtml = $('<table/>')
+          .html( 
+            $( e.infoWindowHtml )
+              .find('table')
+              .html() 
+            )
+          .html();
+      }); 
 
     var ctrl = new LayerControlView({
       name: name

@@ -23,7 +23,7 @@ var GPolygonsView = Backbone.View.extend({
     this.name = opt.name;
     this._visible = opt.visible;
 
-    this.polygons = [];
+    this._polygons = [];
 
     this.listenTo( this.model,
       'add', this.feature_added, this );
@@ -32,7 +32,13 @@ var GPolygonsView = Backbone.View.extend({
 
   ,dispose: function()
   {
-    //TODO marker dispose
+    _.each( this._polygons, function( p )
+    {
+      google.maps.event
+        .clearInstanceListeners( p );
+      p.setMap( null );
+    });
+    this._polygons = [];
   } 
 
   ,is_visible: function()
@@ -56,7 +62,7 @@ var GPolygonsView = Backbone.View.extend({
 
     var opt = this.options;
 
-    _.each( this.polygons, function( p )
+    _.each( this._polygons, function( p )
     {
       p.setMap( opt.map );
     } 
@@ -67,7 +73,7 @@ var GPolygonsView = Backbone.View.extend({
 
   ,hide: function()
   {
-    _.each( this.polygons, function( p )
+    _.each( this._polygons, function( p )
     {
       p.setMap( null );
     });
@@ -96,6 +102,7 @@ var GPolygonsView = Backbone.View.extend({
   {
     //console.log('glayer add poly',feature)
 
+    var self = this; 
     var opt = this.options;
 
     var coordarr = feature
@@ -118,7 +125,14 @@ var GPolygonsView = Backbone.View.extend({
       fillOpacity: 0.4
     }); 
 
-    this.polygons.push( poly );
+    google.maps.event.addListener( 
+      poly, 'click',
+      function( e ) 
+      {
+        self.trigger('select:feature', feature);
+      }); 
+
+    this._polygons.push( poly );
 
     return poly;
   }

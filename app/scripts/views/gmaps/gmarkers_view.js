@@ -39,7 +39,13 @@ var GMarkersView = Backbone.View.extend({
 
   ,dispose: function()
   {
-    //TODO marker dispose
+    _.each( this._markers, function( m )
+    {
+      google.maps.event
+        .clearInstanceListeners( m );
+      m.setMap( null );
+    });
+    this._markers = [];
   } 
 
   ,is_visible: function()
@@ -111,7 +117,8 @@ var GMarkersView = Backbone.View.extend({
 
     google.maps.event.addListener( 
       marker, 'click',
-      function( e ) {
+      function( e ) 
+      {
         //self.infowin( feature );
         self.trigger('select:feature', feature);
       }); 

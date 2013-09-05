@@ -27,6 +27,8 @@ function Asentamientos( opt )
     ,geom: 'Poligono'
     ,partido: 'PARTIDO'
     ,localidad: 'LOCALIDAD'
+    ,flias: '\'NRO DE FLIAS\''
+    ,inicio: '\'AÑO DE CONFORMACIÓN DEL BARRIO\''
     //,loc: 'center' 
   };
 
@@ -47,8 +49,11 @@ function( data, sync_opt )
   var coordarr
     ,polyarr
     ,geom
-    ,name
-    ,descripcion; 
+    ,name;
+
+  var descripcion
+    ,flias
+    ,inicio;
 
   var locacion
     ,localidad
@@ -69,6 +74,9 @@ function( data, sync_opt )
     localidad = row[ this.dbi.localidad ]; 
     partido = row[ this.dbi.partido ]; 
 
+    flias = row[ this.dbi.flias ];
+    inicio = row[ this.dbi.inicio ];
+
     //console.log(name,row)
 
     if ( _.isEmpty(geom) 
@@ -76,7 +84,11 @@ function( data, sync_opt )
       //continue;
       return;
 
-    descripcion = 'asentamiento ' + name;
+    descripcion = [
+      'Cantidad de Familias ' + flias
+      ,'Año de inicio ' + inicio
+    ]
+    .join(' / ');
 
     locacion = localidad + ', ' + partido;
 

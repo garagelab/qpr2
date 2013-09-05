@@ -2,9 +2,10 @@ define( [
     'jquery'
     ,'underscore'
     ,'backbone'
+    ,'views/gmaps/gmap_styles'
     ], 
 
-function( $, _, Backbone ) {
+function( $, _, Backbone, map_styles ) {
 
 'use strict';
 
@@ -18,87 +19,7 @@ var GMapView = function( opt )
     -34.98584712167135, -58.40400708984373 );
     //-34.965016,-59.057067 );
 
-  var zoom = 10;
-
-  var map_styles = [
-
-    //{
-      //stylers: [
-        //{
-          //"hue": "#f1c40f"
-        //}
-      //]
-    //}
-
-    {
-      featureType: "poi.business"
-      ,stylers: [
-        { visibility: "off" }
-      ]
-    }
-
-    //,{ 
-      //featureType: "poi", //parks?
-      //stylers: [
-        //{ visibility: "on" }
-        //,{ color: "#1abc9c" }
-      //]
-    //}
-
-    ,{
-      featureType: "road"
-      ,elementType: "labels"
-      ,stylers: [
-        { visibility: "on" }
-        //,{ color: "#34495e" }
-      ]
-    }
-
-    ,{
-      featureType: "road"
-      ,elementType: "geometry"
-      ,stylers: [
-        { visibility: "simplified" }
-        ,{ lightness: 80 }
-      ]
-    }
-
-    ,{
-      featureType: "transit.line"
-      ,stylers: [
-        { visibility: "off" }
-      ]
-    }
-
-    ,{
-      featureType: "transit.station.bus"
-      ,stylers: [
-        { visibility: "off" }
-      ]
-    }
-
-    ,{
-      featureType: "water"
-      ,stylers: [
-         { visibility: "on" }
-         ,{ 
-           color: 
-             "#3498db" 
-             //"#2980b9" 
-             //"#34495e" 
-         }
-      ]
-    }
-
-    ,{
-      featureType: "landscape"
-      ,stylers: [
-        { "visibility": "on" }
-        ,{ "color": "#ecf0f1" }
-      ]
-    }
-
-  ];
+  var zoom = 10; 
 
   var _map = new google.maps.Map( el, {
     center: riachuelo,

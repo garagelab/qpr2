@@ -6,6 +6,7 @@
   <% _.each( historias, function( h ) { %> 
 
     <div class="abm-historia">
+
       <div class="id <%= h.id %>" style="display:none;"><%= h.id %></div>
 
       <button class="upload-feature pure-button">
@@ -20,7 +21,8 @@
         <!--<i class="icon-spinner"></i>-->
       <!--</button>-->
 
-      <span><%= h.properties.titulo %></span>
+      <span class="titulo"><%= h.properties.titulo %></span>
+      <div><input type="date"></div>
 
     </div>
 

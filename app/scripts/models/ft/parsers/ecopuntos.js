@@ -25,6 +25,8 @@ function Ecopuntos( opt )
   var _db = {
     name: 'name'
     ,geom: 'geometry'
+    ,descripcion: 'description'
+    ,estado: 'estado_mayo_2013'
   };
 
   this.dbi = {};
@@ -58,7 +60,9 @@ function( data, sync_opt )
     name = row[ this.dbi.name ];
     geom = row[ this.dbi.geom ].geometry;
 
-    descripcion = 'ecopunto ' + name;
+    descripcion = 
+      row[ this.dbi.estado ] + ' ' +
+      row[ this.dbi.descripcion ];
 
     switch ( geom.type )
     {

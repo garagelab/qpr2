@@ -24,6 +24,9 @@ function Basurales( opt )
 
   var _db = {
     name: 'name'
+    //description tiene el nombre del basural
+    //en los poligonos (name en polis es Área)
+    ,description: 'description'
     ,geom: 'geometry'
   };
 
@@ -42,10 +45,11 @@ function( data, sync_opt )
   var opt = this.opt;
 
   var name
+    ,description
     ,geom
     ,coordarr
-    ,polyarr
-    ,descripcion; 
+    ,polyarr;
+    //,descripcion; 
 
   var rows = data.rows;
   //var row, i = rows.length;
@@ -56,9 +60,10 @@ function( data, sync_opt )
     //row = rows[i];
 
     name = row[ this.dbi.name ];
+    description = row[ this.dbi.description ];
     geom = row[ this.dbi.geom ].geometry;
 
-    descripcion = 'basural ' + name;
+    //descripcion = 'basural ' + name;
 
     switch ( geom.type )
     {
@@ -74,8 +79,8 @@ function( data, sync_opt )
             id: name
             ,type: opt.name
             ,titulo: name
-            ,resumen: descripcion
-            ,descripcion: descripcion
+            //,resumen: descripcion
+            //,descripcion: descripcion
             ,icon: opt.icon
           }
           ,geometry: {
@@ -92,15 +97,15 @@ function( data, sync_opt )
           .reverse_polygon(
               geom.coordinates[0] );
 
-        var id = name + _.uniqueId(' polygon ');
+        var id = description + _.uniqueId(' polygon ');
         this.trigger('add:feature',new Feature({ 
           id: id
           ,properties: {
             id: id
             ,type: opt.name
-            ,titulo: name
-            ,resumen: descripcion
-            ,descripcion: descripcion
+            ,titulo: description
+            //,resumen: descripcion
+            //,descripcion: descripcion
             ,icon: opt.icon
           }
           ,geometry: {

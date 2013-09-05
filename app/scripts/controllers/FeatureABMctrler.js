@@ -4,7 +4,7 @@ define( [
     ,'backbone'
     ,'models/qpr/Collection'
     ,'models/ft/FT'
-    ,'views/FeatureABMview'
+    ,'views/abm/FeatureABMview'
     ,'d3'
     ], 
 
@@ -37,27 +37,39 @@ var FeatureABMctrler = function( opt )
     }); 
 
     collection.on( 'sync destroy', 
-      view.update_btns, view );
+      view.update_bts, view );
 
     view.on( 'close', function()
     {
-      this.trigger('close');
+      self.trigger('close');
       view.off();
-    }
-    , this );
+    });
+
+    view.on( 'select:historia', 
+    function( e )
+    {
+      self.trigger( 'select:historia', e );
+    });
 
     view.on( 'upload', function( e )
     {
+      if ( _.isEmpty( e.date ) )
+      {
+        alert('por favor colocar una fecha válida usando el calendario para agregar la entidad a la historia');
+        return;
+      }
+
       var props = e.feature.get('properties');
       var format = d3.time.format("%Y-%m-%d");
+      var date = format( new Date( e.date ) );
 
-      collection.create( new HistoriaModel({ 
+      collection.create( new HistoriaLink({ 
         // no seteamos id al crear uno nuevo
         // para q sea isNew
         hid: e.hid
         ,tipo: props.type
         ,link_id: props.id 
-        ,fecha: format( new Date() ) 
+        ,fecha: date 
       })
       ,{
         wait: true
@@ -74,11 +86,11 @@ var FeatureABMctrler = function( opt )
 
     });
 
-    view.on( 'remove', function( data )
+    view.on( 'remove', function( e )
     {
       var hmodel = collection.find( function( h )
       {
-        return h.get('hid') === data.hid;
+        return h.get('hid') === e.hid;
       });
 
       if ( hmodel ) 
@@ -93,7 +105,7 @@ var FeatureABMctrler = function( opt )
 
         view.spin( true );
       }
-    });
+    }); 
 
     $('body').append( view.render().el );
 
@@ -151,7 +163,7 @@ function( opt, callback )
     if ( ! success ) return;
 
     var collection = new Collection([], {
-      model: HistoriaModel
+      model: HistoriaLink
       ,name: 'links_historias'
       ,api: api
       ,parser: parser
@@ -162,7 +174,7 @@ function( opt, callback )
       'add:historia', 
       function( data )
       {
-        collection.add( new HistoriaModel(
+        collection.add( new HistoriaLink(
           // hay q pasar id al crear uno 
           // que viene del parser (fetch)
           // i.e. ya existe en la DB 
@@ -175,7 +187,7 @@ function( opt, callback )
   });
 };
 
-var HistoriaModel = Backbone.Model.extend({
+var HistoriaLink = Backbone.Model.extend({
 
   defaults: {
     ROWID: 'x ROWID'

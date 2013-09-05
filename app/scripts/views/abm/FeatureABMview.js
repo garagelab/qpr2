@@ -2,7 +2,7 @@ define( [
   'jquery'
   ,'underscore'
   ,'backbone'
-  ,'text!tpl/feature_abm.html'
+  ,'text!tpl/abm/feature_abm.html'
   ], 
 
 function( $, _, Backbone, tpl )
@@ -37,17 +37,20 @@ var FeatureABMview = Backbone.View.extend({
   ,events: {
     'click .upload-feature': 'upload_feature'
     ,'click .remove-feature': 'remove_feature'
+    ,'click .titulo': 'select_historia'
   }
 
-  ,update_btns: function()
+  ,update_bts: function()
   {
     // reset all btns
 
-    this.show(
+    this.show_bt(
         this.$el.find('.upload-feature') ); 
 
-    this.hide(
+    this.hide_bt(
       this.$el.find('.remove-feature') );
+
+    this.$el.find( 'input[type=date]' ).show();
 
     // show remove / hide upload btns
     // for each historia added
@@ -56,21 +59,24 @@ var FeatureABMview = Backbone.View.extend({
       var $h = this.$el
         .find( '.id.' + historia.get('hid') );
 
-      this.hide(
+      this.hide_bt(
         $h.siblings( '.upload-feature' ) );
 
-      this.show(
+      this.show_bt(
         $h.siblings( '.remove-feature' ) );
+
+      $h.siblings()
+        .find( 'input[type=date]' ).hide();
     }
     , this );
   }
 
-  ,show: function( $bt )
+  ,show_bt: function( $bt )
   {
     $bt.addClass('active').show();
   }
 
-  ,hide: function( $bt )
+  ,hide_bt: function( $bt )
   {
     $bt.removeClass('active').hide();
   }
@@ -78,16 +84,20 @@ var FeatureABMview = Backbone.View.extend({
   ,close: function()
   {
     this.remove();
+    this.trigger('close');
   }
 
   ,upload_feature: function( e )
   {
     var $el = $( e.currentTarget );
     var hid = $el.siblings('.id').text();
+    var date = $el.siblings()
+      .find('input[type=date]').val();
 
     this.trigger( 'upload', {
       feature: this.options.feature
       ,hid: hid
+      ,date: date
     });
 
   }
@@ -100,6 +110,19 @@ var FeatureABMview = Backbone.View.extend({
     this.trigger( 'remove', {
       feature: this.options.feature
       ,hid: hid
+    });
+  }
+
+  ,select_historia: function( e )
+  {
+    var hid = $( e.currentTarget )
+      .siblings('.id').text();
+
+    //XXX 
+    //layer.historias.model es una collection !
+    this.trigger('select:historia', { 
+      feature_historia: this.options.layers
+        .historias.model.get( hid )
     });
   }
 
