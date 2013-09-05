@@ -169,7 +169,8 @@ var TimelineView = Backbone.View.extend({
     var img = vis.svg
       .selectAll( 'image' );
 
-    var clas = 'icon-'+props.type+'-'+id.replace(/ /g,'');
+    var clas = 'timeline-icon';
+      //+ props.type + '-' + id.replace(/ /g,'').replace(/\./g,'')
 
     this._bottom = vis.layout.icons.y;
 
