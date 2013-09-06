@@ -137,22 +137,34 @@ var HistoriaView = Backbone.View.extend({
 
   ,feature_selected: function( e )
   {
-    var feature = e.target.__data__;
-    this.trigger('select:feature', feature);
+    var d = e.target.__data__;
+    this.trigger('select:feature', d.feature);
   }
 
   ,update_feature_preview: function( e )
   {
     // d3 datum viene del timeline...
-    var feature = e.target.__data__;
-    var props = feature.get('properties');
+    var d = e.target.__data__;
+    var props = d.feature.get('properties');
 
-    var format = d3.time.format("%d/%m/%Y");
+    //var format = d3.time.format("%d/%m/%Y");
 
-    // puede no tener fecha el dato original...
-    var date = props.date 
-      ? format( new Date( props.date.iso ) )
-      : '';
+    // para el preview 
+    // usamos la fecha del feature
+    // y 0j0 puede no tener fecha...
+    var date = '';
+    if ( props.date )
+    {
+      var _date = new Date( props.date.iso );
+      date = [
+        _date.getUTCDate()
+        ,'/'
+        ,_date.getUTCMonth() + 1
+        ,'/'
+        ,_date.getUTCFullYear()
+      ]
+      .join('');
+    }
 
     this.feature_preview.render({
       titulo: props.titulo

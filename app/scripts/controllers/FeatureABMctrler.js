@@ -5,11 +5,10 @@ define( [
     ,'models/qpr/Collection'
     ,'models/ft/FT'
     ,'views/abm/FeatureABMview'
-    ,'d3'
     ], 
 
 function( $, _, Backbone, 
-  Collection, FT, FeatureABMview, d3 ) 
+  Collection, FT, FeatureABMview ) 
 {
 
 'use strict';
@@ -60,8 +59,8 @@ var FeatureABMctrler = function( opt )
       }
 
       var props = e.feature.get('properties');
-      var format = d3.time.format("%Y-%m-%d");
-      var date = format( new Date( e.date ) );
+      //var format = d3.time.format("%Y-%m-%d");
+      //var date = format( new Date( e.date ) );
 
       collection.create( new HistoriaLink({ 
         // no seteamos id al crear uno nuevo
@@ -69,7 +68,7 @@ var FeatureABMctrler = function( opt )
         hid: e.hid
         ,tipo: props.type
         ,link_id: props.id 
-        ,fecha: date 
+        ,fecha: e.date 
       })
       ,{
         wait: true

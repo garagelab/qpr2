@@ -39,6 +39,8 @@ function( data, sync_opt )
   var db = this.db();
   var layers = this.opt.layers;
 
+  var format = d3.time.format("%Y-%m-%d");
+
   //console.log( 'historia parse', data,
       //'layers', layers);
 
@@ -100,7 +102,7 @@ function( data, sync_opt )
         new FeatureHistoria({
           feature: link_feature
           ,date: {
-            iso: new Date( date ).toISOString()
+            iso: format.parse(date).toISOString()
             ,src: date
           }
         }) ); 
