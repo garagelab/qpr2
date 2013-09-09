@@ -3,7 +3,9 @@ define( [
     'jquery'
     ,'underscore'
     ,'backbone'
+    ,'utils'
     ,'user'
+    ,'ui'
     //models
     ,'models/qpr/Collection'
     ,'models/qpr/Feature'
@@ -26,15 +28,15 @@ define( [
     ,'controllers/HistoriaDetalleCtrler'
     ,'controllers/FeatureDetalleCtrler'
     ,'controllers/FeatureABMctrler'
-    //templates
-    ,'text!tpl/ui/layer_controls.html'
-    ,'text!tpl/ui/widgets.html'
     ], 
 
 function( 
   $, _, Backbone
 
+  ,utils
   ,User
+  ,UI
+
   ,Collection
   ,Feature
   ,FT
@@ -58,8 +60,6 @@ function(
   ,FeatureDetalleCtrler
   ,FeatureABMctrler
 
-  ,tpl_layer_controls
-  ,tpl_widgets
   ) 
 {
 
@@ -85,24 +85,21 @@ var App = function( config )
   Backbone.history.start(); 
 
 
-  var user;
-  var layers = {};
+  var user, ui;
+  var layers;
   var mapview, gcuenca;
   var cur_detalle;
 
-  window.layers = layers;
-  window.user = user;
- 
   var layer_factory = 
   {
-    model: {
+    collection: {
       fusiontables: {}
       ,crowdmap: {}
     }
     ,overlays: {}
   };
 
-  layer_factory.model.fusiontables.make = 
+  layer_factory.collection.fusiontables.make = 
   function( name, opt )
   {
     //capitalize name
@@ -124,7 +121,7 @@ var App = function( config )
       ,name: name
       ,api: api
       ,parser: parser
-    });
+    }); 
 
     // TODO dispose layer collection
     collection.listenTo( 
@@ -133,10 +130,15 @@ var App = function( config )
       collection.add,
       collection );
 
+    parser.on('complete', function()
+    {
+      init_fetch_complete();
+    });
+
     return collection;
   }
 
-  layer_factory.model.crowdmap.make = 
+  layer_factory.collection.crowdmap.make = 
   function( name, opt )
   {
     //capitalize name
@@ -160,7 +162,7 @@ var App = function( config )
       ,name: name
       ,api: api
       ,parser: parser
-    });
+    }); 
 
     // TODO dispose layer collection
     collection.listenTo( 
@@ -168,6 +170,11 @@ var App = function( config )
       'add:feature', 
       collection.add,
       collection );
+
+    parser.on('complete', function()
+    {
+      init_fetch_complete();
+    });
 
     return collection;
   } 
@@ -310,6 +317,8 @@ var App = function( config )
 
   function make_layers( mapview, config ) 
   {  
+    var layers = {};
+
     var layer, cfg, k, i = config.length;
 
     while( i-- )
@@ -341,6 +350,7 @@ var App = function( config )
     //})
     //( _.pluck( config, 'name' ) );
 
+    return layers;
   }
 
   function make_layer( opt, mapview )
@@ -353,13 +363,13 @@ var App = function( config )
       //url: opt.view.icon.url
     //}) )
 
-    var model = layer_factory.model
+    var collection = layer_factory.collection
       [opt.model.type]
         .make( name, opt.model );
 
     var overlays = layer_factory.overlays
-      .make( name, opt.view, model );
-    
+      .make( name, opt.view, collection ); 
+
 
     // ui control
 
@@ -382,7 +392,7 @@ var App = function( config )
       });
 
     return {
-      model: model
+      model: collection
       ,view: { 
         overlays: overlays 
       }
@@ -408,13 +418,13 @@ var App = function( config )
       cant_layers++;
     }
 
-    //var max_size = lerp2d( 
+    //var max_size = utils.lerp2d( 
         //mapview.zoom(), 9, 20, 140, 220 );
 
     for ( i in layers )
     {
       layers[i].view.overlays.clusterer.size(
-        lerp2d( visible_layers, 
+        utils.lerp2d( visible_layers, 
           0, cant_layers, 
           40, 150 )
         );
@@ -433,6 +443,8 @@ var App = function( config )
 
   function add_detalle( feature, mapview )
   {
+    if ( ! feature ) return;
+
     mapview.focus( feature );
 
     if ( cur_detalle )
@@ -476,12 +488,12 @@ var App = function( config )
         feature_abm = null;
       }
 
-      ui.$widgets.show();
+      ui.show_widgets();
 
       close_all_infowins();
     });
 
-    ui.$widgets.hide();
+    ui.hide_widgets();
 
     if ( cur_detalle instanceof 
         FeatureDetalleCtrler 
@@ -559,72 +571,7 @@ var App = function( config )
           layer.setMap( null );
       });
   }
-
-  function init_ui( ui, mapview )
-  {
-    (ui || (ui = {}))
-
-    ui.$layers = $('.layers');
-    ui.$widgets = $('.widgets');
-
-    ui.$layers.append( 
-        _.template( tpl_layer_controls ) );
-
-    ui.$widgets.append( 
-        _.template( tpl_widgets ) );
-
-    ui.$origin = $('.goto-origin');
-
-    ui.$origin.click( function(e)
-    {
-      //close_all_infowins();
-      mapview.origin(); 
-    });
-
-    //TODO q feo......
-    ui.$enviar_alerta_frame = 
-      $('#enviar-alerta-frame-container');
-    ui.$enviar_alerta_frame.css({
-      'width': '1000px'
-      ,'height': '100%'
-      ,'background-color': 'rgba(0,0,0,0.5)'
-      ,'position': 'absolute' 
-      ,'left': '200px' 
-    });
-    //ui.$enviar_alerta_frame.hide();
-    ui.$enviar_alerta_frame.css(
-        'visibility','hidden');
-    ui.$enviar_alerta = $('.enviar-alerta');
-
-    ui.$enviar_alerta.click( function(e)
-    {
-      //window.open('https://quepasariachuelo.crowdmap.com/reports/submit', '_blank');  
-
-      if ( ui.$enviar_alerta_frame
-        .css('visibility') === 'hidden' )
-        //.css('display') === 'none' )
-      {
-        ui.$enviar_alerta_frame.append("<iframe id='enviar-alerta-frame' src='//quepasariachuelo.crowdmap.com/reports/submit' width='1000px' height='100%' frameborder='0' style='border:none; overflow-x:hiden; overflow-y:auto;'></iframe>");
-        //ui.$enviar_alerta_frame.show();
-        ui.$enviar_alerta_frame.css(
-            'visibility','visible');
-        ui.$widgets.hide();
-      }
-
-      else
-      {
-        ui.$enviar_alerta_frame.empty();
-        //ui.$enviar_alerta_frame.hide();
-        ui.$enviar_alerta_frame.css(
-            'visibility','hidden');
-        if ( ! cur_detalle )
-          ui.$widgets.show();
-      }
-    });
-
-    return ui;
-  }
-
+  
   
   // init
 
@@ -632,19 +579,31 @@ var App = function( config )
   user = new User();
   user.login();
 
+
   mapview = new GMapView({
     el: document.getElementById("map")
   }); 
+
 
   gcuenca = new GCuencaView({
     map: mapview.map()
   });
   gcuenca.render();
 
-  var ui = init_ui( {}, mapview );
+
+  ui = new UI({
+    mapview: mapview
+  });
+
+  ui.on('select:feature', function( e )
+  {
+    add_detalle( e.feature, mapview );
+  });
+
 
   var colores = new LayerColors();
   colores.add_css();
+
 
   var layers_config = [
 
@@ -766,16 +725,22 @@ var App = function( config )
   ]; //end of layers_config
 
 
+  layers = make_layers(mapview, layers_config); 
+
   make_gsubcuencas_layer( mapview );
 
-  make_layers( mapview, layers_config );   
-
   update_clusters_size( layers, mapview );
-}
 
-function lerp2d( x, x1, x2, y1, y2 )
-{
-  return (x-x1) / (x2-x1) * (y2-y1) + y1;
+  var init_fetch_complete = 
+    _.after( 
+      _.keys( layers ).length
+      ,function()
+      {
+        ui.update_feature_search( layers );
+      });
+
+  window.layers = layers;
+  //window.user = user; 
 }
 
 return App;

@@ -56,6 +56,10 @@ require.config({
       ]
     }
 
+    ,selectize: {
+      deps: [ 'jquery','sifter','microplugin' ]
+    }
+
   },
 
   paths: {
@@ -78,21 +82,27 @@ require.config({
     ,imagesloaded: '../lib/imagesloaded'
     ,qtip2: '../lib/jquery.qtip.min'
     ,tipsy: '../lib/jquery.tipsy'
+
     //,spin: '../bower_components/spin.js/spin'
+
+    ,sifter: '../bower_components/sifter/sifter'
+    ,microplugin: '../bower_components/microplugin/src/microplugin'
+    ,selectize: '../bower_components/selectize/dist/js/selectize'
   }
 
 });
 
 require( [ 
     'app'
-    ,'user'
-    ,'views/gmaps/gmap_view'
+    //,'user'
+    //,'views/gmaps/gmap_view'
+    ,'selectize'
     //,'architect'
     //,'qtip2'
     //,'tipsy'
     ], 
 
-function( App, User, GMapView ) 
+function( App ) //, User, GMapView ) 
 {
 
   //Architect.setupWorkersPath('lib/architect');

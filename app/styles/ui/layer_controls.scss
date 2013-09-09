@@ -1,17 +1,5 @@
 @import 'vars';
 
-.layers 
-{
-  //top: 0px;
-  //left: 80px;
-  width: $sidebar_l_w;
-  height: 100%;
-  font-size: 14px;
-
-  position: absolute;
-  background-color: rgba(230,230,230,0.8);
-}
-
 .layers .grupo 
 {
   margin: 5px 10px 20px 10px; 
@@ -101,38 +89,4 @@
   /*margin: 6px 10px;*/
   /*border: 1px solid gray; */
 /*}*/
-
-.layers .pure-form .field {
-  margin: 20px 10px;
-}
-
-.layers .pure-form .label {
-  color: #444;
-  margin-bottom: 5px;
-}
-
-.layers .pure-form input[type=text] {
-  font-size: 1em;
-  width: 100%;
-  /*margin: 10px;*/
-}
-
-.icon.goto-origin
-{
-  position: absolute;
-  top: 0px;
-  left: $sidebar_l_w + 110px;
-  //padding: .5em .5em; 
-  padding: 1.5px 4px; 
-  margin: 5px;
-
-  background-color: white;
-  border: 1px solid #aaa;
-  cursor: pointer;
-  box-shadow: -1px 1px 2px #bbbbbb;
-}
-.icon.goto-origin:hover
-{
-  background-color: #eee;
-}
 

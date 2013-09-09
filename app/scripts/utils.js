@@ -33,7 +33,8 @@ return {
 
         if ( cpy.length == 0 )
         {
-          if ( cb ) cb( arr );
+          if ( _.isFunction( cb ) )
+            cb.apply( ctx, [ arr ] );
           return;
         }
       }
@@ -85,6 +86,11 @@ return {
           //coords[i][0], coords[i][1] ) );
     //var ctr = bounds.getCenter();
     //return [ ctr.lat(), ctr.lng() ];
+  }
+
+  ,lerp2d: function( x, x1, x2, y1, y2 )
+  {
+    return (x-x1) / (x2-x1) * (y2-y1) + y1;
   }
 
 };

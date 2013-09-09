@@ -108,7 +108,6 @@ function( data, sync_opt )
         }) ); 
   }
 
-  //utils.process( rows, parse, null, this );
 };
 
 return HistoriaDetalle;

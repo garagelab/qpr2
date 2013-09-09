@@ -120,6 +120,10 @@ function( data, sync_opt )
     list: reportes
     ,iterator: parse
     ,context: this
+    ,callback: function()
+    {
+      this.trigger( 'complete' );
+    }
   });
 
 }

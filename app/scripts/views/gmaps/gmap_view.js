@@ -26,6 +26,7 @@ var GMapView = function( opt )
     mapTypeId: google.maps.MapTypeId.ROADMAP,
     zoom: zoom,
     minZoom: 9,
+    maxZoom: 16,
     streetViewControl: false,
       panControl: false,
       scrollwheel: false,

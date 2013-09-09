@@ -1,7 +1,11 @@
+@import 'lib/selectize';
 @import 'vars';
 @import 'zindices';
+@import 'scrollbar';
+@import 'ui/layers';
 @import 'ui/layer_controls';
 @import 'ui/widgets';
+@import 'ui/search';
 @import 'detalles/ctr';
 @import 'detalles/close';
 @import 'detalles/feature';
@@ -12,11 +16,13 @@
 @import 'abm/feature_abm';
 @import 'infowin';
 
-body {
+body 
+{
   background: #eee;
 }
 
-html, body {
+html, body 
+{
   margin: 0;
   padding: 0;
   height: 100%;
@@ -66,18 +72,21 @@ html, body {
   /*font-size: 16px;*/
 }
 
-.copete .title {
+.copete .title 
+{
   margin: 10px 0px;
   font-size: 14px;
   font-weight: bold;
 }
 
-.copete .text {
+.copete .text 
+{
   margin: 10px 0px;
   font-size: 14px;
 }
 
-#footer {
+#footer 
+{
   background-color: #eee;
   /*background-color: rgba(255,255,255,0.3);*/
   position: fixed;
@@ -85,25 +94,30 @@ html, body {
   bottom: 0px;
 }
 
-#footer img {
+#footer img 
+{
   margin: 14px 10px;
   height: 30px;
 }
 
-#footer img.gl {
+#footer img.gl 
+{
   float: right;
 }
 
-.container .pure-menu {
+.container .pure-menu 
+{
   font-size: 18px;
 }
 
-.container .pure-menu .pure-menu-heading {
+.container .pure-menu .pure-menu-heading 
+{
   font-weight: bold;
   color: #000;
 }
 
-.container .pure-menu li a {
+.container .pure-menu li a 
+{
   padding: 7px 20px;
 }
 
@@ -124,5 +138,27 @@ html, body {
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   //background: rgb(66, 184, 221);
   background: rgb(30,30,30);
+}
+
+.icon.goto-origin
+{
+  font-size: 14px;
+
+  position: absolute;
+  //top: 0px;
+  left: $sidebar_l_w + 110px;
+  //padding: .5em .5em; 
+  padding: 1.5px 4px; 
+  margin: 5px;
+
+  background-color: white;
+  border: 1px solid #aaa;
+  cursor: pointer;
+  box-shadow: -1px 1px 2px #bbbbbb;
+}
+
+.icon.goto-origin:hover
+{
+  background-color: #eee;
 }
 
