@@ -31,7 +31,7 @@ var SearchFeatureView = Backbone.View.extend({
     var $sel = this.$el.find('select');
 
     $sel.selectize({
-      maxOptions: 400
+      maxOptions: 100
       ,scrollDuration: 0
       ,onChange: function( value )
       {
