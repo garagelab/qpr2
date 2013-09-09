@@ -90,7 +90,7 @@ var TimelineView = Backbone.View.extend({
       //]
     //]); 
 
-    var xscale = d3.time.scale(); 
+    var xscale = d3.time.scale().clamp(true); 
     var xaxis = d3.svg.axis(); 
 
     var svg = d3
