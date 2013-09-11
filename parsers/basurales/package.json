@@ -1,0 +1,16 @@
+{
+  "name": "qpr_basurales_kml_parser",
+  "version": "0.0.0",
+  "description": "importa un kml con poligonos sin nombre, infiere sus nombres y exporta nuevo kml",
+  "main": "main.js",
+  "dependencies": {
+    "elementtree": "~0.1.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "author": "chparsons.com.ar",
+  "license": "BSD"
+}
