@@ -5,6 +5,7 @@ qué pasa riachuelo?
 
 instalar  
 ```
+cd frontend
 npm install  
 bower install  
 ```
