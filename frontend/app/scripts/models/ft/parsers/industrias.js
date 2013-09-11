@@ -24,13 +24,16 @@ function Industrias( opt )
 
   var _db = {
     id: 'curt'
-    ,loc: 'geolocation'
+    //,loc: 'geolocation'
+    ,lat: 'latitud'
+    ,lng: 'longitud'
     ,date: 'fecha'
     ,nombre: 'razon_social'
     ,locacion: 'location'
     ,producto: 'producto_1'
     ,cuit: 'cuit'
     ,curt: 'curt'
+    ,ac: 'ac_fecha'
     ,pri: 'pri'
     ,reconversion: 'reconvertida'
   };
@@ -71,15 +74,21 @@ function( data, sync_opt )
     //row = rows[i];
 
     id = row[ this.dbi.id ];
-    coordarr = (row[this.dbi.loc]).split(' '); 
     date = row[ this.dbi.date ];
     nombre = row[ this.dbi.nombre ]; 
     locacion = row[ this.dbi.locacion ]; 
+
+    coordarr = [
+      row[ this.dbi.lat ]
+      ,row[ this.dbi.lng ]
+    ];
+    //coordarr = (row[this.dbi.loc]).split(' '); 
 
     extra = {
       producto: row[ this.dbi.producto ]
       ,cuit: row[ this.dbi.cuit ]
       ,curt: row[ this.dbi.curt ]
+      ,ac: row[ this.dbi.ac ]
       ,pri: row[ this.dbi.pri ]
       ,reconversion: row[ this.dbi.reconversion ]
     };
@@ -103,7 +112,7 @@ function( data, sync_opt )
     .join('');
 
     eventos = [{
-      name: 'contaminacion'
+      name: 'ac'
       ,txt: 'agente contaminante desde '+date
     }];
 

@@ -1,0 +1,29 @@
+$evento_type_radius: .25em;
+
+.evento.ac 
+{ 
+  background-color: firebrick;
+}
+
+.evento.pri 
+{ 
+  background-color: goldenrod;
+}
+
+.evento.reconversion 
+{ 
+  background-color: seagreen;
+}
+
+.evento
+{
+  color: white;
+  font-weight: bold;
+  font-size: 0.8em;
+  margin: 16px 0px;
+  padding: 4px 8px; 
+  -webkit-border-radius: $evento_type_radius;
+  -moz-border-radius: $evento_type_radius;
+  border-radius: $evento_type_radius;
+}
+
