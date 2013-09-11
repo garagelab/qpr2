@@ -1,12 +1,24 @@
 
 <div class="ctr-container">
+
   <div class="texto ctr-content ctr-margin">
+
     <div class="titulo"><%- titulo %></div>
-    <div class="txt"><%- txt %></div>
+
+    <div class="txt"><%- txt %>
+
+      <% _.each( eventos, function( e ) { %> 
+        <div class="evento <%- e.name %>"><%- e.txt %></div>
+    <% }); %>
+
+    </div>
+
   </div>
+
   <button class="close ctr-content pure-button">
     <i class="icon-remove"></i>
   </button> 
+
   <!--<div class="ctr-content close"></div>-->
   <!--<div class="ctr-content close-svg"></div>-->
 </div>

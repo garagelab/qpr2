@@ -1,7 +1,17 @@
 
 <div class="feature-preview">
+
   <div class="titulo"><%- titulo %></div>
+
   <div class="date"><%- date %></div>
-  <div class="txt"><%- txt %></div>
+
+  <div class="txt"><%- txt %>
+
+      <% _.each( eventos, function( e ) { %> 
+        <div class="evento <%- e.name %>"><%- e.txt %></div>
+    <% }); %>
+
+    </div>
+
 </div>
 

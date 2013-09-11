@@ -72,6 +72,7 @@ var HistoriaView = Backbone.View.extend({
     //console.log('render view historia') 
 
     var self = this;
+
     var feature = this.options.feature; 
     var props = feature.get('properties');
 
@@ -170,6 +171,7 @@ var HistoriaView = Backbone.View.extend({
       titulo: props.titulo
       ,date: date
       ,txt: props.descripcion
+      ,eventos: props.eventos
     });
   }
 

@@ -27,8 +27,12 @@ function Industrias( opt )
     ,loc: 'geolocation'
     ,date: 'fecha'
     ,nombre: 'razon_social'
-    ,producto: 'producto_1'
     ,locacion: 'location'
+    ,producto: 'producto_1'
+    ,cuit: 'cuit'
+    ,curt: 'curt'
+    ,pri: 'pri'
+    ,reconversion: 'reconvertida'
   };
 
   this.dbi = {};
@@ -50,11 +54,13 @@ function( data, sync_opt )
     ,titulo
     ,resumen
     ,descripcion
+    ,eventos
 
     ,coordarr
     ,nombre
     ,locacion
-    ,producto; 
+
+    ,extra;
 
   var rows = data.rows;
   //var row, i = rows.length; 
@@ -69,11 +75,49 @@ function( data, sync_opt )
     date = row[ this.dbi.date ];
     nombre = row[ this.dbi.nombre ]; 
     locacion = row[ this.dbi.locacion ]; 
-    producto = row[ this.dbi.producto ]; 
+
+    extra = {
+      producto: row[ this.dbi.producto ]
+      ,cuit: row[ this.dbi.cuit ]
+      ,curt: row[ this.dbi.curt ]
+      ,pri: row[ this.dbi.pri ]
+      ,reconversion: row[ this.dbi.reconversion ]
+    };
 
     titulo = nombre;
-    resumen = producto;
-    descripcion = nombre+' '+producto;
+    resumen = extra.producto;
+
+    descripcion = [
+      ,'Producto: '
+      ,extra.producto
+      ,'<br>'
+      ,'CUIT '
+      ,extra.cuit
+      ,'<br>'
+      ,'CURT '
+      ,extra.curt
+      ,'<br>'
+      ,'Dirección: '
+      ,locacion
+    ]
+    .join('');
+
+    eventos = [{
+      name: 'contaminacion'
+      ,txt: 'agente contaminante desde '+date
+    }];
+
+    if ( !_.isEmpty( extra.pri ) )
+      eventos.push({
+        name: 'pri'
+        ,txt: 'presentó el PRI el '+extra.pri
+      });
+
+    if ( !_.isEmpty( extra.reconversion ) )
+      eventos.push({
+        name: 'reconversion'
+        ,txt: 'reconvertida el '+extra.reconversion
+      });
 
     this.trigger( 'add:feature', new Feature({ 
       id: id
@@ -87,6 +131,7 @@ function( data, sync_opt )
         ,titulo: titulo
         ,resumen: resumen
         ,descripcion: descripcion
+        ,eventos: eventos
         ,icon: opt.icon
         ,locacion: locacion
       }

@@ -24,10 +24,13 @@ var FeatureView = Backbone.View.extend({
     var feature = this.model; 
     var props = feature.get('properties');
 
-    this.$el.html( this.tpl({
-      titulo: props.titulo
-      ,txt: props.descripcion
-    }) );
+    this.$el.html( 
+      _.unescape( this.tpl({
+        titulo: props.titulo
+        ,txt: props.descripcion
+        ,eventos: props.eventos
+      }) )
+    );
 
     //new CloseBtn().appendTo( 
         //this.$el.find('.close-svg'), 

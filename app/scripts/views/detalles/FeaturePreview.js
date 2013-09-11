@@ -26,8 +26,13 @@ var FeaturePreview = Backbone.View.extend({
       titulo: ''
       ,date: ''
       ,txt: ''
+      ,eventos: ''
     };
-    this.$el.html( this.tpl( data ) );
+
+    this.$el.html(
+      _.unescape( this.tpl( data ) )
+    );
+
     return this;
   }
 

@@ -24,16 +24,8 @@ var UI = function( opt )
   var $layers = $('.layers');
   var $widgets = $('.widgets');
 
-  $layers.append( 
-      _.template( tpl_layer_controls ) );
-
-  $widgets.append( 
-      _.template( tpl_widgets ) );
-
-
   var search = new SearchCtrler({
-    $container: $layers
-    ,mapview: opt.mapview
+    mapview: opt.mapview
   });
 
   search.on('select:feature', function( e )
@@ -41,6 +33,15 @@ var UI = function( opt )
     this.trigger( 'select:feature', e );
   }
   , this );
+
+
+  $layers.append( 
+      _.template( tpl_layer_controls ) );
+
+  $widgets.append( 
+      _.template( tpl_widgets ) ); 
+
+  search.appendTo( $layers ); 
 
 
   $('.goto-origin').click( function(e)

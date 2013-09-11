@@ -26,23 +26,24 @@ var SearchCtrler = function( opt )
     mapview: opt.mapview
   });
 
-  feature_view.on('select:feature', function( e )
-  {
-    this.trigger('select:feature', {
-      feature: _features[ e.name ]
-    });
-  }
-  , this );
-
-  opt.$container.append(
-      geo_view.render().el );
-
-  opt.$container.append(
-      feature_view.render().el );
+  feature_view.on( 'select:feature'
+    ,function( e )
+    {
+      this.trigger('select:feature', {
+        feature: _features[ e.name ]
+      });
+    }
+    , this );
 
   var _features = {};
 
-  this.update_feature_search = function( layers )
+  this.appendTo = function( $container )
+  {
+    $container.append( geo_view.render().el );
+    $container.append(feature_view.render().el);
+  }
+
+  this.update_feature_search = function(layers)
   {
     _features = parse_features( layers );
     feature_view.render({
