@@ -1,6 +1,6 @@
-#by clodo
-
 # -*- coding: utf-8 -*-
+
+# by clodo
 
 import os
 import sqlite3
