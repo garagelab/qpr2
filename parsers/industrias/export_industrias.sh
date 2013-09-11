@@ -8,5 +8,5 @@ sqlite3 qpr.sqlite <<!
 .headers on
 .mode csv
 .output industrias.csv
-select * from industrias_dje;
+select * from industrias;
 !
