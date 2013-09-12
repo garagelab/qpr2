@@ -3,6 +3,10 @@ define( [
     ,'models/crowdmap/parsers/historias'
     ,'models/crowdmap/parsers/alertas'
     ,'models/crowdmap/parsers/noticias'
+    ,'models/crowdmap/parsers/acciones'
+    ,'models/crowdmap/parsers/respuestas'
+    ,'models/crowdmap/parsers/documentos'
+    ,'models/crowdmap/parsers/normativas'
     ], 
 
 function( 
@@ -10,6 +14,10 @@ function(
   ,ParserHistorias
   ,ParserAlertas
   ,ParserNoticias
+  ,ParserAcciones
+  ,ParserRespuestas
+  ,ParserDocumentos
+  ,ParserNormativas
   ) 
 {
 
@@ -21,6 +29,10 @@ return {
     Historias: ParserHistorias
     ,Alertas: ParserAlertas
     ,Noticias: ParserNoticias
+    ,Acciones: ParserAcciones
+    ,Respuestas: ParserRespuestas
+    ,Documentos: ParserDocumentos
+    ,Normativas: ParserNormativas
   }
 };
 

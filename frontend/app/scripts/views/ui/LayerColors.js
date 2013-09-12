@@ -24,8 +24,9 @@ var LayerColors = function()
     ,"alertas": "#5F9EA0" 
     ,"noticias": "#5F9EA0" 
     ,"acciones": "#5F9EA0" 
-    ,"documentos": "#A9A9A9" 
-    ,"normativas": "#A9A9A9" 
+    ,"respuestas": "#5F9EA0" 
+    ,"documentos": "#5F9EA0" //"#A9A9A9" 
+    ,"normativas": "#5F9EA0" 
 
     ,"industrias": "#cc0000"  
     ,"basurales": "#f24000" 

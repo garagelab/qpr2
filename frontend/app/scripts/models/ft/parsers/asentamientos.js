@@ -19,23 +19,19 @@ function Asentamientos( opt )
 
   this.db = function()
   {
-    return _.values( _db );
+    return _.values( this._db );
   }
 
-  var _db = {
-    name: 'BARRIO'
+  this._db = {
+    barrio: 'BARRIO'
     ,geom: 'Poligono'
     ,partido: 'PARTIDO'
     ,localidad: 'LOCALIDAD'
     ,flias: '\'NRO DE FLIAS\''
     ,inicio: '\'AÑO DE CONFORMACIÓN DEL BARRIO\''
-    //,loc: 'center' 
+    ,otra_denominacion: '\'OTRA DENOMINACIÓN\''
+    ,red_cloacal: '\'RED CLOACAL\''
   };
-
-  this.dbi = {};
-  var i = 0;
-  for ( var k in _db )
-    this.dbi[k] = i++;
 
 }
 
@@ -46,18 +42,14 @@ function( data, sync_opt )
 
   var opt = this.opt;
 
-  var coordarr
+  var d, _db = _.keys( this._db );
+
+  var resumen
+    ,descripcion
+    ,locacion
+    ,coordarr
     ,polyarr
-    ,geom
-    ,name;
-
-  var descripcion
-    ,flias
-    ,inicio;
-
-  var locacion
-    ,localidad
-    ,partido;
+    ,geom;
 
   var rows = data.rows;
   //var row, i = rows.length;
@@ -67,43 +59,65 @@ function( data, sync_opt )
   {
     //row = rows[i];
 
-    //coordarr=(row[this.dbi.loc]).split(' '); 
-    geom = row[ this.dbi.geom ].geometry;
-    name = row[ this.dbi.name ]; 
+    d = _.object( _db, row );
 
-    localidad = row[ this.dbi.localidad ]; 
-    partido = row[ this.dbi.partido ]; 
-
-    flias = row[ this.dbi.flias ];
-    inicio = row[ this.dbi.inicio ];
+    geom = d.geom.geometry;
 
     //console.log(name,row)
 
-    if ( _.isEmpty(geom) 
+    if ( _.isEmpty( geom )
         || geom.type !== 'Polygon' )
       //continue;
       return;
 
-    descripcion = [
-      'Cantidad de Familias ' + flias
-      ,'Año de inicio ' + inicio
+    resumen = [
+      ,'Cantidad de Familias: '
+      ,d.flias
+      ,', '
+      ,'Año de conformación: '
+      ,d.inicio
     ]
-    .join(' / ');
+    .join('');
 
-    locacion = localidad + ', ' + partido;
+    descripcion = [
+
+      '<div>'
+      ,'Cantidad de Familias: '
+      ,d.flias
+      ,'</div>'
+
+      ,'<div>'
+      ,'Año de Conformación: '
+      ,d.inicio
+      ,'</div>'
+
+      ,'<div>'
+      ,'Otra Denominación: '
+      ,d.otra_denominacion
+      ,'</div>'
+
+      ,'<div>'
+      ,'Red Clocal: '
+      ,d.red_cloacal
+      ,'</div>'
+
+    ]
+    .join('');
+
+    locacion = d.localidad + ', ' + d.partido;
 
     polyarr = utils
       .reverse_polygon( 
           geom.coordinates[0] );
 
-    var id = name + _.uniqueId(' polygon ');
+    var id = d.barrio + _.uniqueId(' polygon ');
     this.trigger('add:feature', new Feature({ 
       id: id
       ,properties: {
         id: id
         ,type: opt.name
-        ,titulo: name
-        ,resumen: descripcion
+        ,titulo: d.barrio
+        ,resumen: resumen
         ,descripcion: descripcion
         ,icon: opt.icon
         ,locacion: locacion
@@ -119,12 +133,12 @@ function( data, sync_opt )
           polyarr );
 
     this.trigger('add:feature', new Feature({ 
-      id: name
+      id: d.barrio
       ,properties: {
-        id: name
+        id: d.barrio
         ,type: opt.name
-        ,titulo: name
-        ,resumen: descripcion
+        ,titulo: d.barrio
+        ,resumen: resumen
         ,descripcion: descripcion
         ,icon: opt.icon
         ,locacion: locacion

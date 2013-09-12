@@ -19,29 +19,39 @@ function Industrias( opt )
 
   this.db = function()
   {
-    return _.values( _db );
+    return _db;
   }
 
-  var _db = {
-    id: 'curt'
-    //,loc: 'geolocation'
-    ,lat: 'latitud'
-    ,lng: 'longitud'
-    ,date: 'fecha'
-    ,nombre: 'razon_social'
-    ,locacion: 'location'
-    ,producto: 'producto_1'
-    ,cuit: 'cuit'
-    ,curt: 'curt'
-    ,ac: 'ac_fecha'
-    ,pri: 'pri'
-    ,reconversion: 'reconvertida'
-  };
+  var _db = [
+    'curt'
+    //,'geolocation'
+    ,'latitud'
+    ,'longitud'
+    ,'fecha'
+    ,'razon_social'
+    ,'location'
 
-  this.dbi = {};
-  var i = 0;
-  for ( var k in _db )
-    this.dbi[k] = i++;
+    //extras
+    ,'producto_1'
+    ,'cuit'
+    ,'curt'
+    ,'personal_fabrica'
+    ,'personal_oficina'
+    ,'superficie_total'
+    ,'consumo_electricidad'
+    ,'vertido_de_efluentes'
+    ,'tratamiento_de_efluentes'
+    ,'residuos_peligrosos'
+    ,'sustancias_peligrosas'
+    ,'sustancias_detalle'
+    ,'zona_industrial'
+    ,'sitio_web'
+
+    //eventos
+    ,'ac_fecha'
+    ,'pri'
+    ,'reconvertida'
+  ];
 
 }
 
@@ -52,18 +62,11 @@ function( data, sync_opt )
 
   var opt = this.opt;
 
-  var id
-    ,date
-    ,titulo
-    ,resumen
-    ,descripcion
+  var d, db = this.db();
+
+  var descripcion
     ,eventos
-
-    ,coordarr
-    ,nombre
-    ,locacion
-
-    ,extra;
+    ,coordarr;
 
   var rows = data.rows;
   //var row, i = rows.length; 
@@ -73,76 +76,121 @@ function( data, sync_opt )
   {
     //row = rows[i];
 
-    id = row[ this.dbi.id ];
-    date = row[ this.dbi.date ];
-    nombre = row[ this.dbi.nombre ]; 
-    locacion = row[ this.dbi.locacion ]; 
+    d = _.object( db, row );
 
-    coordarr = [
-      row[ this.dbi.lat ]
-      ,row[ this.dbi.lng ]
-    ];
-    //coordarr = (row[this.dbi.loc]).split(' '); 
-
-    extra = {
-      producto: row[ this.dbi.producto ]
-      ,cuit: row[ this.dbi.cuit ]
-      ,curt: row[ this.dbi.curt ]
-      ,ac: row[ this.dbi.ac ]
-      ,pri: row[ this.dbi.pri ]
-      ,reconversion: row[ this.dbi.reconversion ]
-    };
-
-    titulo = nombre;
-    resumen = extra.producto;
+    coordarr = [ d.latitud, d.longitud ];
 
     descripcion = [
+
+      '<div>'
       ,'Producto: '
-      ,extra.producto
-      ,'<br>'
+      ,d.producto_1
+      ,'</div>'
+
+      ,'<div>'
       ,'CUIT '
-      ,extra.cuit
-      ,'<br>'
+      ,d.cuit
+      ,'</div>'
+
+      ,'<div>'
       ,'CURT '
-      ,extra.curt
-      ,'<br>'
+      ,d.curt
+      ,'</div>'
+
+      ,'<div>'
       ,'Dirección: '
-      ,locacion
+      ,d.location
+      ,'</div>'
+
+      ,'<div>'
+      ,'Personal Fábrica: '
+      ,d.personal_fabrica
+      ,'</div>'
+
+      ,'<div>'
+      ,'Personal Oficina: '
+      ,d.personal_oficina
+      ,'</div>'
+
+      ,'<div>'
+      ,'Superficie Total: '
+      ,d.superficie_total
+      ,'</div>'
+
+      ,'<div>'
+      ,'Consumo de Electricidad: '
+      ,d.consumo_electricidad
+      ,'</div>'
+
+      ,'<div>'
+      ,'Vertido de Efluentes: '
+      ,d.vertido_de_efluentes
+      ,'</div>'
+
+      ,'<div>'
+      ,'Tratamiento de Efluentes: '
+      ,d.tratamiento_de_efluentes
+      ,'</div>'
+
+      ,'<div>'
+      ,'Residuos Peligrosos: '
+      ,d.residuos_peligrosos
+      ,'</div>'
+
+      ,'<div>'
+      ,'Sustancias Peligrosas: '
+      ,d.sustancias_peligrosas
+      ,'</div>'
+
+      ,'<div>'
+      ,'Sustancias Detalle: '
+      ,d.sustancias_detalle
+      ,'</div>'
+
+      ,'<div>'
+      ,'Zona Industrial: '
+      ,d.zona_industrial
+      ,'</div>'
+
+      ,'<div>'
+      ,'Sitio web: '
+      ,d.sitio_web
+      ,'</div>'
     ]
     .join('');
 
     eventos = [{
       name: 'ac'
-      ,txt: 'agente contaminante desde '+date
+      ,txt: 'agente contaminante desde '+d.ac_fecha
     }];
 
-    if ( !_.isEmpty( extra.pri ) )
+    if ( !_.isEmpty( d.pri ) )
       eventos.push({
         name: 'pri'
-        ,txt: 'presentó el PRI el '+extra.pri
+        ,txt: 'presentó el PRI el '+d.pri
       });
 
-    if ( !_.isEmpty( extra.reconversion ) )
+    if ( !_.isEmpty( d.reconvertida ) )
       eventos.push({
         name: 'reconversion'
-        ,txt: 'reconvertida el '+extra.reconversion
+        ,txt: 'reconvertida el '+d.reconvertida
       });
 
     this.trigger( 'add:feature', new Feature({ 
-      id: id
+      id: d.curt
       ,properties: {
-        id: id
+        id: d.curt
         ,type: opt.name
         ,date: {
-          iso: new Date( date ).toISOString()
-          ,src: date
+          iso: new Date( d.fecha ).toISOString()
+          ,src: d.fecha
         }
-        ,titulo: titulo
-        ,resumen: resumen
+        ,titulo: d.razon_social
+        ,resumen: d.producto_1
         ,descripcion: descripcion
         ,eventos: eventos
         ,icon: opt.icon
-        ,locacion: locacion
+        ,locacion: d.location
       }
       ,geometry: {
         type: 'Point'

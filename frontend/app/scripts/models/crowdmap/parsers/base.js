@@ -11,26 +11,13 @@ function( $, _, Backbone, Feature, utils )
 
 'use strict';
 
-function Alertas( opt ) 
-{
-  _.extend( this, Backbone.Events );
+var CrowdmapParserBase = 
+  _.extend( {}, Backbone.Events );
 
-  this.opt = opt;
-
-  this.db = function()
-  {
-    return _db;
-  }
-
-  var _db = {
-    task: 'incidents'
-  };
-}
-
-Alertas.prototype.parse =
+CrowdmapParserBase.parse =
 function( data, sync_opt )
 {
-  var opt = this.opt;
+  var opt = this.opt; 
 
   var date
     ,titulo
@@ -51,9 +38,9 @@ function( data, sync_opt )
 
     r = reporte.incident;
 
-    if ( r.incidentverified === '0' )
-      //continue;
-      return;
+    //if ( r.incidentverified === '0' )
+      ////continue;
+      //return;
 
     resumen = r.incidentdescription.split(' ').slice(0,20).join(' ') + '...';
 
@@ -76,13 +63,7 @@ function( data, sync_opt )
       });
 
     descripcion = [
-      '<blockquote>'
-      ,'Documento producido en los talleres territoriales de monitoreo social de la cuenca.'
-      ,'</blockquote>'
-
-      ,'<div>'
-      ,r.incidentdescription
-      ,'</div>'
+      r.incidentdescription
     ]
     .concat( links )
     .join('');
@@ -135,9 +116,9 @@ function( data, sync_opt )
     }
   });
 
-}
+};
 
-return Alertas;
+return CrowdmapParserBase;
 
 });
 

@@ -5,11 +5,13 @@
 
     <div class="titulo"><%- titulo %></div>
 
-    <div class="txt"><%- txt %>
+    <div class="txt">
 
       <% _.each( eventos, function( e ) { %> 
         <div class="evento <%- e.name %>"><%- e.txt %></div>
     <% }); %>
+
+      <%- txt %>
 
     </div>
 

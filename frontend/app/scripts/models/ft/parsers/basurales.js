@@ -19,21 +19,27 @@ function Basurales( opt )
 
   this.db = function()
   {
-    return _.values( _db );
+    return _db;
   }
 
-  var _db = {
-    name: 'name'
+  var _db = [
+    'name'
     //description tiene el nombre del basural
-    //en los poligonos (name en polis es Área)
-    ,description: 'description'
-    ,geom: 'geometry'
-  };
+    //en los poligonos (name en polis es area)
+    ,'description'
+    ,'geometry'
 
-  this.dbi = {};
-  var i = 0;
-  for ( var k in _db )
-    this.dbi[k] = i++;
+    ////direccion
+    //,'direccion'
+    //,'localidad_barrio'
+    //,'municipio'
+
+    ////extras
+    //,'estado_actual'
+    //,'CARACTERISTICAS'
+    //,'clasificacion'
+    //,'OBSERVACION'
+  ];
 
 }
 
@@ -44,12 +50,13 @@ function( data, sync_opt )
 
   var opt = this.opt;
 
-  var name
-    ,description
-    ,geom
+  var geom
+    //,resumen
+    //,descripcion
     ,coordarr
     ,polyarr;
-    //,descripcion; 
+
+  var d, db = this.db();
 
   var rows = data.rows;
   //var row, i = rows.length;
@@ -59,11 +66,46 @@ function( data, sync_opt )
   {
     //row = rows[i];
 
-    name = row[ this.dbi.name ];
-    description = row[ this.dbi.description ];
-    geom = row[ this.dbi.geom ].geometry;
+    d = _.object( db, row );
 
-    //descripcion = 'basural ' + name;
+    if ( ! _.isObject( d.geometry ) )
+    {
+      console.warn( 'basural sin geometria', d.name, d.description );
+      return;
+    }
+
+    geom = d.geometry.geometry;
+
+    //resumen = _.without( 
+      //_.map([
+        //,d.direccion
+        //,d.localidad_barrio
+        //,d.municipio
+      //]
+      //,function( str ) {
+        //return _.isEmpty( str.replace(/ /g,'') ) 
+          //? null : str;
+      //})
+      //, null )
+      //.join(', ');
+
+    //descripcion = [
+      //,d.direccion
+      //,'<br>'
+      //,d.localidad_barrio
+      //,'<br>'
+      //,d.municipio
+      //,'<br>'
+      //,d.estado_actual
+      //,'<br>'
+      //,d.CARACTERISTICAS
+      //,'<br>'
+      //,d.clasificacion
+      //,'<br>'
+      //,d.OBSERVACION
+      //,'<br>'
+    //]
+    //.join('');
 
     switch ( geom.type )
     {
@@ -74,12 +116,12 @@ function( data, sync_opt )
               geom.coordinates) 
 
         this.trigger('add:feature',new Feature({ 
-          id: name
+          id: d.name
           ,properties: {
-            id: name
+            id: d.name
             ,type: opt.name
-            ,titulo: name
-            //,resumen: descripcion
+            ,titulo: d.name
+            //,resumen: resumen
             //,descripcion: descripcion
             ,icon: opt.icon
           }
@@ -97,14 +139,14 @@ function( data, sync_opt )
           .reverse_polygon(
               geom.coordinates[0] );
 
-        var id = description + _.uniqueId(' polygon ');
+        var id = d.description + _.uniqueId(' polygon ');
         this.trigger('add:feature',new Feature({ 
           id: id
           ,properties: {
             id: id
             ,type: opt.name
-            ,titulo: description
-            //,resumen: descripcion
+            ,titulo: d.description
+            //,resumen: resumen
             //,descripcion: descripcion
             ,icon: opt.icon
           }

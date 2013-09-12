@@ -13,7 +13,7 @@ function( $, _, Backbone,
 
 'use strict';
 
-function Noticias( opt ) 
+function Respuestas( opt ) 
 {
   _.extend( this, CrowdmapParserBase );
 
@@ -27,12 +27,12 @@ function Noticias( opt )
   var _db = {
     task: 'incidents'
     ,by: 'catname'
-    ,name: 'noticias'
+    ,name: 'respuestas'
   };
 
 }
 
-return Noticias;
+return Respuestas;
 
 });
 

@@ -7,13 +7,13 @@ define( [
     ,'utils'
     ], 
 
-function( $, _, Backbone, 
+function( $, _, Backbone,  
   Feature, CrowdmapParserBase, utils ) 
 {
 
 'use strict';
 
-function Noticias( opt ) 
+function Documentos( opt ) 
 {
   _.extend( this, CrowdmapParserBase );
 
@@ -27,12 +27,12 @@ function Noticias( opt )
   var _db = {
     task: 'incidents'
     ,by: 'catname'
-    ,name: 'noticias'
+    ,name: 'documentos'
   };
 
 }
 
-return Noticias;
+return Documentos;
 
 });
 

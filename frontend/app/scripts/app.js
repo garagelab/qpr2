@@ -652,7 +652,10 @@ var App = function( config )
       name: 'basurales'
       ,model: {
         type: 'fusiontables'
+        // solo pts/polis
         ,ftid: '1hffu-50r0VQKUh7GKpEShnqOzE9yic_NaD8ZQzE' 
+        // merge pts/polis + algo de data
+        //,ftid: '1hYKp8ax6PGu_ejvxEMRRsGp7PV1DzN6cWMDk4O0' 
       }
       ,view: {
         icon: {
@@ -721,6 +724,70 @@ var App = function( config )
           url: 'images/markers/noticia.png'
         }
         ,color: colores.get('noticias')
+        //,visible: true
+      }
+    }
+
+    ,{
+      name: 'acciones'
+      ,model: {
+        type: 'crowdmap' 
+        ,url: 
+        'https://qprmonitoreo.crowdmap.com'
+      }
+      ,view: {
+        icon: {
+          url: 'images/markers/accion.png'
+        }
+        ,color: colores.get('acciones')
+        //,visible: true
+      }
+    }
+
+    ,{
+      name: 'respuestas'
+      ,model: {
+        type: 'crowdmap' 
+        ,url: 
+        'https://qprmonitoreo.crowdmap.com'
+      }
+      ,view: {
+        icon: {
+          url: 'images/markers/respuesta.png'
+        }
+        ,color: colores.get('respuestas')
+        //,visible: true
+      }
+    }
+
+    ,{
+      name: 'documentos'
+      ,model: {
+        type: 'crowdmap' 
+        ,url: 
+        'https://qprmonitoreo.crowdmap.com'
+      }
+      ,view: {
+        icon: {
+          url: 'images/markers/documento.png'
+        }
+        ,color: colores.get('documentos')
+        //,visible: true
+      }
+    }
+
+    ,{
+      name: 'normativas'
+      ,model: {
+        type: 'crowdmap' 
+        ,url: 
+        'https://qprmonitoreo.crowdmap.com'
+      }
+      ,view: {
+        icon: {
+          url: 'images/markers/normativa.png'
+        }
+        ,color: colores.get('normativas')
         //,visible: true
       }
     }
