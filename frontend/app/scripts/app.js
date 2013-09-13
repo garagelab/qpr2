@@ -6,25 +6,13 @@ define( [
     ,'utils'
     ,'user'
     ,'ui'
-    //models
-    ,'models/qpr/Collection'
-    ,'models/qpr/Feature'
-    ,'models/ft/FT'
-    ,'models/crowdmap/crowdmap'
-    //overlays
-    //,'views/gmaps/glayer_view'
-    //,'views/gmaps/gfeatures_view'
-    ,'views/gmaps/gmarkers_view'
-    ,'views/gmaps/gpolygons_view'
-    ,'views/gmaps/ginfowins_view'
-    ,'views/gmaps/gclusterer_view'
-    ,'views/gmaps/gcanvaslayer_view'
     //views
     ,'views/gmaps/gmap_view'
     ,'views/gmaps/gcuenca_view'
     ,'views/ui/LayerControlView'
     ,'views/ui/LayerColors'
     //controllers
+    ,'controllers/LayerCtrler'
     ,'controllers/HistoriaDetalleCtrler'
     ,'controllers/FeatureDetalleCtrler'
     ,'controllers/FeatureABMctrler'
@@ -37,25 +25,13 @@ function(
   ,User
   ,UI
 
-  ,Collection
-  ,Feature
-  ,FT
-  ,Crowdmap
-
-  //,GLayerView
-  //,GFeaturesView
-  ,GMarkersView
-  ,GPolygonsView 
-  ,GInfowinsView 
-  ,GClustererView 
-  ,GCanvasLayerView 
-
   ,GMapView
   ,GCuencaView
 
   ,LayerControlView 
   ,LayerColors
 
+  ,LayerCtrler
   ,HistoriaDetalleCtrler
   ,FeatureDetalleCtrler
   ,FeatureABMctrler
@@ -89,284 +65,6 @@ var App = function( config )
   var layers;
   var mapview, gcuenca;
   var cur_detalle;
-
-  var layer_factory = 
-  {
-    collection: {
-      fusiontables: {}
-      ,crowdmap: {}
-    }
-    ,overlays: {}
-  };
-
-  layer_factory.collection.fusiontables.make = 
-  function( name, opt )
-  {
-    //capitalize name
-    var parserclass = name.charAt(0).toUpperCase() + name.slice(1);
-
-    var parser = new FT.Parsers
-      [parserclass]({
-        name: name
-        ,icon: opt.icon
-      });
-
-    var api = new FT.API({
-      ftid: opt.ftid
-      ,read: { cols: parser.db() }
-    });
-
-    var collection = new Collection([], {
-      model: Feature
-      ,name: name
-      ,api: api
-      ,parser: parser
-    }); 
-
-    // TODO dispose layer collection
-    collection.listenTo( 
-      parser, 
-      'add:feature', 
-      collection.add,
-      collection );
-
-    parser.on('complete', function()
-    {
-      init_fetch_complete();
-    });
-
-    return collection;
-  }
-
-  layer_factory.collection.crowdmap.make = 
-  function( name, opt )
-  {
-    //capitalize name
-    var parserclass = name.charAt(0).toUpperCase() + name.slice(1);
-
-    var parser = new Crowdmap.Parsers
-      [parserclass]({
-        name: name
-        ,icon: opt.icon
-      });
-
-    var api = new Crowdmap.API({
-      url: opt.url 
-      ,read: {
-        params: parser.db()
-      }
-    });
-
-    var collection = new Collection([], {
-      model: Feature
-      ,name: name
-      ,api: api
-      ,parser: parser
-    }); 
-
-    // TODO dispose layer collection
-    collection.listenTo( 
-      parser, 
-      'add:feature', 
-      collection.add,
-      collection );
-
-    parser.on('complete', function()
-    {
-      init_fetch_complete();
-    });
-
-    return collection;
-  } 
-
-  layer_factory.overlays.make = 
-  function( name, opt, model )
-  { 
-
-    var ol = {
-
-    // default overlays
-
-    markers: new GMarkersView({
-      name: name
-      ,model: model
-      ,map: mapview.map()
-      ,color: opt.color
-      ,visible: opt.visible
-      ,icon: opt.icon
-    })
-
-    ,polygons: new GPolygonsView({
-      name: name
-      ,model: model
-      ,map: mapview.map()
-      ,color: opt.color
-      ,visible: opt.visible
-    })
-
-    ,infowins: new GInfowinsView({
-      name: name
-      ,model: model
-      ,map: mapview.map()
-    })
-
-    ,clusterer: new GClustererView({
-      name: name
-      ,model: model
-      ,map: mapview.map()
-      ,visible: opt.visible
-      ,icon: opt.icon
-    })
-
-    ,canvas_icons: new GCanvasLayerView({
-      name: name
-      ,model: model
-      ,map: mapview.map()
-      ,color: opt.color
-      ,visible: opt.visible
-      ,scale: false
-      ,size: opt.icon.background_size || 26
-
-      //feed canvas with list of latlng points
-      ,points: function()
-      {
-        var latlngs = [];
-        _.each( 
-          ol.clusterer.clusters()
-          ,function( cluster )
-          {
-            latlngs.push( cluster.getCenter() );
-          });
-        return latlngs;
-      }
-    }) 
-
-    }; //end of default overlays
-
-
-    // wire default overlays
-
-    ol.clusterer.listenTo( 
-        ol.markers,  
-        'added:marker',
-        ol.clusterer.marker_added, 
-        ol.clusterer );
-
-    ol.infowins.listenTo( 
-        ol.markers,  
-        'select:feature',
-        ol.infowins.infowin, 
-        ol.infowins );
-
-    //ol.infowins.listenTo( 
-        //ol.polygons,  
-        //'select:feature',
-        //ol.infowins.infowin, 
-        //ol.infowins );
-
-    ol.infowins.on(
-      'select:feature',
-      function( feature )
-      {
-        add_detalle( feature, mapview );
-      });
-
-    ol.canvas_icons.listenTo( 
-      ol.clusterer,
-      'update', 
-      ol.canvas_icons.render,
-      ol.canvas_icons );
-
-
-    // optional overlays
-
-    if ( opt.overlays && opt.overlays
-        .indexOf( 'canvas_points' ) > -1 )
-    {
-
-      ol.canvas_points =
-        new GCanvasLayerView({
-          name: name
-          ,model: model
-          ,map: mapview.map()
-          ,color: opt.color
-          ,visible: opt.visible
-          //,points: function()
-          //{
-            //var latlngs = [];
-            //_.each( 
-              //ol.markers.markers()
-              //,function( m )
-              //{
-                //latlngs.push(m.getPosition());
-              //});
-            //return latlngs;
-          //}
-        });
-
-      ol.canvas_points.listenTo( 
-        model, 'add', 
-        ol.canvas_points.feature_added,
-        ol.canvas_points );
-
-    } 
-
-    return ol;
-
-  }
-
-  //darktheme
-  //layer_factory.overlays.make = 
-  //function( name, opt, model )
-  //{ 
-
-    //var ol = {
-
-    //// default overlays
-
-    //polygons: new GPolygonsView({
-      //name: name
-      //,model: model
-      //,map: mapview.map()
-      //,color: opt.color
-      //,visible: opt.visible
-    //})
-
-    //,infowins: new GInfowinsView({
-      //name: name
-      //,model: model
-      //,map: mapview.map()
-    //})
-
-    //,canvas_points: new GCanvasLayerView({
-      //name: name
-      //,model: model
-      //,map: mapview.map()
-      //,color: opt.color
-      //,visible: opt.visible
-      //,size: opt.canvas_size
-    //})
-
-    //}; //end of default overlays
-
-
-    //// wire default overlays
-
-    //ol.infowins.on(
-      //'select:feature',
-      //function( feature )
-      //{
-        //add_detalle( feature, mapview );
-      //}); 
-
-    //ol.canvas_points.listenTo( 
-      //model, 'add', 
-      //ol.canvas_points.feature_added,
-      //ol.canvas_points );
-
-    //return ol;
-
-  //}
 
   function make_layers( mapview, config ) 
   {  
@@ -408,48 +106,31 @@ var App = function( config )
 
   function make_layer( opt, mapview )
   {
-    var name = opt.name;
+    var layer = new LayerCtrler( opt, mapview );
 
-    // copy ref icon.url from view to model
-    ( opt.model.icon || (opt.model.icon = opt.view.icon ) )
-    //( opt.model.icon || (opt.model.icon = {
-      //url: opt.view.icon.url
-    //}) )
-
-    var collection = layer_factory.collection
-      [opt.model.type]
-        .make( name, opt.model );
-
-    var overlays = layer_factory.overlays
-      .make( name, opt.view, collection ); 
-
-
-    // ui control
-
-    var ctrl = new LayerControlView({
-      name: name
-      ,el: '.layer-controls .layer.'+name
-      ,visible: opt.view.visible
-    });
-
-    ctrl.on(
-      'change:visibility',
-      function( v )
+    layer.on( 
+      'parse:complete'
+      ,function( v )
       {
-        var k;
-        for ( k in overlays )
-          overlays[k].visible( v );
-
-        update_clusters_size( layers, mapview );
-
+        init_fetch_complete();
       });
 
-    return {
-      model: collection
-      ,view: { 
-        overlays: overlays 
-      }
-    };
+    layer.on( 
+      'select:feature'
+      ,function( feature )
+      {
+        add_detalle( feature, mapview );
+      });
+
+    layer.on( 
+      'change:visibility'
+      ,function( v )
+      {
+        update_clusters_size( layers, mapview );
+      });
+
+    return layer;
+
   }
 
   function update_clusters_size(layers,mapview)
@@ -457,36 +138,32 @@ var App = function( config )
 
     var visible_layers = 0;
     var cant_layers = 0;
-    var i, j, overlays;
+    var clstr;
 
-    for ( i in layers )
+    _.each( layers, function( layer ) 
     {
-      overlays = layers[i].view.overlays;
-      for ( j in overlays )
+      _.find( layer.view.overlays, function(ol) 
       {
-        if ( overlays[j].is_visible() )
+        if ( ol.is_visible() )
           visible_layers++;
-        break;
-      }
+        return true;
+      });
       cant_layers++;
-    }
+    });
 
     //var max_size = utils.lerp2d( 
         //mapview.zoom(), 9, 20, 140, 220 );
 
-    var clstr;
-
-    for ( i in layers )
+    _.each( layers, function( layer ) 
     {
-      clstr = layers[i].view.overlays.clusterer;
-      if ( ! clstr ) 
-        continue;
-      clstr.size(
-        utils.lerp2d( visible_layers, 
-          0, cant_layers, 
-          40, 150 )
-        );
-    }
+      clstr = layer.view.overlays.clusterer;
+      if ( clstr ) 
+        clstr.size(
+          utils.lerp2d( visible_layers, 
+            0, cant_layers, 
+            40, 150 )
+          );
+    });
   } 
 
   function close_all_infowins()

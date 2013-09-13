@@ -65,10 +65,10 @@ var FeatureDetalleCtrler = function( opt )
     view.close();
   }
 
-  this.$el = function()
-  {
-    return view.$el;
-  }
+  //this.$el = function()
+  //{
+    //return view.$el;
+  //}
 
 };
 
