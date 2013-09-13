@@ -99,8 +99,9 @@ var HistoriaView = Backbone.View.extend({
     this.$el.append(feature_preview.render().el);
 
 
-    // wait for $el to be in the dom
-    // to update descripcion loc y
+    // esperar q timeline $el 
+    // este en el dom para
+    // updatear descripcion loc y
     var timer = 0, delay = 100;
     (function check_t()
     {
@@ -184,6 +185,7 @@ var HistoriaView = Backbone.View.extend({
 
   ,update_bottom: function()
   {
+
     var _top = 
       this.$timeline.position().top
       + this.timeline.bottom() 

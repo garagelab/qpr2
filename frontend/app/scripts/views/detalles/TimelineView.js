@@ -140,10 +140,9 @@ var TimelineView = Backbone.View.extend({
     var id = feature.get('id');
     var props = feature.get('properties');
 
-    //var date = props.date;
+    var icon_h = props.icon.height + 10;
 
-    //console.log('timeline add feature',
-        //id, feature );
+    //var date = props.date;
 
     //if ( ! props.date )
     //{
@@ -175,8 +174,6 @@ var TimelineView = Backbone.View.extend({
     var clas = 'timeline-icon';
       //+ props.type + '-' + id.replace(/ /g,'').replace(/\./g,'')
 
-    this._bottom = vis.layout.icons.y;
-
     img
       .data( vis.data )
       .enter()
@@ -195,40 +192,49 @@ var TimelineView = Backbone.View.extend({
             new Date( date.iso ) );
         })
 
-        .attr( 'y', function() 
+        .attr( 'y', function( d ) 
         { 
           var x = parseFloat(
             this.getAttribute('x') );
 
-          img.each( function( d, i )
+          var _bottom = vis.layout.icons.y;
+
+          img.each( function( d_img, i )
           {
-            var props = d.feature
+            var props = d_img.feature
               .get('properties');
+
             var el = img[0][i];
+
             var ox =  parseFloat(
               el.getAttribute('x') );
+
             var ow = parseFloat(
               el.getAttribute('width') );
+
             //ow /= 2;
             if ( x > ox-ow && x < ox+ow )
-              self._bottom += 
-                props.icon.height+10;
+              _bottom += icon_h;
+
           });
 
-          return self._bottom;
+          return _bottom;
         })
-
-    //agregar 2?? iconos mas
-    //para dejar el bottom realmente bottom
-    this._bottom += (props.icon.height+10)*2;
 
     //vis.svg.select( 'image.'+clas )
     //.each( function() 
     //{
       //var el = this;
 
+    // iterate imgs to
+    // add tooltip
+    // update bottom
+    self._bottom = vis.layout.icons.y + icon_h;
     _.each( $('image.'+clas), function( el )
     {
+
+      var y = parseFloat( el.getAttribute('y') ) + icon_h;
+      self._bottom = Math.max( y, self._bottom );
 
       var d = el.__data__;
       var props = d.feature.get('properties');
