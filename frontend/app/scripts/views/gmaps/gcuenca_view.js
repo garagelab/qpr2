@@ -26,11 +26,19 @@ var GCuencaView = function( opt )
       ,arrayToPoints( cuenca, true )
     ],
 
+    clickable: false,
+
     strokeWeight: 0,
     strokeOpacity: 0.2,
     fillColor: "#000000",
-    fillOpacity: 0.1,
-    clickable: false
+    fillOpacity: 0.1
+
+    //darktheme
+    //,strokeWeight: 0.8
+    //,fillOpacity: 0.3
+    //,fillColor: "#000000"
+    //,strokeOpacity: 0.7
+    //,strokeColor: "#ffffff"
   });   
 
   //var edge = new google.maps.Polyline({

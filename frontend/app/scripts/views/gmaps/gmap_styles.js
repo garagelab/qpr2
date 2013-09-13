@@ -92,22 +92,25 @@ var map_styles =
     ]
   }
 
-];
+]
 
+//darktheme
 //var map_styles =
 //[
   //{
     //"featureType": "landscape",
     //"stylers": [
+      //{ "invert_lightness": true },
       //{ "visibility": "simplified" },
-      //{ "invert_lightness": true }
+      //{ "saturation": -30 },
+      //{ "lightness": -30 }
     //]
   //},{
-    //"featureType": "road",
+    //"featureType": "poi",
     //"stylers": [
       //{ "visibility": "simplified" },
-      //{ "saturation": -100 },
-      //{ "lightness": -85 }
+      //{ "invert_lightness": true },
+      //{ "saturation": -60 }
     //]
   //},{
     //"featureType": "administrative",
@@ -116,17 +119,20 @@ var map_styles =
       //{ "visibility": "simplified" }
     //]
   //},{
-    //"featureType": "transit",
+    //"featureType": "road",
     //"stylers": [
-      //{ "invert_lightness": true },
-      //{ "visibility": "simplified" }
+      //{ "invert_lightness": true }
     //]
   //},{
-    //"featureType": "poi",
+    //"featureType": "road.arterial",
     //"stylers": [
-      //{ "visibility": "simplified" },
-      //{ "saturation": -62 },
-      //{ "invert_lightness": true }
+      //{ "visibility": "on" },
+      //{ "lightness": -40 }
+    //]
+  //},{
+    //"featureType": "road.local",
+    //"stylers": [
+      //{ "lightness": -10 }
     //]
   //},{
     //"featureType": "water",
@@ -136,9 +142,39 @@ var map_styles =
       //{ "saturation": -22 },
       //{ "weight": 1 }
     //]
+    ////"featureType": "water",
+    ////"stylers": [
+      ////{ "weight": 1.5 },
+      ////{ "hue": "#00aaff" },
+      ////{ "lightness": -37 },
+      ////{ "saturation": -46 }
+    ////]
+  //},{
+    //"featureType": "transit",
+    //"stylers": [
+      //{ "invert_lightness": true }
+    //]
+  //},{
+    //"featureType": "poi.business",
+    //"stylers": [
+      //{ "visibility": "off" }
+    //]
+  //},{
+    //"featureType": "road.highway",
+    //"stylers": [
+      //{ "saturation": -75 },
+      //{ "visibility": "simplified" },
+      //{ "weight": 0.6 }
+    //]
+  //},{
+    //"featureType": "road.highway",
+    //"elementType": "labels",
+    //"stylers": [
+      //{ "visibility": "off" }
+    //]
   //},{
   //}
-//];
+//]
 
 return map_styles;
 

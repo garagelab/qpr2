@@ -42,7 +42,8 @@ function( data, sync_opt )
       ////continue;
       //return;
 
-    resumen = r.incidentdescription.split(' ').slice(0,20).join(' ') + '...';
+    // remove html tags
+    resumen = (r.incidentdescription.split(' ').slice(0,20).join(' ') + '...').replace(/<(?:.|\n)*?>/gm, '');
 
     titulo = r.incidenttitle;
     locacion = r.locationname;

@@ -7,9 +7,13 @@
 
     <div class="txt">
 
-      <% _.each( eventos, function( e ) { %> 
-        <div class="evento <%- e.name %>"><%- e.txt %></div>
-    <% }); %>
+      <div class="eventos">
+
+        <% _.each( eventos, function( e ) { %> 
+          <div class="evento <%- e.name %>"><%- e.txt %></div>
+      <% }); %>
+
+      </div>
 
       <%- txt %>
 

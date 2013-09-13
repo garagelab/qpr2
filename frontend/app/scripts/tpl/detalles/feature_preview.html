@@ -7,11 +7,15 @@
 
   <div class="txt"><%- txt %>
 
+    <div class="eventos">
+
       <% _.each( eventos, function( e ) { %> 
         <div class="evento <%- e.name %>"><%- e.txt %></div>
     <% }); %>
 
     </div>
+
+  </div>
 
 </div>
 

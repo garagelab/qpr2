@@ -93,19 +93,17 @@ var GInfowinsView = Backbone.View.extend({
         .join(',')
       : '';
 
-    // remove html tags
-    var _resumen = _.isString( props.resumen ) ? props.resumen.replace(/<(?:.|\n)*?>/gm, '') : '';
-
     var $infowin = $('<div/>')
 
       .addClass( 'infowin' )
       .html(
           this.tpl({
             titulo: props.titulo
-            ,resumen: _resumen 
+            ,resumen: props.resumen 
             ,type: props.type
             ,temas: temas
             ,locacion: props.locacion
+            ,eventos: props.eventos
             ,date: props.date 
               ? props.date.src
               : ''

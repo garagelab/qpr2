@@ -65,6 +65,7 @@ function( data, sync_opt )
   var d, db = this.db();
 
   var descripcion
+    ,resumen
     ,eventos
     ,coordarr;
 
@@ -79,6 +80,8 @@ function( data, sync_opt )
     d = _.object( db, row );
 
     coordarr = [ d.latitud, d.longitud ];
+
+    resumen = d.producto_1;
 
     descripcion = [
 
@@ -159,6 +162,8 @@ function( data, sync_opt )
     ]
     .join('');
 
+    // eventos
+
     eventos = [{
       name: 'ac'
       ,txt: 'agente contaminante desde '+d.ac_fecha
@@ -186,7 +191,7 @@ function( data, sync_opt )
           ,src: d.fecha
         }
         ,titulo: d.razon_social
-        ,resumen: d.producto_1
+        ,resumen: resumen
         ,descripcion: descripcion
         ,eventos: eventos
         ,icon: opt.icon

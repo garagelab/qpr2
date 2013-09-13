@@ -315,6 +315,59 @@ var App = function( config )
 
   }
 
+  //darktheme
+  //layer_factory.overlays.make = 
+  //function( name, opt, model )
+  //{ 
+
+    //var ol = {
+
+    //// default overlays
+
+    //polygons: new GPolygonsView({
+      //name: name
+      //,model: model
+      //,map: mapview.map()
+      //,color: opt.color
+      //,visible: opt.visible
+    //})
+
+    //,infowins: new GInfowinsView({
+      //name: name
+      //,model: model
+      //,map: mapview.map()
+    //})
+
+    //,canvas_points: new GCanvasLayerView({
+      //name: name
+      //,model: model
+      //,map: mapview.map()
+      //,color: opt.color
+      //,visible: opt.visible
+      //,size: opt.canvas_size
+    //})
+
+    //}; //end of default overlays
+
+
+    //// wire default overlays
+
+    //ol.infowins.on(
+      //'select:feature',
+      //function( feature )
+      //{
+        //add_detalle( feature, mapview );
+      //}); 
+
+    //ol.canvas_points.listenTo( 
+      //model, 'add', 
+      //ol.canvas_points.feature_added,
+      //ol.canvas_points );
+
+    //return ol;
+
+  //}
+
   function make_layers( mapview, config ) 
   {  
     var layers = {};
@@ -421,9 +474,14 @@ var App = function( config )
     //var max_size = utils.lerp2d( 
         //mapview.zoom(), 9, 20, 140, 220 );
 
+    var clstr;
+
     for ( i in layers )
     {
-      layers[i].view.overlays.clusterer.size(
+      clstr = layers[i].view.overlays.clusterer;
+      if ( ! clstr ) 
+        continue;
+      clstr.size(
         utils.lerp2d( visible_layers, 
           0, cant_layers, 
           40, 150 )
@@ -626,6 +684,8 @@ var App = function( config )
         }
         ,color: colores.get('historias')
         ,visible: true
+        //darktheme
+        //,canvas_size: 0.01
       }
     }
 
@@ -645,6 +705,8 @@ var App = function( config )
         ,color: colores.get('industrias')
         ,overlays: ['canvas_points']
         //,visible: true
+        //darktheme
+        //,canvas_size: 0.0015
       }
     }
 
@@ -663,6 +725,8 @@ var App = function( config )
         }
         ,color: colores.get('basurales')
         //,visible: true
+        //darktheme
+        //,canvas_size: 0.004
       }
     }
 
@@ -678,6 +742,8 @@ var App = function( config )
         }
         ,color: colores.get('ecopuntos')
         //,visible: true
+        //darktheme
+        //,canvas_size: 0.004
       }
     }
 
@@ -709,6 +775,8 @@ var App = function( config )
         }
         ,color: colores.get('alertas')
         //,visible: true
+        //darktheme
+        //,canvas_size: 0.004
       }
     }
 
