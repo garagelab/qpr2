@@ -5,10 +5,6 @@ define( [
   ,'chroma'
   ], 
 
-/*
- * mapa layer:hex
- */
-
 function( $, _, Backbone, chroma ) 
 {
 
@@ -16,6 +12,8 @@ function( $, _, Backbone, chroma )
 
 var LayerColors = function()
 {
+
+  // mapa layer:hex
 
   this._colores = {
 
@@ -133,6 +131,8 @@ LayerColors.prototype.add_css = function()
 
   _css.push( '</style>' );
   $('head').append( _css.join('') );
+
+  return this;
 }
 
 return LayerColors;

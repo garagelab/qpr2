@@ -3,9 +3,10 @@ define( [
     ,'underscore'
     ,'backbone'
     ,'text!tpl/infowin.html'
+    ,'utils'
     ], 
 
-function( $, _, Backbone, tpl ) 
+function( $, _, Backbone, tpl, utils ) 
 {
 
 'use strict';
@@ -130,13 +131,33 @@ var GInfowinsView = Backbone.View.extend({
     var opt = this.options;
 
     var props = feature.get('properties');
-    var id = feature.get('id');
+    var geom = feature.get('geometry');
 
-    var $infowin = this.$infowins[ id ];
+    var id, coordarr;
 
-    var coordarr = feature
-      .get('geometry')
-      .coordinates;
+    if ( geom.type === 'Polygon' )
+    {
+      id = _.without( _.map( 
+          feature.get('id').split('_')
+          ,function( tk )
+          {
+            return tk.search(/polygon/) > -1 
+              ? null : tk;
+          })
+        , null )
+        .join('_');
+
+      coordarr = utils
+        .get_polygon_center( 
+            geom.coordinates );
+    }
+    else
+    {
+      id = feature.get('id');
+      coordarr = geom.coordinates;
+    }
+
+    var $infowin = this.$infowins[ id ]; 
 
     var coord = new google.maps.LatLng(
         coordarr[0], coordarr[1] );

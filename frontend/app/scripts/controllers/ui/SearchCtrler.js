@@ -29,9 +29,9 @@ var SearchCtrler = function( opt )
   feature_view.on( 'select:feature'
     ,function( e )
     {
-      this.trigger('select:feature', {
-        feature: _features[ e.name ]
-      });
+      this.trigger(
+        'select:feature', 
+        _features[ e.name ] );
     }
     , this );
 

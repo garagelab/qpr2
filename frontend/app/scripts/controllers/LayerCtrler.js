@@ -87,17 +87,12 @@ var LayerCtrler = function( opt, mapview )
     'change:visibility',
     function( v )
     {
-      //var k;
-      //for ( k in overlays )
-        //overlays[k].visible( v );
-
       _.each( overlays, function( ol )
       {
         ol.visible( v );
       });
 
       self.trigger( 'change:visibility', v );
-
     });
 
     
@@ -284,11 +279,11 @@ function( name, opt, model, mapview )
       ol.infowins.infowin, 
       ol.infowins );
 
-  //ol.infowins.listenTo( 
-      //ol.polygons,  
-      //'select:feature',
-      //ol.infowins.infowin, 
-      //ol.infowins );
+  ol.infowins.listenTo( 
+      ol.polygons,  
+      'select:feature',
+      ol.infowins.infowin, 
+      ol.infowins );
 
   ol.canvas_icons.listenTo( 
     ol.clusterer,

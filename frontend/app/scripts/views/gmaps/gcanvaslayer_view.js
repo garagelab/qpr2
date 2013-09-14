@@ -32,6 +32,7 @@ var GCanvasLayerView = Backbone.View.extend({
 
     this.canvas_layer = new CanvasLayer({
       map: opt.map
+      //,paneName: 'overlayMouseTarget'
       ,animate: false
       ,resizeHandler: 
         _.bind( this.render, this )

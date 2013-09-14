@@ -28,9 +28,9 @@ var UI = function( opt )
     mapview: opt.mapview
   });
 
-  search.on('select:feature', function( e )
+  search.on('select:feature', function( feature )
   {
-    this.trigger( 'select:feature', e );
+    this.trigger( 'select:feature', feature );
   }
   , this );
 

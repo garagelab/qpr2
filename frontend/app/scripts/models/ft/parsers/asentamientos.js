@@ -110,7 +110,7 @@ function( data, sync_opt )
       .reverse_polygon( 
           geom.coordinates[0] );
 
-    var id = d.barrio + _.uniqueId(' polygon ');
+    var id = d.barrio + _.uniqueId('_polygon');
     this.trigger('add:feature', new Feature({ 
       id: id
       ,properties: {

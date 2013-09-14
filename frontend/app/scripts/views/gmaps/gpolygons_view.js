@@ -4,10 +4,6 @@ define( [
     ,'backbone'
     ], 
 
-/*
- * TODO dispose lists of features
- */
-
 function( $, _, Backbone ) 
 {
 
