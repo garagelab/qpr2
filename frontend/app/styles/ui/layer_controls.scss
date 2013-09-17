@@ -15,7 +15,8 @@
   background-color: rgba(0, 0, 0, 1.0);
 }
 
-.layers .layer {
+.layers .layer 
+{
   margin: 1px 0px; 
   padding: 5px;
   height: 20px;
@@ -28,15 +29,51 @@
 {
   height: 30px;
   line-height: 30px;
-  font-weight: bold;
+  //font-weight: bold;
   //margin: 4px 0px;
+}
+
+.layers .layer.enviar-alerta
+{
+  font-weight: bold;
 }
 
 .layers .layer img 
 {
   float: right;
   position: relative;
+  opacity: 0.5;
+  filter:alpha(opacity=50); /* For IE8 and earlier */
 }
+
+.layers .layer.visible img 
+{
+  opacity: 1.0;
+  filter:alpha(opacity=100); /* For IE8 and earlier */
+}
+
+$layer_ctrl_icon_left: 0px;
+//$layer_ctrl_icon_left: 32px;
+
+//.layers .layer .visibility-feedback
+//{
+  //position: relative;
+  //float: right;
+  //width: 34px;
+  //height: 30px;
+  //bottom: 5px;
+  //left: 5px;
+//}
+
+//.layers .layer.historias .visibility-feedback
+//{
+  //height: 39px;
+//}
+
+//.layers .layer.visible .visibility-feedback
+//{
+  //background-color: rgba(255,255,255,0.2);
+//}
 
 .layers .layer.enviar-alerta img 
 {
@@ -47,21 +84,26 @@
 {
   height: 38px;
   top: -5px;
-  right: 2px;
+  left: $layer_ctrl_icon_left;
 }
 
 .layers .layer.alertas img 
 {
   height: 20px;
   top: -2px;
-  right: 1px;
+  left: $layer_ctrl_icon_left + 1px;
 }
 
 .layers .layer.acciones img 
 ,.layers .layer.respuestas img 
 {
   height: 20px;
-  right: 2px;
+  left: $layer_ctrl_icon_left;
+}
+
+.layers .layer.noticias img 
+{
+  left: $layer_ctrl_icon_left + 2px;
 }
 
 .layers .layer.industrias img
@@ -69,20 +111,21 @@
 ,.layers .layer.ecopuntos img 
 {
   height: 20px;
+  left: $layer_ctrl_icon_left;
 }
 
 .layers .layer.asentamientos img 
 ,.layers .layer.subcuencas img 
 {
   top: -3px;
-  right: -2px;
+  left: $layer_ctrl_icon_left + 2px;
 }
 
 .layers .layer.documentos img 
 ,.layers .layer.normativas img 
 {
   height: 22px;
-  right: 2px;
+  left: $layer_ctrl_icon_left + 2px;
 }
 
 /*.layers .separador {*/

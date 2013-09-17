@@ -251,14 +251,12 @@ function( name, opt, model, mapview )
     //feed canvas with list of latlng points
     ,points: function()
     {
-      var latlngs = [];
-      _.each( 
+      return _.map(
         ol.clusterer.clusters()
         ,function( cluster )
         {
-          latlngs.push( cluster.getCenter() );
+          return cluster.getCenter();
         });
-      return latlngs;
     }
   }) 
 

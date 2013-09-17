@@ -294,10 +294,7 @@ var App = function( config )
       'change:visibility',
       function( v )
       {
-        if ( v ) 
-          layer.setMap( mapview.map() );
-        else 
-          layer.setMap( null );
+        layer.setMap(v ? mapview.map() : null);
       });
   }
 
@@ -340,31 +337,32 @@ var App = function( config )
 
   // disable markers/clusters
 
-  $( window ).keyup( function(e)
-  {
-    if ( e.keyCode !== 67 ) //c
-      return;
-    
-    var ol, visible;
+  //$( window ).keyup( function(e)
+  //{
+    //if ( e.keyCode !== 67 ) //c
+      //return;
 
-    _.each( [
-      layers.industrias
-      ,layers.basurales
-      ,layers.asentamientos
-      ,layers.ecopuntos
-    ]
-    ,function( layer )
-    {
-      ol = layer.view.overlays; 
-      visible = ol.clusterer.is_visible();
-      ol.clusterer.hide();
-      ol.markers.hide();
-      //ol.clusterer.visible( ! visible );
-      //ol.markers.visible( ! visible );
-      if ( visible ) ol.canvas_icons.render();
-    });
+    //var ols, visible;
 
-  });
+    //_.each( [
+      //layers.industrias
+      //,layers.basurales
+      //,layers.asentamientos
+      //,layers.ecopuntos
+    //]
+    //,function( layer )
+    //{
+      //ols = layer.view.overlays; 
+      //visible = ols.clusterer.is_visible();
+      //if ( visible ) 
+      //{
+        //ols.clusterer.hide();
+        //ols.markers.hide();
+        //ols.canvas_icons.render();
+      //}
+    //});
+
+  //});
 
   window.layers = layers;
   //window.user = user; 

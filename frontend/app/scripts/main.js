@@ -149,7 +149,7 @@ function( App, LayerColors ) //,User,GMapView)
           url: 'images/markers/industria.png'
         }
         ,color: colores.get('industrias')
-        ,overlays: ['canvas_points']
+        //,overlays: ['canvas_points']
         //,visible: true
         //,canvas_size: 0.0015
       }
@@ -185,7 +185,7 @@ function( App, LayerColors ) //,User,GMapView)
           url: 'images/markers/ecopunto.png'
         }
         ,color: colores.get('ecopuntos')
-        ,overlays: ['canvas_points']
+        //,overlays: ['canvas_points']
         //,visible: true
         //,canvas_size: 0.004
       }
