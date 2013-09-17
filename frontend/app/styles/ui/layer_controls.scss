@@ -22,6 +22,13 @@
   height: 20px;
   line-height: 20px;
   cursor: pointer;
+  color: #333;
+}
+
+.layers .layer.visible
+{
+  color: #000;
+  font-weight: bold;
 }
 
 .layers .layer.historias

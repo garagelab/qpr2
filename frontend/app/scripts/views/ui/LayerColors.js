@@ -121,7 +121,6 @@ LayerColors.prototype.add_css = function()
     _css.push( [
       sel+'.visible'
       ,'{'
-      ,'font-weight: bold;'
       ,'background-color:'
       ,'rgba( '+crgb+', 1.0 );'
       ,'}'
