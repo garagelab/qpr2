@@ -54,6 +54,9 @@ var LayerCtrler = function( opt, mapview )
   var collection = layer_factory.collection
     [opt.model.type]
       .make( name, opt.model );
+ 
+  var overlays = layer_factory.overlays
+    .make( name, opt.view, collection, mapview); 
 
   collection.on(
     'parse:complete'
@@ -62,9 +65,12 @@ var LayerCtrler = function( opt, mapview )
       self.trigger('parse:complete');
     });
 
-
-  var overlays = layer_factory.overlays
-    .make( name, opt.view, collection, mapview); 
+  collection.on(
+    'add'
+    ,function( feature )
+    {
+      self.trigger('add:feature', feature);
+    });
 
   if ( overlays.infowins ) 
     overlays.infowins.on(
@@ -147,15 +153,18 @@ function( name, opt )
   }); 
 
   collection.listenTo( 
-    parser, 
-    'add:feature', 
-    collection.add,
-    collection );
+    parser
+    ,'add:feature'
+    ,collection.add
+    ,collection );
 
-  parser.on('complete', function()
-  {
-    collection.trigger('parse:complete');
-  });
+  collection.listenTo( 
+    parser
+    ,'complete'
+    ,function()
+    {
+      collection.trigger('parse:complete');
+    });
 
   return collection;
 }
@@ -187,15 +196,18 @@ function( name, opt )
   }); 
 
   collection.listenTo( 
-    parser, 
-    'add:feature', 
-    collection.add,
-    collection );
+    parser
+    ,'add:feature'
+    ,collection.add
+    ,collection );
 
-  parser.on('complete', function()
-  {
-    collection.trigger('parse:complete');
-  });
+  collection.listenTo( 
+    parser
+    ,'complete'
+    ,function()
+    {
+      collection.trigger('parse:complete');
+    });
 
   return collection;
 } 

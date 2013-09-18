@@ -83,7 +83,7 @@ require.config({
     ,qtip2: '../lib/jquery.qtip.min'
     ,tipsy: '../lib/jquery.tipsy'
 
-    //,spin: '../bower_components/spin.js/spin'
+    ,spin: '../bower_components/spin.js/spin'
 
     ,sifter: '../bower_components/sifter/sifter'
     ,microplugin: '../bower_components/microplugin/src/microplugin'

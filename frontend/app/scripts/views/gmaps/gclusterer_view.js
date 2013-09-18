@@ -48,6 +48,13 @@ var GClustererView = Backbone.View.extend({
         styles: cluster_style
       });
 
+    //google.maps.event.addListener(
+      //this._clusterer, 'clusteringbegin', 
+      //function () 
+      //{
+        //self.trigger( 'update:ini' );
+      //});
+
     google.maps.event.addListener(
       this._clusterer, 'clusteringend', 
       function () 

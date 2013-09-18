@@ -29,15 +29,19 @@ var GCanvasLayerView = Backbone.View.extend({
       //'add', this.feature_added, this );
 
     this._latlngs = [];
+    this._points = [];
 
     this.canvas_layer = new CanvasLayer({
       map: opt.map
       //,paneName: 'overlayMouseTarget'
       ,animate: false
-      ,resizeHandler: 
-        _.bind( this.render, this )
-      ,updateHandler: 
-        _.bind( this.render, this )
+      //,resizeHandler: 
+        //_.bind( this.render, this )
+      ,updateHandler: function()
+      {
+        self.render( false );
+      }
+        //_.bind( this.render, this )
     });
 
     this.ctx = this.canvas_layer 
@@ -45,10 +49,10 @@ var GCanvasLayerView = Backbone.View.extend({
 
   }
 
-  ,render: function()
+  ,render: function( _update_pts )
   {
     if ( this.is_visible() )
-      this._canvas_render();
+      this._canvas_render(_update_pts || true);
   }
 
   ,_canvas_clear: function()
@@ -58,8 +62,10 @@ var GCanvasLayerView = Backbone.View.extend({
         this.canvas_layer.canvas.height );
   }
 
-  ,_canvas_render: function()
+  ,_canvas_render: function( _update_pts )
   { 
+    _update_pts = _update_pts || false;
+
     var opt = this.options;
 
     var canvas_layer = this.canvas_layer; 
@@ -96,9 +102,18 @@ var GCanvasLayerView = Backbone.View.extend({
 
     // dejar que los puntos sean inyectados
     // desde afuera con opt.points()
-    var pts = _.isFunction( opt.points )
-      ? opt.points()
-      : this._latlngs;
+    var pts;
+    if ( _.isFunction( opt.points ) )
+    {
+      this._points = _update_pts 
+        ? opt.points()
+        : this._points;
+      pts = this._points;
+    }
+    else
+    {
+      pts = this._latlngs;
+    }
 
     _.each( pts, function( pt_latlng )
     {
@@ -147,7 +162,7 @@ var GCanvasLayerView = Backbone.View.extend({
       return;
     }
 
-    this._canvas_render();
+    this._canvas_render( true );
     this._visible = true;
   }
 

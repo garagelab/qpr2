@@ -10,6 +10,7 @@ define( [
     ,'views/gmaps/gmap_view'
     ,'views/gmaps/gcuenca_view'
     ,'views/ui/LayerControlView'
+    ,'views/ui/LoadingRoute'
     //controllers
     ,'controllers/LayerCtrler'
     ,'controllers/HistoriaDetalleCtrler'
@@ -28,6 +29,7 @@ function(
   ,GCuencaView
 
   ,LayerControlView 
+  ,LoadingRoute
 
   ,LayerCtrler
   ,HistoriaDetalleCtrler
@@ -42,36 +44,24 @@ function(
 var App = function( config ) 
 { 
 
-  var Router = Backbone.Router.extend({
-    routes: {
-      "markers/:type": "markers"
-    },
-    markers: function( marker_t ) 
-    {}
-  });
-
-  var router = new Router();
-  Backbone.history.start(); 
-
+  var router;
   var user, ui;
   var layers;
   var mapview, gcuenca;
   var cur_detalle;
 
-  function make_layers( mapview, config ) 
+  function make_layers( config, mapview ) 
   {  
     var layers = {};
+    var layer, name;
 
-    var layer, cfg, k, i = config.length;
-
-    while( i-- )
+    _.each( config, function( cfg, i )
     {
-      cfg = config[i];
-      k = cfg.name;
+      name = cfg.name;
 
       layer = make_layer( cfg, mapview );
 
-      layers[k] = layer;
+      layers[ name ] = layer;
 
       //layer.model.fetch();
 
@@ -79,7 +69,7 @@ var App = function( config )
       _.delay( 
         _.bind(layer.model.fetch,layer.model)
         , 1000*i );
-    }
+    }); 
 
     // fetch in sequence....
     //(function next( seq )
@@ -121,7 +111,7 @@ var App = function( config )
       ,function( v )
       {
         update_clusters_size( layers, mapview );
-      });
+      }); 
 
     return layer;
 
@@ -185,6 +175,11 @@ var App = function( config )
     }
 
     var props = feature.get('properties');
+
+    if ( router )
+      router.navigate( 
+        encodeURI( props.type+'/'+props.id ) );
+
     var feature_abm;
 
     var _config = {
@@ -205,22 +200,25 @@ var App = function( config )
     }); 
 
     cur_detalle.on( 'close', 
-    function()
-    {
-      cur_detalle.off();
-      cur_detalle = null;
-
-      if ( feature_abm )
+      function()
       {
-        feature_abm.off();
-        feature_abm.close();
-        feature_abm = null;
-      }
+        cur_detalle.off();
+        cur_detalle = null;
 
-      ui.show_widgets();
+        if ( feature_abm )
+        {
+          feature_abm.off();
+          feature_abm.close();
+          feature_abm = null;
+        }
 
-      close_all_infowins();
-    });
+        ui.show_widgets();
+
+        close_all_infowins();
+
+        if ( router )
+          router.navigate();
+      });
 
     ui.hide_widgets();
 
@@ -321,7 +319,9 @@ var App = function( config )
     add_detalle( feature, mapview );
   });
 
-  layers = make_layers( mapview, config );
+  layers = make_layers( config, mapview );
+
+  router = make_router( layers );
 
   make_gsubcuencas_layer( mapview );
 
@@ -333,7 +333,7 @@ var App = function( config )
       ,function()
       {
         ui.update_feature_search( layers );
-      });
+      }); 
 
   // disable markers/clusters
 
@@ -363,6 +363,86 @@ var App = function( config )
     //});
 
   //});
+
+
+  // router 
+
+  function make_router( layers )
+  {
+    // entity/:id >> entity: function(id)
+
+    var Router = Backbone.Router.extend(
+
+      _.extend({
+        routes: _.object( _.map( 
+          _.keys( layers )
+          ,function( name )
+          {
+            return [ name + '/:id', name ];
+          } ) )
+      }
+
+      ,_.object( _.map( 
+        _.keys( layers )
+        ,function( name )
+        {
+          return [ name, function( id )
+          {
+            route_on({ name:name, id:id });
+          }];
+        } ) )
+      ) 
+    );
+
+    var _route = null, loading;
+    var _router = new Router();
+
+    Backbone.history.start();
+
+    // listen each add:feature
+    // to check tha route
+
+    function route_on( route )
+    {
+      loading = new LoadingRoute();
+      $('body').append( loading.render().el );
+
+      _route = route; //save
+      _.each( layers, function( layer )
+      {
+        layer.on('add:feature', apply_route);
+      });
+    }
+
+    function route_off()
+    {
+      loading.remove();
+      loading = null;
+      _route = null;
+      _.each( layers, function( layer )
+      {
+        layer.off('add:feature', apply_route);
+      });
+    }
+
+    function apply_route( feature )
+    {
+      //console.log('applyroute',feature.get('id'));
+      var name = _route.name;
+      var id = _route.id;
+      //var feature=layers[name].model.get(id);
+      //if ( ! feature ) return false;
+      var props = feature.get('properties');
+      if ( props.type === name 
+            && props.id === id )
+      {
+        add_detalle( feature, mapview );
+        route_off();
+      }
+    }
+
+    return _router;
+  }
 
   window.layers = layers;
   //window.user = user; 

@@ -27,6 +27,8 @@ var FeatureView = Backbone.View.extend({
     this.$el.html( 
       _.unescape( this.tpl({
         titulo: props.titulo
+        ,layer_type: props.type
+        ,icon_url: props.icon.url
         ,txt: props.descripcion
         ,eventos: props.eventos
       }) )
