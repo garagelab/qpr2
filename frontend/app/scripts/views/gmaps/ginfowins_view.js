@@ -91,7 +91,11 @@ var GInfowinsView = Backbone.View.extend({
       ? _.without(
           props.temas.split(',')
           ,props.type )
-        .join(',')
+        .join(', ')
+      : '';
+
+    var date = props.date
+      ? utils.date_iso2arg( props.date.iso )
       : '';
 
     var $infowin = $('<div/>')
@@ -102,12 +106,10 @@ var GInfowinsView = Backbone.View.extend({
             titulo: props.titulo
             ,resumen: props.resumen 
             ,type: props.type
+            ,date: date
             ,temas: temas
             ,locacion: props.locacion
             ,eventos: props.eventos
-            ,date: props.date 
-              ? props.date.src
-              : ''
           }) )
       //.append( 
           //'<b>'+props.titulo+'</b>'+

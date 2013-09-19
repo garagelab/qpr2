@@ -2,10 +2,11 @@ define( [
   'jquery'
   ,'underscore'
   ,'backbone'
+  ,'utils'
   ,'text!tpl/detalles/feature.html'
   ], 
 
-function( $, _, Backbone, tpl )
+function( $, _, Backbone, utils, tpl )
 {
 
 'use strict';
@@ -24,13 +25,27 @@ var FeatureView = Backbone.View.extend({
     var feature = this.model; 
     var props = feature.get('properties');
 
+    var temas = props.temas
+      ? _.without(
+          props.temas.split(',')
+          ,props.type )
+        .join(', ')
+      : '';
+
+    var date = props.date
+      ? utils.date_iso2arg( props.date.iso )
+      : '';
+
     this.$el.html( 
       _.unescape( this.tpl({
         titulo: props.titulo
-        ,layer_type: props.type
-        ,icon_url: props.icon.url
         ,txt: props.descripcion
+        ,date: date
+        ,temas: temas 
+        ,locacion: props.locacion
         ,eventos: props.eventos
+        ,icon_url: props.icon.url
+        ,layer_type: props.type
       }) )
     );
 

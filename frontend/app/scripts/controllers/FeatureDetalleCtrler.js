@@ -1,9 +1,9 @@
 define( [ 
-    'jquery'
-    ,'underscore'
-    ,'backbone'
-    ,'views/detalles/FeatureView'
-    ], 
+  'jquery'
+  ,'underscore'
+  ,'backbone'
+  ,'views/detalles/FeatureView'
+  ], 
 
 function( $, _, Backbone, FeatureView ) 
 {
@@ -47,21 +47,29 @@ var FeatureDetalleCtrler = function( opt )
 
   view.on( 'close', function()
   {
-    if ( marker ) 
-      marker.setMap( null );
-    marker = null;
-
     this.trigger('close');
-
-    view.off();
+    this.dispose();
   }
   , this );
 
   $('body').append( view.render().el );
 
+  this.dispose = function()
+  {
+    if ( marker ) 
+      marker.setMap( null );
+    marker = null;
+
+    feature = null;
+    layers = null;
+    mapview = null;
+
+    view.off();
+  }
+
   this.close = function()
   {
-    //va a triggerear evento close de view
+    // triggereara evento view.close -> dispose
     view.close();
   }
 

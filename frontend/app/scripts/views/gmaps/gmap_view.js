@@ -29,26 +29,26 @@ var GMapView = function( opt )
     minZoom: 9,
     maxZoom: 16,
     streetViewControl: false,
-      panControl: false,
-      scrollwheel: false,
-      //scaleControl: true,
-      //zoomControl: true,
-      //overviewMapControl: false,
-      //mapTypeControl: false,
-      mapTypeControlOptions: {
-        style: google.maps.MapTypeControlStyle
-          .HORIZONTAL_BAR,
-        position: google.maps.ControlPosition
-          .TOP_LEFT
-      },
-      zoomControlOptions: {
-        style: google.maps.ZoomControlStyle
-          .SMALL,
-          //.LARGE,
-        position: google.maps.ControlPosition
-          .LEFT_TOP
-          //.LEFT_BOTTOM
-      },
+    panControl: false,
+    scrollwheel: false,
+    //scaleControl: true,
+    //zoomControl: true,
+    //overviewMapControl: false,
+    //mapTypeControl: false,
+    mapTypeControlOptions: {
+      style: google.maps.MapTypeControlStyle
+        .HORIZONTAL_BAR,
+      position: google.maps.ControlPosition
+        .TOP_LEFT
+    },
+    zoomControlOptions: {
+      style: google.maps.ZoomControlStyle
+        .SMALL,
+        //.LARGE,
+      position: google.maps.ControlPosition
+        .LEFT_TOP
+        //.LEFT_BOTTOM
+    },
       
     styles: map_styles
   }); 

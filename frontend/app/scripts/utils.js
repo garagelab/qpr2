@@ -10,7 +10,20 @@ function( $, _ )
 
 return {
 
-  process: function( opt )
+  date_iso2arg: function( iso )
+  {
+    var _d = new Date( iso );
+    return [
+      _d.getUTCDate()
+      ,'/'
+      ,_d.getUTCMonth() + 1
+      ,'/'
+      ,_d.getUTCFullYear()
+    ]
+    .join('');
+  }
+
+  ,process: function( opt )
   { 
 
     var arr = opt.list;

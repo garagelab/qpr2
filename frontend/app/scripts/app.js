@@ -25,8 +25,8 @@ function(
   ,User
   ,UI
 
-  ,GMapView
-  ,GCuencaView
+  ,MapView
+  ,CuencaView
 
   ,LayerControlView 
   ,LoadingRoute
@@ -47,7 +47,7 @@ var App = function( config )
   var router;
   var user, ui;
   var layers;
-  var mapview, gcuenca;
+  var mapview, cuenca;
   var cur_detalle;
 
   function make_layers( config, mapview ) 
@@ -301,14 +301,14 @@ var App = function( config )
   user = new User();
   user.login();
 
-  mapview = new GMapView({
+  mapview = new MapView({
     el: document.getElementById("map")
   }); 
 
-  gcuenca = new GCuencaView({
+  cuenca = new CuencaView({
     map: mapview.map()
   });
-  gcuenca.render();
+  cuenca.render();
 
   ui = new UI({
     mapview: mapview
@@ -399,8 +399,13 @@ var App = function( config )
 
     Backbone.history.start();
 
-    // listen each add:feature
+    // listen each layer
+    // add:feature || parse:complete
     // to check tha route
+
+    function __route_check(){ _route_check(); }
+
+    var _route_check = _.after( _.keys( layers ).length, route_check );
 
     function route_on( route )
     {
@@ -408,11 +413,15 @@ var App = function( config )
       $('body').append( loading.render().el );
 
       _route = route; //save
+
       _.each( layers, function( layer )
       {
-        layer.on('add:feature', apply_route);
+        //layer.on('add:feature', route_check);
+        layer.on( 
+          'parse:complete'
+          ,__route_check );
       });
-    }
+    } 
 
     function route_off()
     {
@@ -421,25 +430,33 @@ var App = function( config )
       _route = null;
       _.each( layers, function( layer )
       {
-        layer.off('add:feature', apply_route);
+        //layer.off('add:feature', route_check);
+        layer.off(
+          'parse:complete'
+          ,__route_check );
       });
     }
 
-    function apply_route( feature )
+    function route_check( feature )
     {
-      //console.log('applyroute',feature.get('id'));
       var name = _route.name;
       var id = _route.id;
-      //var feature=layers[name].model.get(id);
-      //if ( ! feature ) return false;
+
+      feature = feature || 
+        layers[ name ].model.get( id );
+
+      if ( ! feature ) 
+        return false;
+
       var props = feature.get('properties');
+
       if ( props.type === name 
             && props.id === id )
       {
         add_detalle( feature, mapview );
         route_off();
       }
-    }
+    } 
 
     return _router;
   }

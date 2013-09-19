@@ -38,8 +38,7 @@ var TimelineView = Backbone.View.extend({
       width: 1000
       ,height: 500
       ,margin: { x: 20 }
-      ,timeline: { x: 0, y: 40 }
-      ,icons: { y: 80 }
+      ,icons_offset: { bottom: 40, top: 0 }
     };
 
     function make_format( formats ) 
@@ -70,11 +69,12 @@ var TimelineView = Backbone.View.extend({
         .tickPadding( 6 )
         .tickFormat( format );
 
-      svg.select('g')
+      svg.select('.x.axis')
         .call( xaxis );
     }
 
-    this._bottom = layout.icons.y;
+    this._top = layout.icons_offset.top;
+    this._bottom = layout.icons_offset.bottom;
 
     var tipformat = d3.time.format("%d/%m/%Y");
 
@@ -97,15 +97,18 @@ var TimelineView = Backbone.View.extend({
       .select( 
         this.$el.find('.svg-container')[0] )
       .append( 'svg' )
-      .attr( 'width', layout.width )
-      .attr( 'height', layout.height );
+        .attr( 'width', layout.width )
+        .attr( 'height', layout.height )
+      .append( 'g' )
+        .attr( 'class', 'svg-canvas' )
 
-    svg.append( 'g' )
+    svg
+      .append( 'g' )
       .attr( 'class', 'x axis' )
-      .attr( 'transform',
-          'translate('+
-            layout.timeline.x +','+
-            layout.timeline.y +')')
+      //.attr( 'transform',
+          //'translate('+
+            //layout.timeline.x +','+
+            //layout.timeline.y +')')
       //.call( xaxis );
 
     domain([
@@ -137,22 +140,12 @@ var TimelineView = Backbone.View.extend({
   {
     var self = this;
 
-    var id = feature.get('id');
+    //var id = feature.get('id');
     var props = feature.get('properties');
 
+    var _advocacy = props.type === 'acciones' || props.type === 'respuestas';
+
     var icon_h = props.icon.height + 10;
-
-    //var date = props.date;
-
-    //if ( ! props.date )
-    //{
-      //console.warn(
-        //'feature',
-        //'id [', id, ']',
-        //'de tipo [', props.type, ']',
-        //'no tiene fecha');
-      //return;
-    //}
 
     var vis = this.vis; 
 
@@ -172,70 +165,87 @@ var TimelineView = Backbone.View.extend({
       .selectAll( 'image' );
 
     var clas = 'timeline-icon';
-      //+ props.type + '-' + id.replace(/ /g,'').replace(/\./g,'')
 
     img
       .data( vis.data )
       .enter()
+    .append( 'image' )
+      .attr( 'class', clas )
+      .attr( 'xlink:href', props.icon.url )
+      .attr( 'width', props.icon.width )
+      .attr( 'height', props.icon.height )
 
-      .append( 'image' )
-        .attr( 'class', clas )
-        .attr( 'xlink:href', props.icon.url )
-        .attr( 'width', props.icon.width )
-        .attr( 'height', props.icon.height )
+      .attr( 'x', function( d ) 
+      { 
+        //var props = d.feature
+          //.get('properties');
+        return vis.xscale( 
+          new Date( date.iso ) );
+      })
 
-        .attr( 'x', function( d ) 
-        { 
-          //var props = d.feature
-            //.get('properties');
-          return vis.xscale( 
-            new Date( date.iso ) );
-        })
+      .attr( 'y', function( d ) 
+      { 
+        var x = parseFloat(
+          this.getAttribute('x') );
 
-        .attr( 'y', function( d ) 
-        { 
-          var x = parseFloat(
-            this.getAttribute('x') );
+        var _top = vis.layout.icons_offset.top - icon_h;
+        var _bottom = vis.layout.icons_offset.bottom;
 
-          var _bottom = vis.layout.icons.y;
+        img.each( function( d_img, i )
+        {
+          var props = d_img.feature
+            .get('properties');
 
-          img.each( function( d_img, i )
+          var el = img[0][i];
+
+          var ox =  parseFloat(
+            el.getAttribute('x') );
+
+          var ow = parseFloat(
+            el.getAttribute('width') );
+
+          //ow /= 2;
+          if ( x > ox-ow && x < ox+ow )
           {
-            var props = d_img.feature
-              .get('properties');
+            _top -= icon_h;
+            _bottom += icon_h;
+          }
 
-            var el = img[0][i];
+        });
 
-            var ox =  parseFloat(
-              el.getAttribute('x') );
+        return _advocacy ? _top : _bottom;
+        //return _bottom;
+      })
 
-            var ow = parseFloat(
-              el.getAttribute('width') );
 
-            //ow /= 2;
-            if ( x > ox-ow && x < ox+ow )
-              _bottom += icon_h;
+    /*
+     * update bottom/top
+     */
 
-          });
+    self._top = vis.layout.icons_offset.top - icon_h;
+    self._bottom = vis.layout.icons_offset.bottom + icon_h;
 
-          return _bottom;
-        })
+    var $imgs = $('image.'+clas);
 
-    //vis.svg.select( 'image.'+clas )
-    //.each( function() 
-    //{
-      //var el = this;
-
-    // iterate imgs to
-    // add tooltip
-    // update bottom
-    self._bottom = vis.layout.icons.y + icon_h;
-    _.each( $('image.'+clas), function( el )
+    _.each( $imgs, function( el )
     {
+      var y = parseFloat( el.getAttribute('y') );
+      self._top = Math.min(
+        y - icon_h, self._top );
+      self._bottom = Math.max( 
+        y + icon_h, self._bottom );
+    });
 
-      var y = parseFloat( el.getAttribute('y') ) + icon_h;
-      self._bottom = Math.max( y, self._bottom );
+    vis.svg.attr( 'transform',
+        'translate( 0, '+
+          Math.abs( self._top )+')')
 
+    /*
+     * add tooltip
+     */
+
+    _.each( $imgs, function( el )
+    {
       var d = el.__data__;
       var props = d.feature.get('properties');
 
@@ -313,7 +323,7 @@ var TimelineView = Backbone.View.extend({
 
   ,bottom: function()
   {
-    return this._bottom;
+    return this._bottom + Math.abs(this._top); 
   }
 
 });

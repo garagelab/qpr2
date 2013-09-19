@@ -30,7 +30,7 @@ function Asentamientos( opt )
     ,flias: '\'NRO DE FLIAS\''
     ,inicio: '\'AÑO DE CONFORMACIÓN DEL BARRIO\''
     ,otra_denominacion: '\'OTRA DENOMINACIÓN\''
-    ,red_cloacal: '\'RED CLOACAL\''
+    //,red_cloacal: '\'RED CLOACAL\''
   };
 
 }
@@ -97,9 +97,14 @@ function( data, sync_opt )
       ,'</div>'
 
       ,'<div>'
-      ,'Red Clocal: '
-      ,d.red_cloacal
+      ,'Fecha de Relevamiento: '
+      ,'Enero 2013'
       ,'</div>'
+
+      //,'<div>'
+      //,'Red Clocal: '
+      //,d.red_cloacal
+      //,'</div>'
 
     ]
     .join('');

@@ -3,6 +3,7 @@ define( [
   ,'underscore'
   ,'backbone'
   ,'d3'
+  ,'utils'
   ,'views/detalles/TimelineView'
   ,'views/detalles/TituloView'
   ,'views/detalles/DescripcionHistoriaView'
@@ -10,7 +11,7 @@ define( [
   ], 
 
 function( 
-  $, _, Backbone, d3
+  $, _, Backbone, d3, utils
   ,TimelineView
   ,TituloView 
   ,DescripcionHistoriaView 
@@ -80,11 +81,14 @@ var HistoriaView = Backbone.View.extend({
     this.$el.append( 
         titulo.render({
           titulo: props.titulo
+          ,layer_type: props.type
+          ,icon_url: props.icon.url
           //titulo: feature.get('id')
         }).el );
 
     var timeline = new TimelineView();
-    this.$el.append( timeline.render().el );
+    this.$el.append( 
+        timeline.render().el );
 
     var descripcion = 
       new DescripcionHistoriaView();
@@ -96,7 +100,8 @@ var HistoriaView = Backbone.View.extend({
 
     var feature_preview = new FeaturePreview();
     feature_preview.$el.hide();
-    this.$el.append(feature_preview.render().el);
+    this.$el.append(
+        feature_preview.render().el );
 
 
     // esperar q timeline $el 
@@ -154,19 +159,9 @@ var HistoriaView = Backbone.View.extend({
     // para el preview 
     // usamos la fecha del feature
     // y 0j0 puede no tener fecha...
-    var date = '';
-    if ( props.date )
-    {
-      var _date = new Date( props.date.iso );
-      date = [
-        _date.getUTCDate()
-        ,'/'
-        ,_date.getUTCMonth() + 1
-        ,'/'
-        ,_date.getUTCFullYear()
-      ]
-      .join('');
-    }
+    var date = props.date
+      ? utils.date_iso2arg( props.date.iso )
+      : '';
 
     this.feature_preview.render({
       titulo: props.titulo

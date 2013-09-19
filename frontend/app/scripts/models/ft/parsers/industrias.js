@@ -100,10 +100,12 @@ function( data, sync_opt )
       ,d.curt
       ,'</div>'
 
-      ,'<div>'
-      ,'Dirección: '
-      ,d.location
-      ,'</div>'
+      //,'<div>'
+      //,'Dirección: '
+      //,d.location
+      //,'</div>'
+
+      ,'<br>'
 
       ,'<div>'
       ,'Personal Fábrica: '

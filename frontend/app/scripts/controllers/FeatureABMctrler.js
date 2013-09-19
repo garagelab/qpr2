@@ -20,6 +20,7 @@ var FeatureABMctrler = function( opt )
   var self = this;
 
   self.close = function() {}
+  self.dispose = function() {}
 
   var layers = opt.layers;
   var feature = opt.feature;
@@ -41,7 +42,7 @@ var FeatureABMctrler = function( opt )
     view.on( 'close', function()
     {
       self.trigger('close');
-      view.off();
+      self.dispose();
     });
 
     view.on( 'select:historia', 
@@ -112,9 +113,19 @@ var FeatureABMctrler = function( opt )
 
     self.close = function()
     {
-      //va a triggerear evento close de view
+      //triggereara evento view.close -> dispose
       view.close();
+    }
+
+    self.dispose = function()
+    {
+      view.off();
       collection.off();
+      collection.stopListening();
+      view = null;
+      collection = null;
+      layers = null;
+      feature = null;
     }
 
   }); 

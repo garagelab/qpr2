@@ -41,16 +41,8 @@ var HistoriaDetalleCtrler = function( opt )
 
   view.on( 'close', function()
   {
-    _.each( extra_markers, function( m )
-    {
-      m.setMap( null );
-    });
-    extra_markers = null;
-
     this.trigger('close');
-    
-    view.off();
-    collection.off();
+    this.dispose();
   }
   , this );
 
@@ -90,9 +82,26 @@ var HistoriaDetalleCtrler = function( opt )
 
   collection.fetch();
 
+  this.dispose = function()
+  {
+    _.each( extra_markers, function( m )
+    {
+      m.setMap( null );
+    });
+    extra_markers = null;
+
+    layers = null;
+    feature = null;
+    mapview = null;
+
+    view.off();
+    collection.off();
+    collection.stopListening();
+  }
+
   this.close = function()
   {
-    //va a triggerear evento close de view
+    // triggereara evento view.close -> dispose
     view.close();
   }
 
