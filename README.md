@@ -19,3 +19,10 @@ buildear en /dist
 ```
 grunt build  
 ```
+
+dev  
+http://nodejs-chparsons.rhcloud.com/qpr2/  
+
+prod
+http://garagelab.github.io/qpr2/  
+

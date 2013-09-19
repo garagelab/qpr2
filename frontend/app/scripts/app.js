@@ -4,13 +4,14 @@ define( [
     ,'underscore'
     ,'backbone'
     ,'utils'
+    ,'router'
     ,'user'
     ,'ui'
     //views
     ,'views/gmaps/gmap_view'
     ,'views/gmaps/gcuenca_view'
     ,'views/ui/LayerControlView'
-    ,'views/ui/LoadingRoute'
+    //,'views/ui/LoadingRoute'
     //controllers
     ,'controllers/LayerCtrler'
     ,'controllers/HistoriaDetalleCtrler'
@@ -22,6 +23,7 @@ function(
   $, _, Backbone
 
   ,utils
+  ,Router
   ,User
   ,UI
 
@@ -29,7 +31,7 @@ function(
   ,CuencaView
 
   ,LayerControlView 
-  ,LoadingRoute
+  //,LoadingRoute
 
   ,LayerCtrler
   ,HistoriaDetalleCtrler
@@ -321,7 +323,12 @@ var App = function( config )
 
   layers = make_layers( config, mapview );
 
-  router = make_router( layers );
+  router = new Router( layers );
+
+  router.on('route:ready', function( feature )
+  {
+    add_detalle( feature, mapview );
+  });
 
   make_gsubcuencas_layer( mapview );
 
@@ -364,102 +371,6 @@ var App = function( config )
 
   //});
 
-
-  // router 
-
-  function make_router( layers )
-  {
-    // entity/:id >> entity: function(id)
-
-    var Router = Backbone.Router.extend(
-
-      _.extend({
-        routes: _.object( _.map( 
-          _.keys( layers )
-          ,function( name )
-          {
-            return [ name + '/:id', name ];
-          } ) )
-      }
-
-      ,_.object( _.map( 
-        _.keys( layers )
-        ,function( name )
-        {
-          return [ name, function( id )
-          {
-            route_on({ name:name, id:id });
-          }];
-        } ) )
-      ) 
-    );
-
-    var _route = null, loading;
-    var _router = new Router();
-
-    Backbone.history.start();
-
-    // listen each layer
-    // add:feature || parse:complete
-    // to check tha route
-
-    function __route_check(){ _route_check(); }
-
-    var _route_check = _.after( _.keys( layers ).length, route_check );
-
-    function route_on( route )
-    {
-      loading = new LoadingRoute();
-      $('body').append( loading.render().el );
-
-      _route = route; //save
-
-      _.each( layers, function( layer )
-      {
-        //layer.on('add:feature', route_check);
-        layer.on( 
-          'parse:complete'
-          ,__route_check );
-      });
-    } 
-
-    function route_off()
-    {
-      loading.remove();
-      loading = null;
-      _route = null;
-      _.each( layers, function( layer )
-      {
-        //layer.off('add:feature', route_check);
-        layer.off(
-          'parse:complete'
-          ,__route_check );
-      });
-    }
-
-    function route_check( feature )
-    {
-      var name = _route.name;
-      var id = _route.id;
-
-      feature = feature || 
-        layers[ name ].model.get( id );
-
-      if ( ! feature ) 
-        return false;
-
-      var props = feature.get('properties');
-
-      if ( props.type === name 
-            && props.id === id )
-      {
-        add_detalle( feature, mapview );
-        route_off();
-      }
-    } 
-
-    return _router;
-  }
 
   window.layers = layers;
   //window.user = user; 
