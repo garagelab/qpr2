@@ -174,6 +174,7 @@ var HistoriaView = Backbone.View.extend({
   ,close: function()
   {
     $(window).off('resize', this.on_win_resize);
+    this.timeline.dispose();
     this.remove();
     this.trigger('close');
   }

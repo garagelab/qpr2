@@ -45,7 +45,7 @@ var Router = function( layers )
   var _router = new _Router();
   var _route = null, loading;
 
-  this.navigate = _.bind(_router.navigate, this);
+  this.navigate=_.bind(_router.navigate,_router);
 
   Backbone.history.start();
   //Backbone.history.start({ pushState: true });

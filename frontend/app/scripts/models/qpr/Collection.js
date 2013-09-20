@@ -11,8 +11,6 @@ function( $, _, Backbone )
 
 var Collection = Backbone.Collection.extend({
 
-  //model: Feature
-
   initialize: function( models, opt ) 
   {
     this.opt = opt;

@@ -25,10 +25,14 @@ var TimelineView = Backbone.View.extend({
   ,render: function()
   {
     this.$el.html( this.tpl({}) );
-
     this.init_vis();
-
     return this;
+  }
+
+  ,dispose: function()
+  {
+    this.vis = null;
+    this.remove();
   }
 
   ,init_vis: function()
@@ -145,9 +149,9 @@ var TimelineView = Backbone.View.extend({
 
     var _advocacy = props.type === 'acciones' || props.type === 'respuestas';
 
-    var icon_h = props.icon.height + 10;
-
     var vis = this.vis; 
+    var icon_off = vis.layout.icons_offset;
+    var icon_h = props.icon.height + 10;
 
     vis.data.push({
       feature: feature
@@ -188,8 +192,8 @@ var TimelineView = Backbone.View.extend({
         var x = parseFloat(
           this.getAttribute('x') );
 
-        var _top = vis.layout.icons_offset.top - icon_h;
-        var _bottom = vis.layout.icons_offset.bottom;
+        var _top = icon_off.top - icon_h;
+        var _bottom = icon_off.bottom;
 
         img.each( function( d_img, i )
         {
@@ -222,8 +226,8 @@ var TimelineView = Backbone.View.extend({
      * update bottom/top
      */
 
-    self._top = vis.layout.icons_offset.top - icon_h;
-    self._bottom = vis.layout.icons_offset.bottom + icon_h;
+    self._top = icon_off.top - icon_h;
+    self._bottom = icon_off.bottom + icon_h;
 
     var $imgs = $('image.'+clas);
 
@@ -236,9 +240,15 @@ var TimelineView = Backbone.View.extend({
         y + icon_h, self._bottom );
     });
 
+    var _top_offset = Math.abs( self._top );
+
+    //var $clock = this.add_clock(); 
+    //if ( $clock ) 
+      //_top_offset += $clock.height();
+
     vis.svg.attr( 'transform',
         'translate( 0, '+
-          Math.abs( self._top )+')')
+          _top_offset+')')
 
     /*
      * add tooltip
@@ -319,7 +329,27 @@ var TimelineView = Backbone.View.extend({
       //}
     //});
 
-  }
+  } 
+
+  //,add_clock: function()
+  //{
+    //if ( this._$clock )
+      //return this._$clock;
+
+    //_.each( $('image.'+clas), function( el )
+    //{
+      //var d = el.__data__;
+      //var props = d.feature.get('properties');
+
+      //var _advocacy = props.type === 'acciones' || props.type === 'respuestas';
+      //if ( !_advocacy )
+        //return false;
+    //});
+        
+    //var x = vis.xscale(
+      //new Date( props.date.iso ) );
+
+  //}
 
   ,bottom: function()
   {

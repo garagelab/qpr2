@@ -11,9 +11,9 @@ define( [
     ,'views/gmaps/gmap_view'
     ,'views/gmaps/gcuenca_view'
     ,'views/ui/LayerControlView'
-    //,'views/ui/LoadingRoute'
     //controllers
     ,'controllers/LayerCtrler'
+    ,'controllers/StatsCtrler'
     ,'controllers/HistoriaDetalleCtrler'
     ,'controllers/FeatureDetalleCtrler'
     ,'controllers/FeatureABMctrler'
@@ -31,9 +31,9 @@ function(
   ,CuencaView
 
   ,LayerControlView 
-  //,LoadingRoute
 
   ,LayerCtrler
+  ,StatsCtrler
   ,HistoriaDetalleCtrler
   ,FeatureDetalleCtrler
   ,FeatureABMctrler
@@ -49,7 +49,8 @@ var App = function( config )
   var router;
   var user, ui;
   var layers;
-  var mapview, cuenca;
+  var stats;
+  var mapview, cuencaview;
   var cur_detalle;
 
   function make_layers( config, mapview ) 
@@ -113,7 +114,20 @@ var App = function( config )
       ,function( v )
       {
         update_clusters_size( layers, mapview );
+        if ( v ) stats.update( layer );
       }); 
+
+    layer.on( 
+      'add:feature'
+      ,function( feature )
+      {
+        if ( stats.cur_layer() !== layer )
+          return;
+        stats.update( layer );
+      });
+
+    //if ( opt.view.visible )
+      //stats.update( layer );
 
     return layer;
 
@@ -307,10 +321,10 @@ var App = function( config )
     el: document.getElementById("map")
   }); 
 
-  cuenca = new CuencaView({
+  cuencaview = new CuencaView({
     map: mapview.map()
   });
-  cuenca.render();
+  cuencaview.render();
 
   ui = new UI({
     mapview: mapview
@@ -320,6 +334,8 @@ var App = function( config )
   {
     add_detalle( feature, mapview );
   });
+
+  stats = new StatsCtrler();
 
   layers = make_layers( config, mapview );
 

@@ -28,7 +28,7 @@ var UI = function( opt )
     mapview: opt.mapview
   });
 
-  search.on('select:feature', function( feature )
+  search.on('select:feature', function(feature)
   {
     this.trigger( 'select:feature', feature );
   }

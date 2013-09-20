@@ -103,13 +103,14 @@ var LayerCtrler = function( opt, mapview )
 
     
   // TODO hacer getters
+  // model == collection ?? ;)
   this.model = collection;
   this.view = { overlays: overlays };
+  this.name = function() { return name; }
 
-  // TODO dispose layer controller
   this.dispose = function()
   {
-    // dispose overlays
+    // TODO dispose overlays
     collection.off();
     collection.stopListening();
     ctrl_view.off();
