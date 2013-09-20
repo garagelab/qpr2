@@ -36,14 +36,19 @@ var FeatureView = Backbone.View.extend({
       ? utils.date_iso2arg( props.date.iso )
       : '';
 
+    var locacion = props.locacion 
+      ? 'Localización: ' + props.locacion
+      : '';
+
     this.$el.html( 
       _.unescape( this.tpl({
         titulo: props.titulo
         ,txt: props.descripcion
         ,date: date
         ,temas: temas 
-        ,locacion: props.locacion
+        ,locacion: locacion
         ,eventos: props.eventos
+        ,eventos_title: props.eventos_title
         ,icon_url: props.icon.url
         ,layer_type: props.type
       }) )

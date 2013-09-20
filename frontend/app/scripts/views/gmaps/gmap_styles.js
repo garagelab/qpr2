@@ -20,13 +20,12 @@ var map_styles =
     ]
   }
 
-  //,{ 
-    //featureType: "poi", //parks?
-    //stylers: [
-      //{ visibility: "on" }
-      //,{ color: "#1abc9c" }
-    //]
-  //}
+  ,{ 
+    featureType: "poi", 
+    stylers: [
+      { saturation: -50 }
+    ]
+  }
 
   //,{
     //featureType: "road"
@@ -73,7 +72,7 @@ var map_styles =
     featureType: "water"
     ,stylers: [
       { visibility: "on" }
-      ,{ weight: 1 }
+      ,{ weight: 1.3 }
       ,{ 
         color: 
           "#3498db" 

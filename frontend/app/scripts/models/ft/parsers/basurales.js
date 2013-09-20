@@ -52,7 +52,7 @@ function( data, sync_opt )
 
   var geom
     //,resumen
-    //,descripcion
+    ,descripcion
     ,coordarr
     ,polyarr;
 
@@ -89,23 +89,13 @@ function( data, sync_opt )
       //, null )
       //.join(', ');
 
-    //descripcion = [
-      //,d.direccion
-      //,'<br>'
-      //,d.localidad_barrio
-      //,'<br>'
-      //,d.municipio
-      //,'<br>'
-      //,d.estado_actual
-      //,'<br>'
-      //,d.CARACTERISTICAS
-      //,'<br>'
-      //,d.clasificacion
-      //,'<br>'
-      //,d.OBSERVACION
-      //,'<br>'
-    //]
-    //.join('');
+    descripcion = [
+      // TODO fecha hardcodeada
+      '<div>'
+      ,'Fuente: Coordinación Acumar: GIRS/CPPF – Fecha actualización: 03/05/2013'
+      ,'</div>'
+    ]
+    .join('');
 
     switch ( geom.type )
     {
@@ -122,7 +112,7 @@ function( data, sync_opt )
             ,type: opt.name
             ,titulo: d.name
             //,resumen: resumen
-            //,descripcion: descripcion
+            ,descripcion: descripcion
             ,icon: opt.icon
           }
           ,geometry: {
@@ -147,7 +137,7 @@ function( data, sync_opt )
             ,type: opt.name
             ,titulo: d.description
             //,resumen: resumen
-            //,descripcion: descripcion
+            ,descripcion: descripcion
             ,icon: opt.icon
           }
           ,geometry: {

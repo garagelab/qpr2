@@ -130,7 +130,7 @@ function( App, LayerColors ) //,User,GMapView)
           ,background_size: 30
         }
         ,color: colores.get('historias')
-        ,visible: true
+        //,visible: true
         //,canvas_size: 0.01
       }
     }

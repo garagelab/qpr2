@@ -106,7 +106,7 @@ var UI = function( opt )
     var ltop = $layers.position().top;
     var fh = $('#footer').height(); 
     var h = $win.height() - ltop - fh;
-    $layers.height( h );
+    $layers.height( h - 200 );
   }
   , 400 );
 
@@ -135,6 +135,27 @@ var UI = function( opt )
   {
     $widgets.hide();
   }
+
+  //google.load("feeds", "1");
+  //function _init_feeds() 
+  //{
+    //console.log('init feeds');
+    //var feed = new google.feeds.Feed("http://monitoreoriachuelo.blogspot.com/feeds/posts/default?alt=rss");
+    //feed.load( function( res ) 
+    //{
+      //if ( res.error )
+        //return;
+      //var i, len = res.feed.entries.length;
+      //for ( i = 0; i < len; i++ ) 
+      //{
+        //console.log(res.feed.entries[i]);
+        ////entry.title
+      //}
+    //});
+  //}
+  //google.setOnLoadCallback( _init_feeds );
+
+
 
 };
 

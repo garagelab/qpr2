@@ -87,15 +87,22 @@ var GInfowinsView = Backbone.View.extend({
     var props = feature.get('properties');
     var id = feature.get('id');
 
-    var temas = props.temas
+    var temas = props.temas 
       ? _.without(
           props.temas.split(',')
           ,props.type )
         .join(', ')
       : '';
 
+    if ( !_.isEmpty( temas ) )
+      temas = 'Temas: '+temas;
+
     var date = props.date
       ? utils.date_iso2arg( props.date.iso )
+      : '';
+
+    var locacion = props.locacion 
+      ? 'Localización: ' + props.locacion
       : '';
 
     var $infowin = $('<div/>')
@@ -108,7 +115,7 @@ var GInfowinsView = Backbone.View.extend({
             ,type: props.type
             ,date: date
             ,temas: temas
-            ,locacion: props.locacion
+            ,locacion: locacion
             ,eventos: props.eventos
           }) )
       //.append( 

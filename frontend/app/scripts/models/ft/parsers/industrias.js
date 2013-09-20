@@ -33,6 +33,7 @@ function Industrias( opt )
 
     //extras
     ,'producto_1'
+    ,'actividad_1'
     ,'cuit'
     ,'curt'
     ,'personal_fabrica'
@@ -85,7 +86,16 @@ function( data, sync_opt )
 
     descripcion = [
 
+      // TODO fecha hardcodeada
       '<div>'
+      ,'Información Actualizada al 11/09/2013'
+      ,'</div>'
+
+      ,'<h4>'
+      ,'Datos Generales'
+      ,'</h4>'
+
+      ,'<div>'
       ,'Producto: '
       ,d.producto_1
       ,'</div>'
@@ -100,12 +110,19 @@ function( data, sync_opt )
       ,d.curt
       ,'</div>'
 
+      ,'<div>'
+      ,'Actividad: '
+      ,d.actividad_1
+      ,'</div>'
+
       //,'<div>'
       //,'Dirección: '
       //,d.location
       //,'</div>'
 
-      ,'<br>'
+      ,'<h4>'
+      ,'Datos del Establecimiento'
+      ,'</h4>'
 
       ,'<div>'
       ,'Personal Fábrica: '
@@ -166,10 +183,13 @@ function( data, sync_opt )
 
     // eventos
 
-    eventos = [{
-      name: 'ac'
-      ,txt: 'agente contaminante desde '+d.ac_fecha
-    }];
+    eventos = [];
+
+    if ( !_.isEmpty( d.ac_fecha ) )
+      eventos.push({
+        name: 'ac'
+        ,txt: 'agente contaminante desde '+d.ac_fecha
+      });
 
     if ( !_.isEmpty( d.pri ) )
       eventos.push({
@@ -188,14 +208,15 @@ function( data, sync_opt )
       ,properties: {
         id: d.curt
         ,type: opt.name
-        ,date: {
-          iso: new Date( d.fecha ).toISOString()
-          ,src: d.fecha
-        }
+        //,date: {
+          //iso: new Date(d.fecha).toISOString()
+          //,src: d.fecha
+        //}
         ,titulo: d.razon_social
         ,resumen: resumen
         ,descripcion: descripcion
         ,eventos: eventos
+        ,eventos_title: 'Estado Legal'
         ,icon: opt.icon
         ,locacion: d.location
       }

@@ -3,7 +3,7 @@
 {
   z-index: 1;
   position: absolute;
-  background-color: rgba(230,230,230,0.8);
+  //background-color: rgba(230,230,230,0.8);
 }
 
 .widget-right 
@@ -25,5 +25,27 @@
 .widget.blog 
 {
   margin-top: 270px;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  border-radius: 7px;
+  background-color: white;
+  border: 1px solid #ccc;
+  width: 223px;
+  height: 202px;
+}
+
+.widget.blog .titulo
+{
+  font-size: 15px;
+  font-weight: bold;
+  padding: 6px;
+  color: #333;
+}
+
+.widget.blog iframe
+{
+  border-bottom: 1px solid #ccc;
+  position: relative;
+  left: -1px;
 }
 

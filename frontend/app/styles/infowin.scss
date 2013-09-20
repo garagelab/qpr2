@@ -51,17 +51,26 @@ $infowin_type_radius: .25em;
   color: gray;
 }
 
+.infowin div.temas
+{
+  font-size: 13px;
+}
+
 .infowin .temas
-,.infowin .locacion
 ,.infowin .resumen
 {
   margin: 0px 4px;
 }
 
+.infowin .locacion
+{
+  margin: 4px;
+}
+
 .infowin a.vermas
 {
   font-weight: 500;
-  padding: 2px;
+  padding: 5px;
 }
 
 .infowin .vermas:hover

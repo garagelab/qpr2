@@ -32,14 +32,17 @@
   <div class="container">
 
     <div class="header pure-menu pure-menu-open pure-menu-horizontal">
+
       <a href="#" class="pure-menu-heading goto-origin">Qué Pasa, Riachuelo?</a>
       <ul>
         <!--<li class="pure-menu-selected"><a href="#">selected....</a></li>-->
-        <li><a href="#">Quiénes Somos?</a></li>
         <li><a href="#">El Proyecto</a></li>
         <li><a href="#">Datos Abiertos</a></li>
         <li><a href="#">Cómo visualizar QPR</a></li>
-        <li><a href="#">Manual de Uso</a></li>
+
+        <li class="layer documentos" style="cursor:pointer;background-color:rgba(0, 0, 0, 0);"><a>Documentos</a></li>
+        <li class="layer normativas" style="cursor:pointer;background-color:rgba(0, 0, 0, 0);"><a>Normativas</a></li>
+
         <!--<li id="login"><a href="#"></a>-->
           <!--<i class="icon-user"></i>-->
         <!--</li>-->
@@ -54,7 +57,8 @@
 
     <div class="copete">
       <div class="title">
-        Monitoreo Social de la Cuenca Matanza-Riachuelo
+        QuePasaRiachuelo es una plataforma de monitoreo basada en datos públicos y alertas ciudadanas. 
+        <!--en la que se visualiza las diferentes problemáticas socio-ambientales de la Cuenca Matanza Riachuelo-->
       </div>
 
       <!--<div class="text">-->
@@ -103,9 +107,12 @@
       <!--s.parentNode.insertBefore(g,s)}(document,'script'));-->
   <!--</script>-->
 
-  <script src="https://maps.googleapis.com/maps/api/js?sensor=false&language=es&libraries=places"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?sensor=false&language=es"></script>
+  <!--<script src="https://maps.googleapis.com/maps/api/js?sensor=false&language=es&libraries=places"></script>--> 
 
   <script src="https://apis.google.com/js/client.js"></script>
+
+  <!--<script src="https://www.google.com/jsapi"></script>-->
 
   <!-- build:js scripts/main.js -->
   <script data-main="scripts/main" src="bower_components/requirejs/require.js"></script>

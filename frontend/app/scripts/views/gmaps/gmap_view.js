@@ -16,18 +16,20 @@ var GMapView = function( opt )
   var el = opt.el;
 
   var riachuelo = new google.maps.LatLng(
-    -34.77433193049113, -58.39782728027342 );
-    //-34.98584712167135, -58.40400708984373 );
+    //zoom 11
+    //-34.77433193049113, -58.39782728027342 );
+    //zoom 10
+    -34.98584712167135, -58.40400708984373 );
     //-34.965016,-59.057067 );
 
-  var zoom = 11; 
+  var zoom = 10; 
 
   var _map = new google.maps.Map( el, {
     center: riachuelo,
     mapTypeId: google.maps.MapTypeId.ROADMAP,
     zoom: zoom,
     minZoom: 9,
-    maxZoom: 16,
+    //maxZoom: 16,
     streetViewControl: false,
     panControl: false,
     scrollwheel: false,

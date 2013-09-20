@@ -1,8 +1,23 @@
 
 <form class="pure-form">
   <div class="field">
-    <div class="label">Locación</div>
-    <input type="text" placeholder="Buscar...">
+    <div class="label">Municipios</div>
+
+    <!--google autocomplete-->
+    <!--<input type="text" placeholder="Buscar...">-->
+
+    <select placeholder="Buscar...">
+
+      <option value selected></option>
+
+      <% _.each( items, function(item) { %> 
+        <option value="<%= item %>">
+          <%= item %>
+        </option>
+      <% }); %>
+
+    </select>
+
   </div>  
 </form>
 

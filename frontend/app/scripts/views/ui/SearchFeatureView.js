@@ -21,12 +21,13 @@ var SearchFeatureView = Backbone.View.extend({
 
   ,render: function( opt )
   {
-
     var self = this;
 
     this.$el.html( this.tpl({
       items: opt ? opt.features : []
     }) );
+
+    this.dispose_selectize();
 
     var $sel = this.$el.find('select');
 
@@ -38,7 +39,7 @@ var SearchFeatureView = Backbone.View.extend({
         self.trigger('select:feature', {
           name: value
         });
-        //$sel[0].selectize.clear();
+        //this._selectize.clear();
       }
       //,onInitialize: function()
       //{
@@ -48,11 +49,13 @@ var SearchFeatureView = Backbone.View.extend({
       //}
     });
 
+    this._selectize = $sel[0].selectize;
+
     if ( opt 
         && opt.features 
         && opt.features.length > 0 )
     {
-      $sel[0].selectize.enable();
+      this._selectize.enable();
       this.$el.find('.cargando').hide();
       //this.$el
         //.find('.selectize-input')
@@ -72,7 +75,18 @@ var SearchFeatureView = Backbone.View.extend({
   } 
 
   ,dispose: function()
-  {}
+  {
+    this.dispose_selectize();
+  }
+
+  ,dispose_selectize: function()
+  {
+    if ( this._selectize )
+    {
+      this._selectize.destroy();
+      this._selectize = null;
+    }
+  }
 
 });
 
