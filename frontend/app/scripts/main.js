@@ -144,7 +144,7 @@ function( App, LayerColors ) //,User,GMapView)
           ,background_size: 30
         }
         ,marker: {
-          url: 'images/markers/color/historia.png'
+          url: 'images/markers/historia_c.png'
           ,height: 48
           ,width: 48
         }
@@ -170,7 +170,7 @@ function( App, LayerColors ) //,User,GMapView)
           ,height: icon_size
         }
         ,marker: {
-          url: 'images/markers/color/industria.png'
+          url: 'images/markers/industria_c.png'
           ,height: marker_size
           ,width: marker_size
         }
@@ -197,7 +197,7 @@ function( App, LayerColors ) //,User,GMapView)
           ,height: icon_size
         }
         ,marker: {
-          url: 'images/markers/color/basural.png'
+          url: 'images/markers/basural_c.png'
           ,height: marker_size
           ,width: marker_size
         }
@@ -220,7 +220,7 @@ function( App, LayerColors ) //,User,GMapView)
           ,height: icon_size
         }
         ,marker: {
-          url: 'images/markers/color/ecopunto.png'
+          url: 'images/markers/ecopunto_c.png'
           ,height: marker_size
           ,width: marker_size
         }
@@ -244,7 +244,7 @@ function( App, LayerColors ) //,User,GMapView)
           ,height: icon_size
         }
         ,marker: {
-          url: 'images/markers/color/asentamiento.png'
+          url: 'images/markers/asentamiento_c.png'
           ,height: marker_size
           ,width: marker_size
         }
@@ -267,7 +267,7 @@ function( App, LayerColors ) //,User,GMapView)
           ,height: icon_size
         }
         ,marker: {
-          url: 'images/markers/color/alerta.png'
+          url: 'images/markers/alerta_c.png'
           ,height: marker_size
           ,width: marker_size
         }
@@ -291,7 +291,7 @@ function( App, LayerColors ) //,User,GMapView)
           ,height: icon_size
         }
         ,marker: {
-          url: 'images/markers/color/noticia.png'
+          url: 'images/markers/noticia_c.png'
           ,height: marker_size
           ,width: marker_size
         }
@@ -314,7 +314,7 @@ function( App, LayerColors ) //,User,GMapView)
           ,height: icon_size
         }
         ,marker: {
-          url: 'images/markers/color/accion.png'
+          url: 'images/markers/accion_c.png'
           ,height: marker_size
           ,width: marker_size
         }
@@ -337,7 +337,7 @@ function( App, LayerColors ) //,User,GMapView)
           ,height: icon_size
         }
         ,marker: {
-          url: 'images/markers/color/respuesta.png'
+          url: 'images/markers/respuesta_c.png'
           ,height: marker_size
           ,width: marker_size
         }
@@ -360,7 +360,7 @@ function( App, LayerColors ) //,User,GMapView)
           ,height: icon_size
         }
         ,marker: {
-          url: 'images/markers/color/documento.png'
+          url: 'images/markers/documento_c.png'
           ,height: marker_size
           ,width: marker_size
         }
@@ -383,7 +383,7 @@ function( App, LayerColors ) //,User,GMapView)
           ,height: icon_size
         }
         ,marker: {
-          url: 'images/markers/color/normativa.png'
+          url: 'images/markers/normativa_c.png'
           ,height: marker_size
           ,width: marker_size
         }
