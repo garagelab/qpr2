@@ -17,12 +17,19 @@ var GClustererView = Backbone.View.extend({
     var self = this;
     var opt = this.options;
 
-    opt.icon = _.defaults( opt.icon, {
+    var def_m_opt = {
       width: 24
       ,height: 24
-      ,anchor: { x: 12, y: 0 }
       ,origin: { x: 0, y: 0 }
-    } );
+    };
+
+    def_m_opt.anchor = { 
+      x: Math.round( 
+      (opt.marker.width || def_m_opt.width) /2 )
+      ,y: 0 
+    };
+
+    opt.marker = _.defaults(opt.marker, def_m_opt); 
 
     this.name = opt.name;
     this._visible = opt.visible;
@@ -31,10 +38,10 @@ var GClustererView = Backbone.View.extend({
 
     //var cluster_style = [];//default
     var cluster_style = [{
-      url: opt.icon.url
-      ,width: opt.icon.width
-      ,height: opt.icon.height
-      ,anchor: [ opt.icon.height-1, 0 ]
+      url: opt.marker.url
+      ,width: opt.marker.width
+      ,height: opt.marker.height
+      ,anchor: [ opt.marker.height-1, 0 ]
       //,anchorIcon: [24, 24]
       //,textColor: '#ffe100'
       ,textSize: 14

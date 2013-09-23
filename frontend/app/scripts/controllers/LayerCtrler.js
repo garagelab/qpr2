@@ -24,10 +24,10 @@ function( $, _, Backbone
   ,FT
   ,Crowdmap
 
-  ,GMarkersView
-  ,GPolygonsView 
-  ,GInfowinsView 
-  ,GClustererView 
+  ,MarkersView
+  ,PolygonsView 
+  ,InfowinsView 
+  ,ClustererView 
   ,GCanvasLayerView 
 
   ,LayerControlView 
@@ -44,11 +44,10 @@ var LayerCtrler = function( opt, mapview )
   var self = this;
   var name = opt.name;
 
-  // copy ref icon.url from view to model
-  ( opt.model.icon || (opt.model.icon = opt.view.icon ) )
-  //( opt.model.icon || (opt.model.icon = {
-    //url: opt.view.icon.url
-  //}) )
+  // copy ref [icon/marker].url 
+  // from view to model
+  ( opt.model.icon || (opt.model.icon = opt.view.icon ) );
+  ( opt.model.marker || (opt.model.marker = opt.view.marker ) );
 
 
   var collection = layer_factory.collection
@@ -222,16 +221,17 @@ function( name, opt, model, mapview )
 
   // default overlays
 
-  markers: new GMarkersView({
+  markers: new MarkersView({
     name: name
     ,model: model
     ,map: mapview.map()
     ,color: opt.color
     ,visible: opt.visible
-    ,icon: opt.icon
+    //,icon: opt.icon
+    ,marker: opt.marker
   })
 
-  ,polygons: new GPolygonsView({
+  ,polygons: new PolygonsView({
     name: name
     ,model: model
     ,map: mapview.map()
@@ -239,40 +239,41 @@ function( name, opt, model, mapview )
     ,visible: opt.visible
   })
 
-  ,infowins: new GInfowinsView({
+  ,infowins: new InfowinsView({
     name: name
     ,model: model
     ,map: mapview.map()
   })
 
-  ,clusterer: new GClustererView({
+  ,clusterer: new ClustererView({
     name: name
     ,model: model
     ,map: mapview.map()
     ,visible: opt.visible
-    ,icon: opt.icon
+    //,icon: opt.icon
+    ,marker: opt.marker
   })
 
-  ,canvas_icons: new GCanvasLayerView({
-    name: name
-    ,model: model
-    ,map: mapview.map()
-    ,color: opt.color
-    ,visible: opt.visible
-    ,scale: false
-    ,size: opt.icon.background_size || 26
+  //,canvas_icons: new GCanvasLayerView({
+    //name: name
+    //,model: model
+    //,map: mapview.map()
+    //,color: opt.color
+    //,visible: opt.visible
+    //,scale: false
+    //,size: opt.icon.background_size || 26
 
-    //feed canvas with list of latlng points
-    ,points: function()
-    {
-      return _.map(
-        ol.clusterer.clusters()
-        ,function( cluster )
-        {
-          return cluster.getCenter();
-        });
-    }
-  }) 
+    ////feed canvas with list of latlng points
+    //,points: function()
+    //{
+      //return _.map(
+        //ol.clusterer.clusters()
+        //,function( cluster )
+        //{
+          //return cluster.getCenter();
+        //});
+    //}
+  //}) 
 
   }; //end of default overlays
 
@@ -297,11 +298,11 @@ function( name, opt, model, mapview )
       ol.infowins.infowin, 
       ol.infowins );
 
-  ol.canvas_icons.listenTo( 
-    ol.clusterer,
-    'update', 
-    ol.canvas_icons.render,
-    ol.canvas_icons );
+  //ol.canvas_icons.listenTo( 
+    //ol.clusterer,
+    //'update', 
+    //ol.canvas_icons.render,
+    //ol.canvas_icons );
 
 
   // optional overlays
@@ -350,7 +351,7 @@ function( name, opt, model, mapview )
 
   //// default overlays
 
-  //polygons: new GPolygonsView({
+  //polygons: new PolygonsView({
     //name: name
     //,model: model
     //,map: mapview.map()
@@ -358,7 +359,7 @@ function( name, opt, model, mapview )
     //,visible: opt.visible
   //})
 
-  //,infowins: new GInfowinsView({
+  //,infowins: new InfowinsView({
     //name: name
     //,model: model
     //,map: mapview.map()

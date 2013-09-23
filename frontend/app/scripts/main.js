@@ -17,6 +17,14 @@ require.config({
       exports: 'Backbone'
     }
 
+    ,leaflet: {
+      exports: 'L'
+    }
+
+    ,leaflet_google: {
+      deps: [ 'leaflet' ]
+    }
+
     ,d3: {
       exports: 'd3'
     }
@@ -69,12 +77,15 @@ require.config({
     ,backbone: '../bower_components/backbone-amd/backbone'
     ,underscore: '../bower_components/underscore-amd/underscore'
 
-    ,markerclusterer: '../lib/markerclusterer_packed'
-    ,infobox: '../lib/infobox_packed'
+    ,markerclusterer: '../lib/gmaps/markerclusterer_packed'
+    ,canvaslayer: '../lib/gmaps/CanvasLayer'
+    //,infobox: '../lib/gmaps/infobox_packed'
+    //,leaflet: '../lib/leaflet/leaflet'
+    //,leaflet_google: '../lib/leaflet/Google'
+
     ,d3: '../bower_components/d3/d3'
     ,parseuri: '../lib/parseuri'
     ,chroma: '../lib/chroma.min'
-    ,canvaslayer: '../lib/CanvasLayer'
     //,architect: '../lib/architect/architect.min'
 
     ,'eventEmitter/EventEmitter': '../lib/eventemitter'
@@ -109,6 +120,8 @@ function( App, LayerColors ) //,User,GMapView)
   //Architect.setupWorkersPath('lib/architect');
 
   var colores = new LayerColors().add_css();
+  var marker_size = 36;
+  var icon_size = 24;
 
   new App([
 
@@ -127,10 +140,16 @@ function( App, LayerColors ) //,User,GMapView)
         icon: {
           url: 'images/markers/historia.png'
           ,height: 48
+          ,width: 48
           ,background_size: 30
         }
+        ,marker: {
+          url: 'images/markers/color/historia.png'
+          ,height: 48
+          ,width: 48
+        }
         ,color: colores.get('historias')
-        //,visible: true
+        ,visible: true
         //,canvas_size: 0.01
       }
     }
@@ -147,6 +166,13 @@ function( App, LayerColors ) //,User,GMapView)
       ,view: {
         icon: {
           url: 'images/markers/industria.png'
+          ,width: icon_size
+          ,height: icon_size
+        }
+        ,marker: {
+          url: 'images/markers/color/industria.png'
+          ,height: marker_size
+          ,width: marker_size
         }
         ,color: colores.get('industrias')
         //,overlays: ['canvas_points']
@@ -167,6 +193,13 @@ function( App, LayerColors ) //,User,GMapView)
       ,view: {
         icon: {
           url: 'images/markers/basural.png'
+          ,width: icon_size
+          ,height: icon_size
+        }
+        ,marker: {
+          url: 'images/markers/color/basural.png'
+          ,height: marker_size
+          ,width: marker_size
         }
         ,color: colores.get('basurales')
         //,visible: true
@@ -183,6 +216,13 @@ function( App, LayerColors ) //,User,GMapView)
       ,view: {
         icon: {
           url: 'images/markers/ecopunto.png'
+          ,width: icon_size
+          ,height: icon_size
+        }
+        ,marker: {
+          url: 'images/markers/color/ecopunto.png'
+          ,height: marker_size
+          ,width: marker_size
         }
         ,color: colores.get('ecopuntos')
         //,overlays: ['canvas_points']
@@ -200,6 +240,13 @@ function( App, LayerColors ) //,User,GMapView)
       ,view: {
         icon: {
           url: 'images/markers/asentamiento.png'
+          ,width: icon_size
+          ,height: icon_size
+        }
+        ,marker: {
+          url: 'images/markers/color/asentamiento.png'
+          ,height: marker_size
+          ,width: marker_size
         }
         ,color: colores.get('asentamientos')
         //,visible: true
@@ -216,6 +263,13 @@ function( App, LayerColors ) //,User,GMapView)
       ,view: {
         icon: {
           url: 'images/markers/alerta.png'
+          ,width: icon_size
+          ,height: icon_size
+        }
+        ,marker: {
+          url: 'images/markers/color/alerta.png'
+          ,height: marker_size
+          ,width: marker_size
         }
         ,color: colores.get('alertas')
         //,visible: true
@@ -233,6 +287,13 @@ function( App, LayerColors ) //,User,GMapView)
       ,view: {
         icon: {
           url: 'images/markers/noticia.png'
+          ,width: icon_size
+          ,height: icon_size
+        }
+        ,marker: {
+          url: 'images/markers/color/noticia.png'
+          ,height: marker_size
+          ,width: marker_size
         }
         ,color: colores.get('noticias')
         //,visible: true
@@ -249,6 +310,13 @@ function( App, LayerColors ) //,User,GMapView)
       ,view: {
         icon: {
           url: 'images/markers/accion.png'
+          ,width: icon_size
+          ,height: icon_size
+        }
+        ,marker: {
+          url: 'images/markers/color/accion.png'
+          ,height: marker_size
+          ,width: marker_size
         }
         ,color: colores.get('acciones')
         //,visible: true
@@ -265,6 +333,13 @@ function( App, LayerColors ) //,User,GMapView)
       ,view: {
         icon: {
           url: 'images/markers/respuesta.png'
+          ,width: icon_size
+          ,height: icon_size
+        }
+        ,marker: {
+          url: 'images/markers/color/respuesta.png'
+          ,height: marker_size
+          ,width: marker_size
         }
         ,color: colores.get('respuestas')
         //,visible: true
@@ -281,6 +356,13 @@ function( App, LayerColors ) //,User,GMapView)
       ,view: {
         icon: {
           url: 'images/markers/documento.png'
+          ,width: icon_size
+          ,height: icon_size
+        }
+        ,marker: {
+          url: 'images/markers/color/documento.png'
+          ,height: marker_size
+          ,width: marker_size
         }
         ,color: colores.get('documentos')
         //,visible: true
@@ -297,6 +379,13 @@ function( App, LayerColors ) //,User,GMapView)
       ,view: {
         icon: {
           url: 'images/markers/normativa.png'
+          ,width: icon_size
+          ,height: icon_size
+        }
+        ,marker: {
+          url: 'images/markers/color/normativa.png'
+          ,height: marker_size
+          ,width: marker_size
         }
         ,color: colores.get('normativas')
         //,visible: true

@@ -8,6 +8,8 @@ define( [
     ,'user'
     ,'ui'
     //views
+    //,'views/lmaps/lmap_view'
+    //,'views/lmaps/lcuenca_view'
     ,'views/gmaps/gmap_view'
     ,'views/gmaps/gcuenca_view'
     ,'views/ui/LayerControlView'
@@ -261,7 +263,7 @@ var App = function( config )
   }
 
   //TODO hacer un layer de verdad
-  function make_gsubcuencas_layer( mapview ) 
+  function make_gsubcuencas_layer( _gmap ) 
   {
     var name = 'subcuencas';
 
@@ -308,7 +310,7 @@ var App = function( config )
       'change:visibility',
       function( v )
       {
-        layer.setMap(v ? mapview.map() : null);
+        layer.setMap( v ? _gmap : null);
       });
   }
 
@@ -346,7 +348,9 @@ var App = function( config )
     add_detalle( feature, mapview );
   });
 
-  make_gsubcuencas_layer( mapview );
+  make_gsubcuencas_layer(
+    mapview.map() );
+    //mapview.map( 'google' ) );
 
   update_clusters_size( layers, mapview );
 
@@ -357,6 +361,7 @@ var App = function( config )
       {
         ui.update_feature_search( layers );
       }); 
+
 
   // disable markers/clusters
 
@@ -388,7 +393,7 @@ var App = function( config )
   //});
 
 
-  window.layers = layers;
+  //window.layers = layers;
   //window.user = user; 
 }
 

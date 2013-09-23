@@ -20,12 +20,19 @@ var GMarkersView = Backbone.View.extend({
     var self = this;
     var opt = this.options;
 
-    opt.icon = _.defaults( opt.icon, {
+    var def_m_opt = {
       width: 24
       ,height: 24
-      ,anchor: { x: 12, y: 0 }
       ,origin: { x: 0, y: 0 }
-    } );
+    };
+
+    def_m_opt.anchor = { 
+      x: Math.round( 
+      (opt.marker.width || def_m_opt.width) /2 )
+      ,y: 0 
+    };
+
+    opt.marker = _.defaults(opt.marker, def_m_opt);
 
     this.name = opt.name;
     this._visible = opt.visible;
@@ -141,20 +148,21 @@ var GMarkersView = Backbone.View.extend({
     var coord = new google.maps.LatLng(
         coordarr[0], coordarr[1] );   
 
-    var icon = _.extend( {}, opt.icon );
+    var opt_marker = _.extend( {}, opt.marker );
 
-    icon.origin = new google.maps.Point(
-        icon.origin.x, icon.origin.y );
+    opt_marker.origin = new google.maps.Point(
+        opt_marker.origin.x
+        ,opt_marker.origin.y );
 
-    icon.anchor = new google.maps.Point(
-        icon.anchor.x, 
-        icon.anchor.y + icon.height/2 );
-        //icon.anchor.x, icon.anchor.y );
+    opt_marker.anchor = new google.maps.Point(
+      opt_marker.anchor.x, 
+      opt_marker.anchor.y+opt_marker.height/2 );
+      //opt_marker.anchor.x,opt_marker.anchor.y);
 
     return new google.maps.Marker({
       //map: opt.map,
       position: coord,
-      icon: icon
+      icon: opt_marker
     });
   }
 
