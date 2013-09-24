@@ -321,7 +321,10 @@ var App = function()
 
   // init
 
-  new LayerColors().add_css();
+  new LayerColors().add_css([{
+    name: 'subcuencas'
+    ,view: { color: '#20B2AA' }
+  }].concat( config.layers) );
 
   user = new User();
   user.login();
@@ -399,10 +402,10 @@ var App = function()
 
   //});
 
-  window.map = mapview.map();
-  window.config = config;
-  window.utils = utils;
-  window.layers = layers;
+  //window.map = mapview.map();
+  //window.config = config;
+  //window.utils = utils;
+  //window.layers = layers;
   //window.user = user; 
 }
 

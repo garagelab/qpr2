@@ -2,11 +2,10 @@ define( [
   'jquery'
   ,'underscore'
   ,'backbone'
-  ,'config'
   ,'chroma'
   ], 
 
-function( $, _, Backbone, config, chroma ) 
+function( $, _, Backbone, chroma ) 
 {
 
 'use strict';
@@ -29,11 +28,11 @@ var LayerColors = function()
 
 }
 
-LayerColors.prototype.add_css = function()
+LayerColors.prototype.add_css = function(layers)
 {
   var _css = [ '<style type="text/css">' ];
 
-  _.each( config.layers, function( layer )
+  _.each( layers, function( layer )
   {
     var k = layer.name;
     //var crgb = cscale(c).rgb().join(); 
