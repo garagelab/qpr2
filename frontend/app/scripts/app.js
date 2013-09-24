@@ -3,6 +3,8 @@ define( [
     'jquery'
     ,'underscore'
     ,'backbone'
+    //qpr
+    ,'config'
     ,'utils'
     ,'router'
     ,'user'
@@ -13,6 +15,7 @@ define( [
     ,'views/gmaps/gmap_view'
     ,'views/gmaps/gcuenca_view'
     ,'views/ui/LayerControlView'
+    ,'views/ui/LayerColors'
     //controllers
     ,'controllers/LayerCtrler'
     ,'controllers/StatsCtrler'
@@ -24,6 +27,7 @@ define( [
 function( 
   $, _, Backbone
 
+  ,config
   ,utils
   ,Router
   ,User
@@ -33,6 +37,7 @@ function(
   ,CuencaView
 
   ,LayerControlView 
+  ,LayerColors 
 
   ,LayerCtrler
   ,StatsCtrler
@@ -45,7 +50,7 @@ function(
 
 'use strict';
 
-var App = function( config ) 
+var App = function() 
 { 
 
   var router;
@@ -55,12 +60,12 @@ var App = function( config )
   var mapview, cuencaview;
   var cur_detalle;
 
-  function make_layers( config, mapview ) 
+  function make_layers( layers_cfg, mapview ) 
   {  
     var layers = {};
     var layer, name;
 
-    _.each( config, function( cfg, i )
+    _.each( layers_cfg, function( cfg, i )
     {
       name = cfg.name;
 
@@ -88,7 +93,7 @@ var App = function( config )
       //});
       //model.fetch();
     //})
-    //( _.pluck( config, 'name' ) );
+    //( _.pluck( layers_cfg, 'name' ) );
 
     return layers;
   }
@@ -316,6 +321,8 @@ var App = function( config )
 
   // init
 
+  new LayerColors().add_css();
+
   user = new User();
   user.login();
 
@@ -339,7 +346,7 @@ var App = function( config )
 
   stats = new StatsCtrler();
 
-  layers = make_layers( config, mapview );
+  layers = make_layers(config.layers, mapview);
 
   router = new Router( layers );
 
@@ -392,8 +399,10 @@ var App = function( config )
 
   //});
 
-
-  //window.layers = layers;
+  window.map = mapview.map();
+  window.config = config;
+  window.utils = utils;
+  window.layers = layers;
   //window.user = user; 
 }
 

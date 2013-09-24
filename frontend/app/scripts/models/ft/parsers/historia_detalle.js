@@ -24,6 +24,8 @@ function HistoriaDetalle( opt )
     return _db;
   }
 
+  this.filters = function() { return ''; }
+
   var _db = [
     'hid'
     ,'tipo'

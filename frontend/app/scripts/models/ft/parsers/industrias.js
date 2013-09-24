@@ -22,6 +22,12 @@ function Industrias( opt )
     return _db;
   }
 
+  this.filters = function() 
+  { return ''; }
+  //{ 
+    //return 'WHERE ST_INTERSECTS(Address, RECTANGLE(LATLNG(37.0242,-122.2806), LATLNG(37.5242,-121.6806)))'; 
+  //}
+
   var _db = [
     'curt'
     //,'geolocation'

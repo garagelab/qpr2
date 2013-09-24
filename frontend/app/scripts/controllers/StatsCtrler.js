@@ -39,9 +39,16 @@ var StatsCtrler = function( opt )
     var name = layer.name();
     name = name.charAt(0).toUpperCase() + name.slice(1);
 
+    var points = _.filter( 
+      layer.model.toArray()
+      ,function( feature )
+      {
+        return feature.get('geometry').type === 'Point';
+      });
+
     model.set({
       layer_type: name 
-      ,cant: layer.model.length
+      ,cant: points.length
     });
   } 
 

@@ -2,11 +2,11 @@ define( [
     'jquery'
     ,'underscore'
     ,'backbone'
-    ,'views/gmaps/gmap_styles'
+    ,'config'
     ,'leaflet_google'
     ], 
 
-function( $, _, Backbone, map_styles ) {
+function( $, _, Backbone, config ) {
 
 'use strict';
 
@@ -17,11 +17,7 @@ var LMapView = function( opt )
   var el = opt.el;
 
   var riachuelo = new L.LatLng(
-    //zoom 11
-    //-34.77433193049113, -58.39782728027342 );
-    //zoom 10
-    -34.98584712167135, -58.40400708984373 );
-    //-34.965016,-59.057067 );
+    config.center[0], config.center[1] );
 
   var zoom = 10; 
 
@@ -39,7 +35,7 @@ var LMapView = function( opt )
   _map.addLayer( _glayer );
 
   _glayer._google.setOptions({
-    styles: map_styles
+    styles: config.map_styles
     ,streetViewControl: false
     //,mapTypeControl: true
     //,mapTypeControlOptions: {

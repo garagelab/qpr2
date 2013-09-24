@@ -4,9 +4,11 @@ define( [
     ,'backbone'
     ,'models/qpr/Feature'
     ,'utils'
+    ,'config'
     ], 
 
-function( $, _, Backbone, Feature, utils ) 
+function( $, _, Backbone, 
+  Feature, utils, config ) 
 {
 
 'use strict';
@@ -21,6 +23,8 @@ function Asentamientos( opt )
   {
     return _.values( this._db );
   }
+
+  this.filters = function() { return ''; }
 
   this._db = {
     barrio: 'BARRIO'
@@ -70,6 +74,20 @@ function( data, sync_opt )
       //continue;
       return;
 
+    polyarr = utils
+      .reverse_polygon( 
+          geom.coordinates[0] );
+
+    coordarr = utils
+      .get_polygon_center( 
+          polyarr );
+
+    // checkear que el feature este
+    // dentro del poly en cuestion
+    if ( ! utils.point_in_polygon( 
+          coordarr, config.polygon ) )
+      return;
+
     resumen = [
       ,'Cantidad de Familias: '
       ,d.flias
@@ -109,13 +127,10 @@ function( data, sync_opt )
     ]
     .join('');
 
-    locacion = d.localidad + ', ' + d.partido;
-
-    polyarr = utils
-      .reverse_polygon( 
-          geom.coordinates[0] );
+    locacion = d.localidad + ', ' + d.partido; 
 
     var id = d.barrio + _.uniqueId('_polygon');
+
     this.trigger('add:feature', new Feature({ 
       id: id
       ,properties: {
@@ -131,11 +146,7 @@ function( data, sync_opt )
         type: 'Polygon'
         ,coordinates: polyarr
       }
-    }) );
-
-    coordarr = utils
-      .get_polygon_center( 
-          polyarr );
+    }) ); 
 
     this.trigger('add:feature', new Feature({ 
       id: d.barrio

@@ -21,6 +21,8 @@ function Historia( opt )
     return _db;
   }
 
+  this.filters = function() { return ''; }
+
   var _db = [
     'ROWID'
     ,'hid'

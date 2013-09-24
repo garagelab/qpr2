@@ -143,7 +143,10 @@ function( name, opt )
 
   var api = new FT.API({
     ftid: opt.ftid
-    ,read: { cols: parser.db() }
+    ,read: { 
+      cols: parser.db()
+      ,filters: parser.filters()
+    }
   });
 
   var collection = new Collection([], {

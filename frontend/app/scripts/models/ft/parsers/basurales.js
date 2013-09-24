@@ -22,6 +22,8 @@ function Basurales( opt )
     return _db;
   }
 
+  this.filters = function() { return ''; }
+
   var _db = [
     'name'
     //description tiene el nombre del basural
@@ -76,17 +78,14 @@ function( data, sync_opt )
 
     geom = d.geometry.geometry;
 
-    //resumen = _.without( 
-      //_.map([
+    //resumen = _.filter([
         //,d.direccion
         //,d.localidad_barrio
         //,d.municipio
       //]
       //,function( str ) {
-        //return _.isEmpty( str.replace(/ /g,'') ) 
-          //? null : str;
+        //return !_.isEmpty( str.replace(/ /g,'') );
       //})
-      //, null )
       //.join(', ');
 
     descripcion = [

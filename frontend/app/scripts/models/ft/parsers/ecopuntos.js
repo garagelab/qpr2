@@ -22,6 +22,8 @@ function Ecopuntos( opt )
     return _.values( _db );
   }
 
+  this.filters = function() { return ''; }
+
   var _db = {
     name: 'name'
     ,geom: 'geometry'
