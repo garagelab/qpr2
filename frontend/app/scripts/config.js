@@ -66,7 +66,7 @@ return {
         }
         ,color: "#cc0000"
         //,overlays: ['canvas_points']
-        //,visible: true
+        ,visible: true
         //,canvas_size: 0.0015
       }
     }
@@ -92,7 +92,7 @@ return {
           ,width: marker_size
         }
         ,color: "#f24000"
-        //,visible: true
+        ,visible: true
         //,canvas_size: 0.004
       }
     }
@@ -116,7 +116,7 @@ return {
         }
         ,color: "#3CB371"
         //,overlays: ['canvas_points']
-        //,visible: true
+        ,visible: true
         //,canvas_size: 0.004
       }
     }
@@ -139,7 +139,7 @@ return {
           ,width: marker_size
         }
         ,color: "#FFA500"
-        //,visible: true
+        ,visible: true
       }
     }
 
@@ -162,7 +162,7 @@ return {
           ,width: marker_size
         }
         ,color: "#5F9EA0"
-        //,visible: true
+        ,visible: true
         //,canvas_size: 0.004
       }
     }
@@ -186,7 +186,7 @@ return {
           ,width: marker_size
         }
         ,color: "#5F9EA0"
-        //,visible: true
+        ,visible: true
       }
     }
 
@@ -209,7 +209,7 @@ return {
           ,width: marker_size
         }
         ,color: "#5F9EA0"
-        //,visible: true
+        ,visible: true
       }
     }
 
@@ -232,7 +232,7 @@ return {
           ,width: marker_size
         }
         ,color: "#5F9EA0"
-        //,visible: true
+        ,visible: true
       }
     }
 
@@ -255,7 +255,7 @@ return {
           ,width: marker_size
         }
         ,color: "#5F9EA0"
-        //,visible: true
+        ,visible: true
       }
     }
 
@@ -278,7 +278,7 @@ return {
           ,width: marker_size
         }
         ,color: "#5F9EA0"
-        //,visible: true
+        ,visible: true
       }
     }
 

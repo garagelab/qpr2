@@ -2,7 +2,7 @@
 @import 'vars';
 @import 'zindices';
 @import 'scrollbar';
-@import 'ui/layers';
+@import 'ui/sidebar';
 @import 'ui/layer_controls';
 @import 'ui/widgets';
 @import 'ui/search';
@@ -15,9 +15,10 @@
 @import 'detalles/descripcion_historia';
 @import 'detalles/feature_preview';
 @import 'abm/feature_abm';
+@import 'stats/stats_layer';
+@import 'stats/stats_intro';
 @import 'eventos';
 @import 'infowin';
-@import 'stats';
 
 body 
 {

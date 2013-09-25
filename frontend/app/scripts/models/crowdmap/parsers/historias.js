@@ -41,7 +41,8 @@ function( data, sync_opt )
     ,resumen
     ,locacion
     ,temas
-    ,descripcion;
+    ,descripcion
+    ,links;
 
   var reportes = data.payload.incidents; 
   var r;
@@ -72,8 +73,28 @@ function( data, sync_opt )
     }
 
     titulo = r.incidenttitle;
-    descripcion = r.incidentdescription;
     locacion = r.locationname;
+
+    links = _.map(
+      reporte.media
+      ,function( m )
+      {
+        if ( (/\.(gif|jpg|jpeg|tiff|png)$/i)
+          .test( m.link ) )
+        {
+          return '<div class="link"><a href="'+m.link+'" target="_blank"><img src="'+m.link+'"/></a></div>'
+        }
+        else
+        {
+          return '<div class="link"><a href="'+m.link+'" target="_blank">'+m.link+'</a></div>'
+        }
+      });
+
+    descripcion = [
+      r.incidentdescription
+    ]
+    .concat( links )
+    .join('');
 
     temas = [];
     _.each( reporte.categories, function(cat)

@@ -2,7 +2,7 @@ define( [
   'jquery'
   ,'underscore'
   ,'backbone'
-  ,'text!tpl/stats.html'
+  ,'text!tpl/stats/stats_layer.html'
   ], 
 
 function( $, _, Backbone, tpl )
@@ -10,7 +10,7 @@ function( $, _, Backbone, tpl )
 
 'use strict';
 
-var StatsView = Backbone.View.extend({ 
+var StatsLayerView = Backbone.View.extend({ 
 
   initialize: function() 
   {
@@ -20,7 +20,7 @@ var StatsView = Backbone.View.extend({
 
   ,tpl: _.template( tpl )
 
-  ,render: function()
+  ,render: function( data )
   {
     var data = this.model.toJSON();
 
@@ -44,7 +44,7 @@ var StatsView = Backbone.View.extend({
 
 });
 
-return StatsView;
+return StatsLayerView;
 
 });
 

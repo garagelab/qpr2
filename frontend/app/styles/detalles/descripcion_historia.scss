@@ -14,7 +14,7 @@
 .descripcion-historia .texto
 {
   overflow-y: auto;
-  font-size: 25px;
+  font-size: 16px;
   font-weight: 200;
   line-height: 30px;
   margin-bottom: 100px;
@@ -26,5 +26,15 @@
 {
   margin-left: 40px;
   margin-right: 40px;
+}
+
+.descripcion-historia .link
+{
+  margin: 16px 0px;
+}
+
+.descripcion-historia img
+{
+  max-width: 300px;
 }
 

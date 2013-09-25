@@ -16,12 +16,15 @@ define( [
     ,'views/gmaps/gcuenca_view'
     ,'views/ui/LayerControlView'
     ,'views/ui/LayerColors'
+    //models
+    ,'models/Stats'
     //controllers
     ,'controllers/LayerCtrler'
-    ,'controllers/StatsCtrler'
-    ,'controllers/HistoriaDetalleCtrler'
-    ,'controllers/FeatureDetalleCtrler'
-    ,'controllers/FeatureABMctrler'
+    ,'controllers/stats/StatsLayerCtrler'
+    ,'controllers/stats/StatsIntroCtrler'
+    ,'controllers/detalles/HistoriaDetalleCtrler'
+    ,'controllers/detalles/FeatureDetalleCtrler'
+    ,'controllers/abm/FeatureABMctrler'
     ], 
 
 function( 
@@ -39,8 +42,11 @@ function(
   ,LayerControlView 
   ,LayerColors 
 
+  ,Stats
+
   ,LayerCtrler
-  ,StatsCtrler
+  ,StatsLayerCtrler
+  ,StatsIntroCtrler
   ,HistoriaDetalleCtrler
   ,FeatureDetalleCtrler
   ,FeatureABMctrler
@@ -56,7 +62,7 @@ var App = function()
   var router;
   var user, ui;
   var layers;
-  var stats;
+  var stats, stats_layer, stats_intro;
   var mapview, cuencaview;
   var cur_detalle;
 
@@ -121,20 +127,30 @@ var App = function()
       ,function( v )
       {
         update_clusters_size( layers, mapview );
-        if ( v ) stats.update( layer );
+        var lname = layer.name();
+        if ( v ) 
+          stats_layer.update( 
+            lname, stats.get( lname ) );
       }); 
 
     layer.on( 
       'add:feature'
       ,function( feature )
       {
-        if ( stats.cur_layer() !== layer )
-          return;
-        stats.update( layer );
+        stats.add_feature( feature );
+
+        var lname = layer.name();
+        var lstat = stats.get( lname );
+
+        stats_intro.update( stats );
+
+        if(stats_layer.cur_layer_name === lname)
+          stats_layer.update( lname, lstat );
+
       });
 
     //if ( opt.view.visible )
-      //stats.update( layer );
+      //stats_layer.update( layer );
 
     return layer;
 
@@ -168,7 +184,7 @@ var App = function()
         clstr.size(
           utils.lerp2d( visible_layers, 
             0, cant_layers, 
-            40, 150 )
+            40, 120 )
           );
     });
   } 
@@ -307,7 +323,7 @@ var App = function()
 
     var ctrl = new LayerControlView({
       name: name
-      ,el: '.layer-controls .layer.'+name
+      ,el: '.layer.'+name
       ,visible: false
     });
 
@@ -347,9 +363,7 @@ var App = function()
     add_detalle( feature, mapview );
   });
 
-  stats = new StatsCtrler();
-
-  layers = make_layers(config.layers, mapview);
+  layers = make_layers(config.layers, mapview); 
 
   router = new Router( layers );
 
@@ -361,6 +375,10 @@ var App = function()
   make_gsubcuencas_layer(
     mapview.map() );
     //mapview.map( 'google' ) );
+
+  stats = new Stats();
+  stats_layer = new StatsLayerCtrler();
+  stats_intro = new StatsIntroCtrler();
 
   update_clusters_size( layers, mapview );
 
@@ -402,10 +420,11 @@ var App = function()
 
   //});
 
+  window.layers = layers;
+  window.stats = stats;
   //window.map = mapview.map();
   //window.config = config;
   //window.utils = utils;
-  //window.layers = layers;
   //window.user = user; 
 }
 

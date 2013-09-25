@@ -84,7 +84,6 @@ var LayerCtrler = function( opt, mapview )
 
   var ctrl_view = new LayerControlView({
     name: name
-    //,el: '.layer-controls .layer.'+name
     ,el: '.layer.'+name
     ,visible: opt.view.visible
   });

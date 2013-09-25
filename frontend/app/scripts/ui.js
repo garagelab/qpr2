@@ -2,14 +2,16 @@ define( [
     'jquery'
     ,'underscore'
     ,'backbone'
+    ,'config'
     ,'controllers/ui/SearchCtrler'
     ,'text!tpl/ui/layer_controls.html'
     ,'text!tpl/ui/widgets.html'
     ], 
 
 function( $, _, Backbone
+  ,config
   ,SearchCtrler
-  ,tpl_layer_controls
+  ,tpl_layer_ctrls
   ,tpl_widgets
   )
 {
@@ -35,11 +37,115 @@ var UI = function( opt )
   , this );
 
 
+  var layer_ctrls = { grupos: [
+
+  {
+    name: 'monitoreo'
+    ,title: 'Monitoreo Social'
+    ,layers: [
+      {
+        name: 'enviar-alerta'
+        ,title: 'Enviá tu Alerta'
+      }
+      ,{
+        name: 'alertas'
+        ,title: 'Alertas'
+        ,icon_url: 'images/markers/alerta.png'
+        ,fuente: 'Crowdmap'
+      }
+      ,{
+        name: 'historias'
+        ,title: 'Historias'
+        ,icon_url: 'images/markers/historia.png'
+        ,fuente: 'FARN'
+      }
+      ,{
+        name: 'acciones'
+        ,title: 'Acciones'
+        ,icon_url: 'images/markers/accion.png'
+        ,fuente: 'FARN'
+      }
+      ,{
+        name: 'respuestas'
+        ,title: 'Respuestas'
+        ,icon_url:'images/markers/respuesta.png'
+        ,fuente: 'FARN'
+      } 
+      ,{
+        name: 'documentos'
+        ,title: 'Documentos'
+        ,icon_url:'images/markers/documento.png'
+        ,fuente: 'FARN'
+      }
+      ,{
+        name: 'noticias'
+        ,title: 'Noticias'
+        ,icon_url: 'images/markers/noticia.png'
+        ,fuente: 'FARN'
+      }
+    ]
+  }
+
+  ,{
+    name: 'datos-publicos'
+    ,title: 'Datos Públicos'
+    ,layers: [
+      {
+        name: 'industrias'
+        ,title: 'Industrias'
+        ,icon_url:'images/markers/industria.png'
+        ,fuente: 'ACUMAR'
+      }
+      ,{
+        name: 'basurales'
+        ,title: 'Basurales'
+        ,icon_url: 'images/markers/basural.png'
+        ,fuente: 'ACUMAR'
+      }
+      ,{
+        name: 'asentamientos'
+        ,title: 'Asentamientos'
+        ,icon_url:'images/markers/asentamiento.png'
+        ,fuente: 'TECHO'
+      }
+      ,{
+        name: 'ecopuntos'
+        ,title: 'Ecopuntos'
+        ,icon_url: 'images/markers/ecopunto.png'
+        ,fuente: 'ACUMAR'
+      }
+      ,{
+        name: 'subcuencas'
+        ,title: 'Subcuencas'
+        ,icon_url: 'images/markers/arroyo.png'
+        ,fuente: 'ACUMAR'
+      }
+    ]
+  }
+
+  ]}; //end of layer_ctrls.grupos
+
+  _.each( 
+    layer_ctrls.grupos
+    ,function( grupo )
+    {
+      grupo.layers = _.map( 
+        grupo.layers
+        ,function( lc )
+        {
+          if ( lc.fuente )
+            lc.fuente = 'Fuente: '+lc.fuente;
+          return lc;
+        });
+    });
+
   $layers.append( 
-      _.template( tpl_layer_controls ) );
+    _.template( tpl_layer_ctrls )(layer_ctrls)
+  );
 
   $widgets.append( 
-      _.template( tpl_widgets ) ); 
+    _.template( tpl_widgets ) 
+  ); 
 
   search.appendTo( $layers ); 
 

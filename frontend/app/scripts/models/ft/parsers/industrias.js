@@ -205,7 +205,7 @@ function( data, sync_opt )
 
     if ( !_.isEmpty( d.reconvertida ) )
       eventos.push({
-        name: 'reconversion'
+        name: 'rec'
         ,txt: 'reconvertida el '+d.reconvertida
       });
 

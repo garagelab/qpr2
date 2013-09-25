@@ -88,11 +88,16 @@ return {
     //return [ ctr.lat(), ctr.lng() ];
   }
 
-  // gral
+  // misc
 
   ,lerp2d: function( x, x1, x2, y1, y2 )
   {
     return (x-x1) / (x2-x1) * (y2-y1) + y1;
+  }
+
+  ,capitalize: function( str )
+  {
+    return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
   ,process: function( opt )

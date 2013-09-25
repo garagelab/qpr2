@@ -49,13 +49,11 @@ function( data, sync_opt )
     locacion = r.locationname;
 
     links = _.map(
-      //_.pluck( reporte.media, 'link' )
       reporte.media
       ,function( m )
       {
         if ( (/\.(gif|jpg|jpeg|tiff|png)$/i)
           .test( m.link ) )
-        //if ( _.isString( m.thumb ) )
         {
           return '<div class="link"><a href="'+m.link+'" target="_blank"><img src="'+m.link+'"/></a></div>'
         }

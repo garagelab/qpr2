@@ -1,6 +1,6 @@
 @import 'vars';
 
-.layers 
+.sidebar 
 {
   //top: 0px;
   //left: 80px;
@@ -19,18 +19,18 @@
   background-color: rgba(230,230,230,0.8);
 }
 
-.layers .pure-form .field 
+.sidebar .pure-form .field 
 {
   margin: 20px 10px;
 }
 
-.layers .pure-form .label 
+.sidebar .pure-form .label 
 {
   color: #444;
   margin-bottom: 5px;
 }
 
-.layers .pure-form input[type=text] 
+.sidebar .pure-form input[type=text] 
 {
   font-size: 1em;
   width: 100%;
