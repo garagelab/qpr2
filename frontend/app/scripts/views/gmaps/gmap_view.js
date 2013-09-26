@@ -76,11 +76,16 @@ var GMapView = function( opt )
     var geom = feature.get('geometry');
 
     var coord = new google.maps.LatLng(
-        geom.coordinates[0] - 0.02
-        ,geom.coordinates[1] + 0.03 );
+      //zoom 13
+      //geom.coordinates[0] - 0.02
+      //,geom.coordinates[1] + 0.03 
+      //zoom 15
+      geom.coordinates[0] - 0.003
+      ,geom.coordinates[1] + 0.008
+    );
 
     _map.setCenter( coord );
-    _map.setZoom( 13 );
+    _map.setZoom( 15 );
   };
 
   //this.zoom = function()

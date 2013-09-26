@@ -108,6 +108,7 @@ return {
     var cb = opt.callback;
     var ctx = opt.context;
     var chunks = opt.chunks || 5;
+    var count = 0;
 
     var delay = 0;
     var cpy = arr.concat();
@@ -119,7 +120,8 @@ return {
       while( i-- )
       {
 
-        fn.apply( ctx, [ cpy.shift() ] );
+        fn.apply( ctx, [ cpy.shift(), count ] );
+        count++;
 
         if ( cpy.length == 0 )
         {

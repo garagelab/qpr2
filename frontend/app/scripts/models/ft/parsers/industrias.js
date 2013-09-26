@@ -65,7 +65,6 @@ function Industrias( opt )
 Industrias.prototype.parse =
 function( data, sync_opt )
 {
-  //console.log('industrias.parse',this,arguments);
 
   var opt = this.opt;
 
@@ -78,6 +77,8 @@ function( data, sync_opt )
 
   var rows = data.rows;
   //var row, i = rows.length; 
+
+  //console.log('industrias.parse',rows.length);
 
   //while( i-- )
   function parse( row )

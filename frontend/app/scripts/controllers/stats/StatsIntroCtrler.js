@@ -11,8 +11,10 @@ function( $, _, Backbone, utils, StatsIntroView)
 
 'use strict';
 
-var StatsIntroCtrler = function()
+var StatsIntroCtrler = function( opt )
 {
+  _.extend( this, Backbone.Events );
+
   var model = new Backbone.Model({
     //items: [
       //'xx pepe pepe'
@@ -28,10 +30,11 @@ var StatsIntroCtrler = function()
   view.on('close', function()
   {
     this.dispose();
+    this.trigger('close');
   }
   , this );
 
-  $('body').append( view.render().el );
+  $(opt.el).append( view.render().el );
 
   this.dispose = function()
   {

@@ -81,7 +81,7 @@ var UI = function( opt )
         name: 'noticias'
         ,title: 'Noticias'
         ,icon_url: 'images/markers/noticia.png'
-        ,fuente: 'FARN'
+        ,fuente: 'FOPEA'
       }
     ]
   }
@@ -94,31 +94,31 @@ var UI = function( opt )
         name: 'industrias'
         ,title: 'Industrias'
         ,icon_url:'images/markers/industria.png'
-        ,fuente: 'ACUMAR'
+        ,fuente: 'ACUMAR csv'
       }
       ,{
         name: 'basurales'
         ,title: 'Basurales'
         ,icon_url: 'images/markers/basural.png'
-        ,fuente: 'ACUMAR'
+        ,fuente: 'ACUMAR pdf kml'
       }
       ,{
         name: 'asentamientos'
         ,title: 'Asentamientos'
         ,icon_url:'images/markers/asentamiento.png'
-        ,fuente: 'TECHO'
+        ,fuente: 'TECHO fusiontables'
       }
       ,{
         name: 'ecopuntos'
         ,title: 'Ecopuntos'
         ,icon_url: 'images/markers/ecopunto.png'
-        ,fuente: 'ACUMAR'
+        ,fuente: 'ACUMAR kml'
       }
       ,{
         name: 'subcuencas'
         ,title: 'Subcuencas'
         ,icon_url: 'images/markers/arroyo.png'
-        ,fuente: 'ACUMAR'
+        ,fuente: 'ACUMAR kml'
       }
     ]
   }

@@ -46,12 +46,19 @@ var Stats = function()
         && props.eventos )
     {
       var evs = _.pluck(props.eventos,'name');
-      if (_.contains(evs,'rec'))
+      if ( _.contains(evs,'rec') )
+      {
         add_cant( 'rec' );
-      else if (_.contains(evs,'pri'))
+      }
+      else if ( _.contains(evs,'pri') )
+      {
         add_cant( 'pri' );
-      else if (_.contains(evs,'ac'))
         add_cant( 'ac' );
+      }
+      else if ( _.contains(evs,'ac') )
+      {
+        add_cant( 'ac' );
+      }
     }
   }
 

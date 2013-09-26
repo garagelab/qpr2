@@ -9,6 +9,7 @@ define( [
     ,'router'
     ,'user'
     ,'ui'
+    ,'stats'
     //views
     //,'views/lmaps/lmap_view'
     //,'views/lmaps/lcuenca_view'
@@ -16,8 +17,6 @@ define( [
     ,'views/gmaps/gcuenca_view'
     ,'views/ui/LayerControlView'
     ,'views/ui/LayerColors'
-    //models
-    ,'models/Stats'
     //controllers
     ,'controllers/LayerCtrler'
     ,'controllers/stats/StatsLayerCtrler'
@@ -35,14 +34,13 @@ function(
   ,Router
   ,User
   ,UI
+  ,Stats
 
   ,MapView
   ,CuencaView
 
   ,LayerControlView 
   ,LayerColors 
-
-  ,Stats
 
   ,LayerCtrler
   ,StatsLayerCtrler
@@ -142,7 +140,8 @@ var App = function()
         var lname = layer.name();
         var lstat = stats.get( lname );
 
-        stats_intro.update( stats );
+        if ( stats_intro )
+          stats_intro.update( stats );
 
         if(stats_layer.cur_layer_name === lname)
           stats_layer.update( lname, lstat );
@@ -378,7 +377,15 @@ var App = function()
 
   stats = new Stats();
   stats_layer = new StatsLayerCtrler();
-  stats_intro = new StatsIntroCtrler();
+
+  stats_intro = new StatsIntroCtrler({
+    el: $('body')
+  });
+  stats_intro.on('close', function()
+  {
+    stats_intro.off();
+    stats_intro = null;
+  });
 
   update_clusters_size( layers, mapview );
 
