@@ -10,6 +10,7 @@
   padding-bottom: $footer_h + 240px;
   overflow-y: auto;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 
   font-size: 14px;
   position: absolute;

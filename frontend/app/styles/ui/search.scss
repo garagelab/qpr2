@@ -1,3 +1,34 @@
+@import 'vars';
+
+.search
+{
+  position: absolute;
+  right: 10px;
+}
+
+.search .search-field .selectize-input
+,.search .search-geoloc input[type=text]
+{
+  font-size: 13px;
+  height: 30px;
+  width: 225px;
+  padding: 5px;
+}
+
+@mixin placeholder
+{
+  font-size: 12px;
+  padding: 1px;
+}
+
+.search-field ::-webkit-input-placeholder 
+{ @include placeholder; }
+.search-field :-moz-placeholder
+{ @include placeholder; }
+.search-field ::-moz-placeholder
+{ @include placeholder; }
+.search-field :-ms-input-placeholder  
+{ @include placeholder; }
 
 .pac-container 
 {

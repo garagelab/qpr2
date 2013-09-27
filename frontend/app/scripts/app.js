@@ -375,19 +375,26 @@ var App = function()
     mapview.map() );
     //mapview.map( 'google' ) );
 
+
   stats = new Stats();
-  stats_layer = new StatsLayerCtrler();
+
+  stats_layer = new StatsLayerCtrler({
+    el: $('.container .content')
+  });
 
   stats_intro = new StatsIntroCtrler({
     el: $('body')
   });
+
   stats_intro.on('close', function()
   {
     stats_intro.off();
     stats_intro = null;
   });
 
+
   update_clusters_size( layers, mapview );
+
 
   var init_fetch_complete = 
     _.after( 

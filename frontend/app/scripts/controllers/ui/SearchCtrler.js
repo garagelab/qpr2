@@ -4,11 +4,13 @@ define( [
     ,'backbone'
     ,'views/ui/SearchGeolocationView'
     ,'views/ui/SearchFeatureView'
+    ,'views/ui/SearchMunicipiosView'
     ], 
 
 function( $, _, Backbone
   ,SearchGeolocationView
   ,SearchFeatureView
+  ,SearchMunicipiosView
   ) 
 {
 
@@ -18,6 +20,8 @@ var SearchCtrler = function( opt )
 {
   _.extend( this, Backbone.Events );
 
+  var _features = {};
+
   var geo_view = new SearchGeolocationView({
     mapview: opt.mapview
   });
@@ -26,21 +30,15 @@ var SearchCtrler = function( opt )
     mapview: opt.mapview
   });
 
-  feature_view.on( 'select:feature'
-    ,function( e )
-    {
-      this.trigger(
-        'select:feature', 
-        _features[ e.name ] );
-    }
-    , this );
+  var munis_view = new SearchMunicipiosView({
+    mapview: opt.mapview
+  });
 
-  var _features = {};
-
-  this.appendTo = function( $container )
+  this.clear_all_fields = function()
   {
-    $container.append( geo_view.render().el );
-    $container.append(feature_view.render().el);
+    geo_view.clear();
+    munis_view.clear();
+    feature_view.clear();
   }
 
   this.update_feature_search = function(layers)
@@ -50,6 +48,26 @@ var SearchCtrler = function( opt )
       features: _.keys( _features )
     });
   }
+
+  //geo_view.on('search', 
+      //this.clear_all_fields);
+  //munis_view.on('search', 
+      //this.clear_all_fields);
+  //feature_view.on('search:feature', 
+      //this.clear_all_fields);
+
+  feature_view.on( 'search:feature'
+    ,function( e )
+    {
+      this.trigger(
+        'search:feature', 
+        _features[ e.name ] );
+    }
+    , this );
+
+  $(opt.el).append( geo_view.render().el );
+  $(opt.el).append( munis_view.render().el ); 
+  $(opt.el).append( feature_view.render().el );
 
   function parse_features( layers ) 
   {

@@ -20,8 +20,7 @@ var StatsLayerCtrler = function( opt )
     ,className: 'stats-view'
   });
 
-  $('.container .content')
-    .append( view.render().el );
+  $(opt.el).append( view.render().el );
 
   this.dispose = function()
   {}

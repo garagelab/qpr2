@@ -25,18 +25,8 @@ var UI = function( opt )
   var $win = $(window);
   var $layers = $('.layers');
   var $widgets = $('.widgets');
-
-  var search = new SearchCtrler({
-    mapview: opt.mapview
-  });
-
-  search.on('select:feature', function(feature)
-  {
-    this.trigger( 'select:feature', feature );
-  }
-  , this );
-
-
+  var $search = $('.search');
+ 
   var layer_ctrls = { grupos: [
 
   {
@@ -139,6 +129,20 @@ var UI = function( opt )
         });
     });
 
+
+  var search = new SearchCtrler({
+    mapview: opt.mapview
+    //,el: $layers
+    ,el: $search
+  });
+
+  search.on('search:feature', function(feature)
+  {
+    this.trigger( 'select:feature', feature );
+  }
+  , this );
+
+
   $layers.append( 
     _.template( tpl_layer_ctrls )(layer_ctrls)
   );
@@ -146,9 +150,7 @@ var UI = function( opt )
   $widgets.append( 
     _.template( tpl_widgets ) 
   ); 
-
-  search.appendTo( $layers ); 
-
+ 
 
   $('.goto-origin').click( function(e)
   {

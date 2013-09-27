@@ -15,6 +15,7 @@ var SearchFeatureView = Backbone.View.extend({
   initialize: function()
   {
     this.$el.addClass('search-feature'); 
+    this.$el.addClass('search-field');
   }
 
   ,tpl: _.template( tpl )
@@ -36,10 +37,9 @@ var SearchFeatureView = Backbone.View.extend({
       ,scrollDuration: 0
       ,onChange: function( value )
       {
-        self.trigger('select:feature', {
+        self.trigger('search:feature', {
           name: value
         });
-        //this._selectize.clear();
       }
       //,onInitialize: function()
       //{
@@ -73,6 +73,11 @@ var SearchFeatureView = Backbone.View.extend({
 
     return this;
   } 
+
+  ,clear: function()
+  {
+    this._selectize.clear();
+  }
 
   ,dispose: function()
   {
