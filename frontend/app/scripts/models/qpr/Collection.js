@@ -16,6 +16,12 @@ var Collection = Backbone.Collection.extend({
     this.opt = opt;
   }
 
+  ,dispose: function()
+  {
+    this.stopListening()
+    this.off();
+  }
+
   ,sync: function( method, model, sync_opt )
   {
     //console.log('Collection sync',arguments)
@@ -25,6 +31,14 @@ var Collection = Backbone.Collection.extend({
 
     var api = opt.api;
     var parser = opt.parser;
+
+    self.listenTo( 
+      parser
+      ,'complete'
+      ,function()
+      {
+        self.trigger('parse:complete');
+      });
 
     //sync_opt || (sync_opt = {});
 

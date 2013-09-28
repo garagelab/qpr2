@@ -18,6 +18,10 @@ var TimelineView = Backbone.View.extend({
   { 
     //var opt = this.options;
     this.$el.addClass('timeline-view');
+
+    _.defaults( this.options, {
+      icon_class: 'timeline-icon' 
+    });
   }
 
   ,tpl: _.template( tpl )
@@ -31,6 +35,7 @@ var TimelineView = Backbone.View.extend({
 
   ,dispose: function()
   {
+    this._clock = null;
     this.vis = null;
     this.remove();
   }
@@ -41,8 +46,11 @@ var TimelineView = Backbone.View.extend({
     var layout = {
       width: 1000
       ,height: 500
-      ,margin: { x: 20 }
-      ,icons_offset: { bottom: 40, top: 0 }
+      ,margin: { x: 20, y: 20 }
+      ,icons: {
+        offset: { bottom: 40, top: 0 }
+        ,height: 30 //default
+      }
     };
 
     function make_format( formats ) 
@@ -77,8 +85,9 @@ var TimelineView = Backbone.View.extend({
         .call( xaxis );
     }
 
-    this._top = layout.icons_offset.top;
-    this._bottom = layout.icons_offset.bottom;
+    // init bottom top
+    this._top = layout.icons.offset.top;
+    this._bottom = layout.icons.offset.bottom;
 
     var tipformat = d3.time.format("%d/%m/%Y");
 
@@ -140,9 +149,9 @@ var TimelineView = Backbone.View.extend({
    *    ,src: ''
    *  }
    */
-  ,add: function( feature, date )
+  ,add_feature: function( feature, date )
   {
-    var self = this;
+    var opt = this.options;
 
     //var id = feature.get('id');
     var props = feature.get('properties');
@@ -150,8 +159,11 @@ var TimelineView = Backbone.View.extend({
     var _advocacy = props.type === 'acciones' || props.type === 'respuestas';
 
     var vis = this.vis; 
-    var icon_off = vis.layout.icons_offset;
-    var icon_h = props.icon.height + 10;
+
+    vis.layout.icons.height = props.icon.height + 10;
+
+    var ics_off = vis.layout.icons.offset;
+    var ics_h = vis.layout.icons.height;
 
     vis.data.push({
       feature: feature
@@ -168,14 +180,14 @@ var TimelineView = Backbone.View.extend({
     var img = vis.svg
       .selectAll( 'image' );
 
-    var clas = 'timeline-icon';
+    var icon_url = this._get_icon_url(feature);
 
     img
       .data( vis.data )
       .enter()
     .append( 'image' )
-      .attr( 'class', clas )
-      .attr( 'xlink:href', props.icon.url )
+      .attr( 'class', opt.icon_class )
+      .attr( 'xlink:href', icon_url )
       .attr( 'width', props.icon.width )
       .attr( 'height', props.icon.height )
 
@@ -192,8 +204,8 @@ var TimelineView = Backbone.View.extend({
         var x = parseFloat(
           this.getAttribute('x') );
 
-        var _top = icon_off.top - icon_h;
-        var _bottom = icon_off.bottom;
+        var _top = ics_off.top - ics_h;
+        var _bottom = ics_off.bottom;
 
         img.each( function( d_img, i )
         {
@@ -211,8 +223,8 @@ var TimelineView = Backbone.View.extend({
           //ow /= 2;
           if ( x > ox-ow && x < ox+ow )
           {
-            _top -= icon_h;
-            _bottom += icon_h;
+            _top -= ics_h;
+            _bottom += ics_h;
           }
 
         });
@@ -221,92 +233,105 @@ var TimelineView = Backbone.View.extend({
         //return _bottom;
       })
 
+    this._update_bottom_top();
+    this._add_tooltips();
+    this._add_advocacy_timer();
 
-    /*
-     * update bottom/top
-     */
+  } 
 
-    self._top = icon_off.top - icon_h;
-    self._bottom = icon_off.bottom + icon_h;
+  ,_update_bottom_top: function()
+  {
+    var self = this;
+    var opt = this.options;
+    var vis = this.vis;
 
-    var $imgs = $('image.'+clas);
+    var ics_off = vis.layout.icons.offset;
+    var ics_h = vis.layout.icons.height;
+    var margin_y = vis.layout.margin.y;
 
-    _.each( $imgs, function( el )
-    {
-      var y = parseFloat( el.getAttribute('y') );
-      self._top = Math.min(
-        y - icon_h, self._top );
-      self._bottom = Math.max( 
-        y + icon_h, self._bottom );
-    });
+    this._top = ics_off.top - ics_h;
+    this._bottom = ics_off.bottom + ics_h;
 
-    var _top_offset = Math.abs( self._top );
+    _.each( 
+      $('image.'+opt.icon_class)
+      ,function( el )
+      {
+        var y = parseFloat(el.getAttribute('y'));
 
-    //var $clock = this.add_clock(); 
-    //if ( $clock ) 
-      //_top_offset += $clock.height();
+        self._top = Math.min(
+          y - ics_h - margin_y, self._top );
+
+        self._bottom = Math.max( 
+          y + ics_h + margin_y, self._bottom );
+      });
+
+    var _top_offset = Math.abs( this._top );
 
     vis.svg.attr( 'transform',
         'translate( 0, '+
           _top_offset+')')
+  }
 
-    /*
-     * add tooltip
-     */
+  ,_add_tooltips: function()
+  {
+    var opt = this.options;
+    var vis = this.vis;
 
-    _.each( $imgs, function( el )
-    {
-      var d = el.__data__;
-      var props = d.feature.get('properties');
+    _.each( 
+      $('image.'+opt.icon_class)
+      ,function( el )
+      {
+        var d = el.__data__;
+        var props = d.feature.get('properties');
 
-      var _date = vis.tipformat( 
-        new Date( d.date.iso ) );
+        var _date = vis.tipformat( 
+          new Date( d.date.iso ) );
 
-      $(el).qtip({
+        $(el).qtip({
 
-        position: { 
-          my: 'bottom right'
-          ,adjust: { 
-            x: -props.icon.width
-            ,y: -props.icon.height
+          position: { 
+            my: 'bottom right'
+            ,adjust: { 
+              x: -props.icon.width
+              ,y: -props.icon.height
+            }
+            //,target: 'mouse'
           }
-          //,target: 'mouse'
-        }
-        ,style: { 
-          classes: 'qtip-tipsy' 
-          //,tip: {
-            //corner: true
-          //}
-        }
+          ,style: { 
+            classes: 'qtip-tipsy' 
+            //,tip: {
+              //corner: true
+            //}
+          }
 
-        ,content: {
-          title: _date,
-          text: [
-            '<div style="'
-              ,'font-family: \'Helvetica Neue\', Helvetica, Arial, sans-serif;'
-              ,'font-size: 15px;'
-              ,'font-weight: 200;'
-              ,'padding: 10px;'
-            ,'">'
-            ,props.titulo
-            ,'</div>'
-          ]
-          .join('')
-        }
+          ,content: {
+            title: _date,
+            text: [
+              '<div style="'
+                ,'font-family: \'Helvetica Neue\', Helvetica, Arial, sans-serif;'
+                ,'font-size: 15px;'
+                ,'font-weight: 200;'
+                ,'padding: 10px;'
+              ,'">'
+              ,props.titulo
+              ,'</div>'
+            ]
+            .join('')
+          }
 
-        ,show: { 
-          effect: false
-          ,event: 'click mouseenter'
-          ,delay: 50
-        }   
+          ,show: { 
+            effect: false
+            ,event: 'click mouseenter'
+            ,delay: 50
+          }   
 
-        ,hide: { 
-          effect: false
-          ,delay: 50
-          ,fixed: true
-        }
+          ,hide: { 
+            effect: false
+            ,delay: 50
+            ,fixed: true
+          }
+        });
       });
-    });
 
     //.tipsy({ 
       //gravity: 's', 
@@ -329,27 +354,113 @@ var TimelineView = Backbone.View.extend({
       //}
     //});
 
-  } 
+  }
 
-  //,add_clock: function()
-  //{
-    //if ( this._$clock )
-      //return this._$clock;
+  ,_get_icon_url: function( feature )
+  {
+    var props = feature.get('properties');
 
-    //_.each( $('image.'+clas), function( el )
-    //{
-      //var d = el.__data__;
-      //var props = d.feature.get('properties');
+    if ( props.type !== 'acciones' )
+      return props.icon.url;
 
-      //var _advocacy = props.type === 'acciones' || props.type === 'respuestas';
-      //if ( !_advocacy )
-        //return false;
-    //});
-        
-    //var x = vis.xscale(
-      //new Date( props.date.iso ) );
+    // buscar la accion advocacy mas antigua
 
-  //}
+    var ini, oprops;
+
+    _.each( this.vis.data, function( d )
+    {
+      oprops = d.feature.get('properties');
+
+      if ( oprops.type !== 'acciones' ) 
+        return;
+
+      ini = ! ini ? d 
+        : ( new Date( ini.date.iso ).getTime() - new Date( d.date.iso ).getTime() > 0 ) ? d : ini;
+
+    });
+
+    // no hay acciones
+    if ( ! ini ) 
+      return props.icon.url;
+
+    // renderear el relos
+    return 'images/clock.png';
+
+  }
+
+  ,_add_advocacy_timer: function()
+  {
+    var self = this;
+    var opt = this.options;
+    var vis = this.vis;
+
+    var ini, end, props;
+
+    _.each( vis.data, function( d )
+    {
+      props = d.feature.get('properties');
+
+      if ( props.type === 'acciones' ) 
+      {
+        // buscar la accion mas antigua
+        ini = ! ini ? d 
+          : ( new Date(ini.date.iso).getTime() - new Date(d.date.iso).getTime() > 0 ) ? d : ini;
+      }
+
+      else if ( props.type === 'respuestas' ) 
+      {
+        // buscar la respuesta mas nueva
+        end = ! end ? d 
+          : ( new Date(end.date.iso).getTime() - new Date(d.date.iso).getTime() > 0 ) ? end : d;
+      }
+
+    });
+
+    // no hay acciones
+    if ( ! ini ) 
+      return;
+
+    // contador de tiempo
+
+    var tclas = 'timer-advocacy';
+
+    var _timer = vis.svg.select('.'+tclas);
+
+    if ( ! _timer[0][0] )
+    {
+      var $clock = $( _.find( 
+        $('image.'+opt.icon_class)
+        ,function( el ) 
+        { 
+          return $(el)
+            .attr('href') === 'images/clock.png';
+        }));
+
+      var _x = $clock.attr('x');
+      var _y = self._top;
+      //var _y = $clock.attr('y');
+
+      _timer = vis.svg.append('text')
+        .attr( 'x', _x )
+        .attr( 'y', _y )
+        .attr('class', tclas );
+
+    }
+
+    var ini_date = new Date( ini.date.iso );
+    var end_date = end 
+      ? new Date( end.date.iso )
+      : new Date();
+
+    //var dif = Math.abs( ini_date.getTime() - end_date.getTime() );
+    var dif = d3.time.days( ini_date, end_date ).length;
+
+    _timer.text( dif + ' días ' 
+        + ( end 
+          ? 'hasta la respuesta'
+          : 'sin respuesta' ) );
+
+  }
 
   ,bottom: function()
   {

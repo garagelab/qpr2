@@ -375,7 +375,7 @@ return {
   ] //end of map_styles
 
   //darktheme
-  //map_styles: [
+  //,map_styles: [
     //{
       //"featureType": "landscape",
       //"stylers": [

@@ -9,14 +9,18 @@
 .feature-preview
 {
   height: 500px;  
-  padding-top: 20px;
+  //padding-top: 20px;
+  padding: 18px 12px;
   //bottom: $timeline_bottom;
   width: $sidebar_r_w;
-  //background-color: rgba(255,255,255,0.8);
-  //background-color: rgba(0,0,0, 0.1);
   position: absolute;
   right: 0px;
-  //border-left: 1px solid lightgrey;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+  border: 1px solid #eee;
+  -webkit-border-radius: 8px 0px 0px 8px;
+  border-radius: 8px 0px 0px 8px;
 }
 
 .feature-preview .titulo

@@ -32,6 +32,14 @@ var HistoriaView = Backbone.View.extend({
     this.listenTo( this.collection,
       'add', this.feature_historia_added, this );
 
+    //this.listenTo( this.collection,
+      //'parse:complete', 
+      //function()
+      //{
+        //this.timeline.add_clock();
+      //}
+      //, this );
+
     // init win resize event
     // to update descripcion loc y
     var timer = 0, delay = 1200;
@@ -63,7 +71,7 @@ var HistoriaView = Backbone.View.extend({
     var date = feature_historia.get('date');
     //var date = feature.get('properties').date;
 
-    this.timeline.add( feature, date );
+    this.timeline.add_feature( feature, date );
 
     this.update_bottom();
   }
@@ -175,6 +183,7 @@ var HistoriaView = Backbone.View.extend({
   {
     $(window).off('resize', this.on_win_resize);
     this.timeline.dispose();
+    //remove calls stopListening
     this.remove();
     this.trigger('close');
   }

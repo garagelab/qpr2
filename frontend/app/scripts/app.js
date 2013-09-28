@@ -108,7 +108,7 @@ var App = function()
 
     layer.on( 
       'parse:complete'
-      ,function( v )
+      ,function()
       {
         init_fetch_complete();
       });
@@ -231,16 +231,19 @@ var App = function()
         : FeatureDetalleCtrler;
 
     cur_detalle = new DetalleCtrler({
-      layers: layers
+      el: $('body')
+      ,layers: layers
       ,feature: feature
       ,mapview: mapview
       ,config: _config 
-    }); 
+    });   
 
-    cur_detalle.on( 'close', 
+    cur_detalle.on( 
+      'close', 
       function()
       {
         cur_detalle.off();
+        cur_detalle.stopListening();
         cur_detalle = null;
 
         if ( feature_abm )
@@ -272,11 +275,11 @@ var App = function()
       });
 
       feature_abm.on( 'select:historia', 
-      function( e )
-      {
-        add_detalle( 
-          e.feature_historia, mapview );
-      });
+        function( e )
+        {
+          add_detalle( 
+            e.feature_historia, mapview );
+        });
 
     }
 

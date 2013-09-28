@@ -84,10 +84,9 @@ function( data, sync_opt )
       continue;
       //return; 
 
-    // un layer es una collection
-    // de feature/models
-    // => podemos hacer get() x id
-    // del link model
+    // layer collection de feature/models
+    // => podemos hacer get() x id del 
+    // link feature
     link_feature = layer_coll.get(link.link_id);
 
     //console.log( '\t feature', link_feature );
@@ -96,19 +95,21 @@ function( data, sync_opt )
       continue;
       //return; 
 
-    //this.trigger('add:feature', link_feature); 
+    //this.trigger('add:feature',link_feature); 
 
     date = link.fecha;
 
     this.trigger('add:feature_historia',
-        new FeatureHistoria({
-          feature: link_feature
-          ,date: {
-            iso: format.parse(date).toISOString()
-            ,src: date
-          }
-        }) ); 
+      new FeatureHistoria({
+        feature: link_feature
+        ,date: {
+          iso: format.parse(date).toISOString()
+          ,src: date
+        }
+      }) ); 
   }
+
+  this.trigger( 'complete' );
 
 };
 

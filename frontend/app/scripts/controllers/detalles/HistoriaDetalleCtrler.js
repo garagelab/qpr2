@@ -19,6 +19,8 @@ var HistoriaDetalleCtrler = function( opt )
 {
   _.extend( this, Backbone.Events );
 
+  var self = this;
+
   var feature = opt.feature;
   var layers = opt.layers;
   var mapview = opt.mapview;
@@ -36,6 +38,20 @@ var HistoriaDetalleCtrler = function( opt )
     collection: collection
     ,feature: feature
   }); 
+
+  collection.on(
+    'parse:complete'
+    ,function()
+    {
+      self.trigger('parse:complete');
+    });
+
+  collection.on(
+    'add'
+    ,function( feature_historia )
+    {
+      self.trigger('add:feature_historia', feature_historia );
+    });
 
   var extra_markers = [];
 
@@ -78,7 +94,7 @@ var HistoriaDetalleCtrler = function( opt )
 
   });
 
-  $('body').append( view.render().el );
+  $(opt.el).append( view.render().el );
 
   collection.fetch();
 
@@ -95,8 +111,7 @@ var HistoriaDetalleCtrler = function( opt )
     mapview = null;
 
     view.off();
-    collection.off();
-    collection.stopListening();
+    collection.dispose();
   }
 
   this.close = function()
@@ -154,13 +169,7 @@ function( opt )
     parser, 
     'add:feature_historia', 
     collection.add,
-    collection );
-
-  //var model = new FT.Historia([], {
-    //ftid
-    //,feature: feature
-    //,layers: layers
-  //});
+    collection ); 
 
   return collection;
 };

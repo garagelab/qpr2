@@ -110,8 +110,7 @@ var LayerCtrler = function( opt, mapview )
   this.dispose = function()
   {
     // TODO dispose overlays
-    collection.off();
-    collection.stopListening();
+    collection.dispose();
     ctrl_view.off();
     ctrl_view.remove();
     this.off();
@@ -161,14 +160,6 @@ function( name, opt )
     ,collection.add
     ,collection );
 
-  collection.listenTo( 
-    parser
-    ,'complete'
-    ,function()
-    {
-      collection.trigger('parse:complete');
-    });
-
   return collection;
 }
 
@@ -203,14 +194,6 @@ function( name, opt )
     ,'add:feature'
     ,collection.add
     ,collection );
-
-  collection.listenTo( 
-    parser
-    ,'complete'
-    ,function()
-    {
-      collection.trigger('parse:complete');
-    });
 
   return collection;
 } 
