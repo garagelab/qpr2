@@ -180,21 +180,29 @@ var TimelineView = Backbone.View.extend({
     var img = vis.svg
       .selectAll( 'image' );
 
-    var icon_url = this._get_icon_url(feature);
+    //var icon_url = this._get_icon_url(feature);
+    var icon_url = props.icon.url;
 
     img
       .data( vis.data )
       .enter()
+
     .append( 'image' )
+
       .attr( 'class', opt.icon_class )
+      .attr( 'id', function( d ) 
+      {
+        //var props=d.feature.get('properties');
+        var id = d.feature.get('id');
+        return 'timeline-icon-' + id;
+      })
+
       .attr( 'xlink:href', icon_url )
       .attr( 'width', props.icon.width )
       .attr( 'height', props.icon.height )
 
       .attr( 'x', function( d ) 
       { 
-        //var props = d.feature
-          //.get('properties');
         return vis.xscale( 
           new Date( date.iso ) );
       })
@@ -235,9 +243,21 @@ var TimelineView = Backbone.View.extend({
 
     this._update_bottom_top();
     this._add_tooltips();
-    this._add_advocacy_timer();
+    //this._add_advocacy_timer();
 
   } 
+
+  ,add_clock: function()
+  {
+    var ini = this._get_advocacy_ini();
+    if ( ! ini )
+      return;
+    var f = ini.feature.clone();
+    f.get('properties')
+      .icon.url = 'images/clock.png';
+    this.add_feature( f, ini.date );
+    this._add_advocacy_timer();
+  }
 
   ,_update_bottom_top: function()
   {
@@ -356,37 +376,20 @@ var TimelineView = Backbone.View.extend({
 
   }
 
-  ,_get_icon_url: function( feature )
-  {
-    var props = feature.get('properties');
+  //,_get_icon_url: function( feature )
+  //{
+    //var props = feature.get('properties');
 
-    if ( props.type !== 'acciones' )
-      return props.icon.url;
+    //if ( props.type !== 'acciones' )
+      //return props.icon.url;
 
-    // buscar la accion advocacy mas antigua
+    //// no hay acciones
+    //if ( ! this._get_advocacy_ini() ) 
+      //return props.icon.url;
 
-    var ini, oprops;
-
-    _.each( this.vis.data, function( d )
-    {
-      oprops = d.feature.get('properties');
-
-      if ( oprops.type !== 'acciones' ) 
-        return;
-
-      ini = ! ini ? d 
-        : ( new Date( ini.date.iso ).getTime() - new Date( d.date.iso ).getTime() > 0 ) ? d : ini;
-
-    });
-
-    // no hay acciones
-    if ( ! ini ) 
-      return props.icon.url;
-
-    // renderear el relos
-    return 'images/clock.png';
-
-  }
+    //// renderear el relos
+    //return 'images/clock.png';
+  //} 
 
   ,_add_advocacy_timer: function()
   {
@@ -394,27 +397,8 @@ var TimelineView = Backbone.View.extend({
     var opt = this.options;
     var vis = this.vis;
 
-    var ini, end, props;
-
-    _.each( vis.data, function( d )
-    {
-      props = d.feature.get('properties');
-
-      if ( props.type === 'acciones' ) 
-      {
-        // buscar la accion mas antigua
-        ini = ! ini ? d 
-          : ( new Date(ini.date.iso).getTime() - new Date(d.date.iso).getTime() > 0 ) ? d : ini;
-      }
-
-      else if ( props.type === 'respuestas' ) 
-      {
-        // buscar la respuesta mas nueva
-        end = ! end ? d 
-          : ( new Date(end.date.iso).getTime() - new Date(d.date.iso).getTime() > 0 ) ? end : d;
-      }
-
-    });
+    var ini = this._get_advocacy_ini();
+    var end = this._get_advocacy_end();
 
     // no hay acciones
     if ( ! ini ) 
@@ -422,44 +406,111 @@ var TimelineView = Backbone.View.extend({
 
     // contador de tiempo
 
+    var $clock = $( _.find( 
+      $('image.'+opt.icon_class)
+      ,function( el ) 
+      { 
+        return $(el)
+          .attr('href') === 'images/clock.png';
+      }));
+
+    //var $clock = $([
+        //'image'
+        //,'.'
+        //,opt.icon_class
+        //,'#'
+        //,'timeline-icon-'
+        //,ini.feature.get('id')
+      //]
+      //.join('') );
+
+    if ( $clock.length === 0 )
+    {
+      console.warn('timeline add advocacy timer, no hay $clock para agregar el tiempo');
+      return;
+    }
+
     var tclas = 'timer-advocacy';
 
     var _timer = vis.svg.select('.'+tclas);
 
     if ( ! _timer[0][0] )
     {
-      var $clock = $( _.find( 
-        $('image.'+opt.icon_class)
-        ,function( el ) 
-        { 
-          return $(el)
-            .attr('href') === 'images/clock.png';
-        }));
-
-      var _x = $clock.attr('x');
-      var _y = self._top;
-      //var _y = $clock.attr('y');
-
-      _timer = vis.svg.append('text')
-        .attr( 'x', _x )
-        .attr( 'y', _y )
+      _timer = vis.svg
+        .append('text')
         .attr('class', tclas );
-
     }
+
+    // set x,y 
+
+    var _x = $clock.attr('x');
+    var _y = self._top;
+    //var _y = $clock.attr('y');
+
+    _timer
+      .attr( 'x', _x )
+      .attr( 'y', _y );
+
+    // set time
 
     var ini_date = new Date( ini.date.iso );
     var end_date = end 
       ? new Date( end.date.iso )
       : new Date();
 
-    //var dif = Math.abs( ini_date.getTime() - end_date.getTime() );
-    var dif = d3.time.days( ini_date, end_date ).length;
+    //var delay = Math.abs( 
+      //ini_date.getTime() - end_date.getTime());
+    var delay = d3.time.days( 
+        ini_date, end_date ).length;
 
-    _timer.text( dif + ' días ' 
+    _timer.text( delay 
+        + ' días ' 
         + ( end 
           ? 'hasta la respuesta'
           : 'sin respuesta' ) );
 
+  }
+
+  ,_get_advocacy_ini: function()
+  {
+    // buscar la accion advocacy mas antigua
+
+    var ini, props;
+
+    _.each( this.vis.data, function( d )
+    {
+      props = d.feature.get('properties');
+
+      if ( props.type !== 'acciones' ) 
+        return;
+
+      ini = ! ini ? d 
+        : ( new Date( ini.date.iso ).getTime() - new Date( d.date.iso ).getTime() > 0 ) ? d : ini;
+
+    });
+
+    return ini;
+  }
+
+  ,_get_advocacy_end: function()
+  {
+    // buscar la respuesta mas nueva
+
+    var end, props;
+
+    _.each( this.vis.data, function( d )
+    {
+      props = d.feature.get('properties');
+
+      if ( props.type !== 'respuestas' ) 
+        return;
+
+      end = ! end ? d 
+          : ( new Date(end.date.iso).getTime() - new Date(d.date.iso).getTime() > 0 ) ? end : d;
+
+    });
+
+    return end;
   }
 
   ,bottom: function()

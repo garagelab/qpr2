@@ -32,13 +32,13 @@ var HistoriaView = Backbone.View.extend({
     this.listenTo( this.collection,
       'add', this.feature_historia_added, this );
 
-    //this.listenTo( this.collection,
-      //'parse:complete', 
-      //function()
-      //{
-        //this.timeline.add_clock();
-      //}
-      //, this );
+    this.listenTo( this.collection,
+      'parse:complete', 
+      function()
+      {
+        this.timeline.add_clock();
+      }
+      , this );
 
     // init win resize event
     // to update descripcion loc y
