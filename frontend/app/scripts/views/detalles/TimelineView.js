@@ -194,7 +194,7 @@ var TimelineView = Backbone.View.extend({
       {
         //var props=d.feature.get('properties');
         var id = d.feature.get('id');
-        return 'timeline-icon-' + id;
+        return opt.icon_class + '-' + id;
       })
 
       .attr( 'xlink:href', icon_url )
@@ -252,9 +252,14 @@ var TimelineView = Backbone.View.extend({
     var ini = this._get_advocacy_ini();
     if ( ! ini )
       return;
+
     var f = ini.feature.clone();
-    f.get('properties')
-      .icon.url = 'images/clock.png';
+
+    var props = f.get('properties');
+    props.icon = _.defaults({
+      url: 'images/clock.png'
+    }, props.icon );
+
     this.add_feature( f, ini.date );
     this._add_advocacy_timer();
   }
@@ -419,7 +424,7 @@ var TimelineView = Backbone.View.extend({
         //,'.'
         //,opt.icon_class
         //,'#'
-        //,'timeline-icon-'
+        //,opt.icon_class+'-'
         //,ini.feature.get('id')
       //]
       //.join('') );

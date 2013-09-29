@@ -23,100 +23,20 @@ var UI = function( opt )
   _.extend( this, Backbone.Events );
 
   var $win = $(window);
-  var $layers = $('.layers');
-  var $widgets = $('.widgets');
-  var $search = $('.search');
- 
-  var layer_ctrls = { grupos: [
 
-  {
-    name: 'monitoreo'
-    ,title: 'Monitoreo Social'
-    ,layers: [
-      {
-        name: 'enviar-alerta'
-        ,title: 'Enviá tu Alerta'
-      }
-      ,{
-        name: 'alertas'
-        ,title: 'Alertas'
-        ,icon_url: 'images/markers/alerta.png'
-        ,fuente: 'Crowdmap'
-      }
-      ,{
-        name: 'historias'
-        ,title: 'Historias'
-        ,icon_url: 'images/markers/historia.png'
-        ,fuente: 'FARN'
-      }
-      ,{
-        name: 'acciones'
-        ,title: 'Acciones'
-        ,icon_url: 'images/markers/accion.png'
-        ,fuente: 'FARN'
-      }
-      ,{
-        name: 'respuestas'
-        ,title: 'Respuestas'
-        ,icon_url:'images/markers/respuesta.png'
-        ,fuente: 'FARN'
-      } 
-      ,{
-        name: 'documentos'
-        ,title: 'Documentos'
-        ,icon_url:'images/markers/documento.png'
-        ,fuente: 'FARN'
-      }
-      ,{
-        name: 'noticias'
-        ,title: 'Noticias'
-        ,icon_url: 'images/markers/noticia.png'
-        ,fuente: 'FOPEA'
-      }
-    ]
-  }
+  var $layers=$('<div class="layers sidebar"/>');
+  var $widgets = $('<div class="widgets"/>');
+  var $search = $('<div class="search"/>');
 
-  ,{
-    name: 'datos-publicos'
-    ,title: 'Datos Públicos'
-    ,layers: [
-      {
-        name: 'industrias'
-        ,title: 'Industrias'
-        ,icon_url:'images/markers/industria.png'
-        ,fuente: 'ACUMAR csv'
-      }
-      ,{
-        name: 'basurales'
-        ,title: 'Basurales'
-        ,icon_url: 'images/markers/basural.png'
-        ,fuente: 'ACUMAR pdf kml'
-      }
-      ,{
-        name: 'asentamientos'
-        ,title: 'Asentamientos'
-        ,icon_url:'images/markers/asentamiento.png'
-        ,fuente: 'TECHO fusiontables'
-      }
-      ,{
-        name: 'ecopuntos'
-        ,title: 'Ecopuntos'
-        ,icon_url: 'images/markers/ecopunto.png'
-        ,fuente: 'ACUMAR kml'
-      }
-      ,{
-        name: 'subcuencas'
-        ,title: 'Subcuencas'
-        ,icon_url: 'images/markers/arroyo.png'
-        ,fuente: 'ACUMAR kml'
-      }
-    ]
-  }
+  $(opt.el)
+    .append( $layers )
+    .append( $widgets )
+    .append( $search )
 
-  ]}; //end of layer_ctrls.grupos
+  var layer_controls = config.layer_controls;
 
   _.each( 
-    layer_ctrls.grupos
+    layer_controls.grupos
     ,function( grupo )
     {
       grupo.layers = _.map( 
@@ -144,7 +64,7 @@ var UI = function( opt )
 
 
   $layers.append( 
-    _.template( tpl_layer_ctrls )(layer_ctrls)
+    _.template( tpl_layer_ctrls )(layer_controls)
   );
 
   $widgets.append( 

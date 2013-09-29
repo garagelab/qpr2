@@ -255,7 +255,7 @@ return {
           ,width: marker_size
         }
         ,color: "#5F9EA0"
-        ,visible: true
+        //,visible: true
       }
     }
 
@@ -278,11 +278,101 @@ return {
           ,width: marker_size
         }
         ,color: "#5F9EA0"
-        ,visible: true
+        //,visible: true
       }
     }
 
   ] //end of layers
+
+  ,layer_controls: { 
+
+    grupos: [
+
+    {
+      name: 'monitoreo'
+      ,title: 'Monitoreo Social'
+      ,layers: [
+        {
+          name: 'enviar-alerta'
+          ,title: 'Enviá tu Alerta'
+        }
+        ,{
+          name: 'alertas'
+          ,title: 'Alertas'
+          ,icon_url: 'images/markers/alerta.png'
+          ,fuente: 'Crowdmap'
+        }
+        ,{
+          name: 'historias'
+          ,title: 'Historias'
+          ,icon_url: 'images/markers/historia.png'
+          ,fuente: 'FARN'
+        }
+        ,{
+          name: 'acciones'
+          ,title: 'Acciones'
+          ,icon_url: 'images/markers/accion.png'
+          ,fuente: 'FARN'
+        }
+        ,{
+          name: 'respuestas'
+          ,title: 'Respuestas'
+          ,icon_url:'images/markers/respuesta.png'
+          ,fuente: 'FARN'
+        } 
+        //,{
+          //name: 'documentos'
+          //,title: 'Documentos'
+          //,icon_url:'images/markers/documento.png'
+          //,fuente: 'FARN'
+        //}
+        ,{
+          name: 'noticias'
+          ,title: 'Noticias'
+          ,icon_url: 'images/markers/noticia.png'
+          ,fuente: 'FOPEA'
+        }
+      ]
+    }
+
+    ,{
+      name: 'datos-publicos'
+      ,title: 'Datos Públicos'
+      ,layers: [
+        {
+          name: 'industrias'
+          ,title: 'Industrias'
+          ,icon_url:'images/markers/industria.png'
+          ,fuente: 'ACUMAR csv'
+        }
+        ,{
+          name: 'basurales'
+          ,title: 'Basurales'
+          ,icon_url: 'images/markers/basural.png'
+          ,fuente: 'ACUMAR pdf kml'
+        }
+        ,{
+          name: 'asentamientos'
+          ,title: 'Asentamientos'
+          ,icon_url:'images/markers/asentamiento.png'
+          ,fuente: 'TECHO fusiontables'
+        }
+        ,{
+          name: 'ecopuntos'
+          ,title: 'Ecopuntos'
+          ,icon_url: 'images/markers/ecopunto.png'
+          ,fuente: 'ACUMAR kml'
+        }
+        ,{
+          name: 'subcuencas'
+          ,title: 'Subcuencas'
+          ,icon_url: 'images/markers/arroyo.png'
+          ,fuente: 'ACUMAR kml'
+        }
+      ]
+    }
+
+  ]} //end of layer_controls.grupos
 
   ,map_styles: [
 

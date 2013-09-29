@@ -323,18 +323,17 @@ var App = function()
           .html();
       }); 
 
-    var ctrl = new LayerControlView({
-      name: name
-      ,el: '.layer.'+name
-      ,visible: false
-    });
+    new LayerControlView({
+        name: name
+        ,el: '.layer.'+name
+        ,visible: false
+      })
 
-    ctrl.on(
-      'change:visibility',
-      function( v )
-      {
-        layer.setMap( v ? _gmap : null);
-      });
+      .on( 'change:visibility'
+        ,function( v )
+        {
+          layer.setMap( v ? _gmap : null);
+        });
   }
 
   // init
@@ -357,22 +356,34 @@ var App = function()
   cuencaview.render();
 
   ui = new UI({
-    mapview: mapview
-  });
-
-  ui.on('select:feature', function( feature )
-  {
-    add_detalle( feature, mapview );
-  });
+      el: $('body')
+      ,mapview: mapview
+    })
+    .on('select:feature', function( feature )
+    {
+      add_detalle( feature, mapview );
+    });
 
   layers = make_layers(config.layers, mapview); 
 
-  router = new Router( layers );
+  router = new Router()
 
-  router.on('route:ready', function( feature )
-  {
-    add_detalle( feature, mapview );
-  });
+    .on('route:ready', function( feature )
+    {
+      add_detalle( feature, mapview );
+    })
+
+    .on('route:info', function( pagina )
+    {
+      console.log('info',pagina)
+    })
+
+    .on('route:tabla', function(layer_name)
+    {
+      console.log('tabla',layer_name)
+    })
+    
+    .init( layers );
 
   make_gsubcuencas_layer(
     mapview.map() );
@@ -382,18 +393,17 @@ var App = function()
   stats = new Stats();
 
   stats_layer = new StatsLayerCtrler({
-    el: $('.container .content')
-  });
-
-  stats_intro = new StatsIntroCtrler({
     el: $('body')
   });
 
-  stats_intro.on('close', function()
-  {
-    stats_intro.off();
-    stats_intro = null;
-  });
+  stats_intro = new StatsIntroCtrler({
+      el: $('body')
+    })
+    .on('close', function()
+    {
+      stats_intro.off();
+      stats_intro = null;
+    });
 
 
   update_clusters_size( layers, mapview );
@@ -438,7 +448,8 @@ var App = function()
   //});
 
   window.layers = layers;
-  window.stats = stats;
+  //window.router = router;
+  //window.stats = stats;
   //window.map = mapview.map();
   //window.config = config;
   //window.utils = utils;

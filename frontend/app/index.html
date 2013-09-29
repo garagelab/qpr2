@@ -38,12 +38,15 @@
       <a href="#" class="pure-menu-heading goto-origin">Qué Pasa, Riachuelo?</a>
       <ul>
         <!--<li class="pure-menu-selected"><a href="#">selected....</a></li>-->
-        <li><a href="#">El Proyecto</a></li>
-        <li><a href="#">Datos Abiertos</a></li>
-        <li><a href="#">Cómo visualizar QPR</a></li>
+        <li><a href="#proyecto">El Proyecto</a></li>
+        <li><a href="#datos_abiertos">Datos Abiertos</a></li>
+        <li><a href="#como_visualizar">Cómo visualizar QPR</a></li>
 
-        <!--<li class="layer documentos" style="cursor:pointer;background-color:rgba(0, 0, 0, 0);"><a>Documentos</a></li>-->
-        <li class="layer normativas" style="cursor:pointer;background-color:rgba(0, 0, 0, 0);"><a>Normativas</a></li>
+        <!--poner class layer -->
+        <!--para que togglee los layers-->
+        <li class="documentos" style="cursor:pointer;background-color:rgba(0, 0, 0, 0);"><a href="#tabla/documentos">Documentos</a></li>
+
+        <li class="normativas" style="cursor:pointer;background-color:rgba(0, 0, 0, 0);"><a href="#tabla/normativas">Normativas</a></li>
 
         <!--<li id="login"><a href="#"></a>-->
           <!--<i class="icon-user"></i>-->
@@ -69,20 +72,11 @@
 
     </div>         
 
-    <div class="content">
-
-      <div id="map"></div>
-
-      <div class="layers sidebar"></div>
-
-      <div class="search"></div>
-      <div class="widgets"></div>
-
-      <i class="icon-screenshot icon goto-origin"></i>
-
-    </div>   
+    <div id="map"></div>
+    <i class="icon-screenshot icon goto-origin"></i>
 
     <div id="footer" class="pure-menu pure-menu-open pure-menu-horizontal">
+      <img src="images/monitoreo-social.png">
       <img src="images/farn.png">
       <img src="images/fund-ciudad.png">
       <img src="images/fopea.png">

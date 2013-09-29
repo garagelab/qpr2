@@ -12,25 +12,42 @@ function(
 
 'use strict';
 
-var Router = function( layers )
+var Router = function()
 {
   _.extend( this, Backbone.Events );
+}
+
+Router.prototype.init = function( layers )
+{
 
   var self = this;
 
-  // entity/:id >> entity: function(id)
-  var _Router = Backbone.Router.extend(
+  var info = [
+    'proyecto'
+    ,'datos_abiertos'
+    ,'como_visualizar'
+  ];
 
-    _.extend({
-      routes: _.object( _.map( 
-        _.keys( layers )
-        ,function( name )
-        {
-          return [ name + '/:id', name ];
-        } ) )
-    }
+  var routes = {};
 
-    ,_.object( _.map( 
+  _.extend( routes, 
+    _.object( _.map( 
+      _.keys( layers )
+      ,function( name )
+      {
+        return [ name + '/:id', name ];
+      } ) ) );
+
+  _.extend( routes, 
+      _.object(info,info) );
+
+  _.extend( routes, {'tabla/:layer': 'tabla'} );
+
+
+  var fns = {};
+
+  _.extend( fns,
+    _.object( _.map( 
       _.keys( layers )
       ,function( name )
       {
@@ -38,8 +55,33 @@ var Router = function( layers )
         {
           route_on({ name:name, id:id });
         }];
-      } ) )
-    ) 
+      } ) ) );
+
+  _.extend( fns, 
+    _.object( _.map( 
+      info
+      ,function( pag )
+      {
+        return [ pag, function()
+        {
+          self.trigger('route:info', pag);
+        }];
+      } ) ) );
+
+  _.extend( fns, {
+    'tabla': function( layer_name )
+    {
+      self.trigger('route:tabla', layer_name);
+    }
+  });
+
+
+  // entity/:id >> entity: function(id)
+  var _Router = Backbone.Router.extend(
+    _.extend({
+      routes: routes 
+    }
+    , fns )
   );
 
   var _router = new _Router();
