@@ -1,0 +1,16 @@
+@import 'vars';
+
+.info
+{
+  position: absolute;
+  //left: $sidebar_l_w;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+}
+
+.info .info-contenido
+{
+  padding: 20px;
+}
+

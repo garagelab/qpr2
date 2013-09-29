@@ -17,6 +17,7 @@ define( [
     ,'views/gmaps/gcuenca_view'
     ,'views/ui/LayerControlView'
     ,'views/ui/LayerColors'
+    ,'views/info/InfoView'
     //controllers
     ,'controllers/LayerCtrler'
     ,'controllers/stats/StatsLayerCtrler'
@@ -41,6 +42,7 @@ function(
 
   ,LayerControlView 
   ,LayerColors 
+  ,InfoView
 
   ,LayerCtrler
   ,StatsLayerCtrler
@@ -58,11 +60,14 @@ var App = function()
 { 
 
   var router;
+  var infoview;
   var user, ui;
   var layers;
   var stats, stats_layer, stats_intro;
   var mapview, cuencaview;
   var cur_detalle;
+
+  var $main = $('body');
 
   function make_layers( layers_cfg, mapview ) 
   {  
@@ -231,7 +236,7 @@ var App = function()
         : FeatureDetalleCtrler;
 
     cur_detalle = new DetalleCtrler({
-      el: $('body')
+      el: $main
       ,layers: layers
       ,feature: feature
       ,mapview: mapview
@@ -356,7 +361,7 @@ var App = function()
   cuencaview.render();
 
   ui = new UI({
-      el: $('body')
+      el: $main
       ,mapview: mapview
     })
     .on('select:feature', function( feature )
@@ -366,8 +371,8 @@ var App = function()
 
   layers = make_layers(config.layers, mapview); 
 
-  router = new Router()
-
+  router = new Router();
+  router
     .on('route:ready', function( feature )
     {
       add_detalle( feature, mapview );
@@ -375,7 +380,22 @@ var App = function()
 
     .on('route:info', function( pagina )
     {
-      console.log('info',pagina)
+      if ( infoview )
+        infoview.close();
+
+      infoview = new InfoView({
+          info: pagina
+          ,className: 'info '+pagina
+        })
+        .on('close'
+          ,function()
+          {
+            infoview = null;
+            router.navigate();
+          })
+        .render();
+
+      infoview.$el.appendTo( $main );
     })
 
     .on('route:tabla', function(layer_name)
@@ -393,11 +413,11 @@ var App = function()
   stats = new Stats();
 
   stats_layer = new StatsLayerCtrler({
-    el: $('body')
+    el: $main
   });
 
   stats_intro = new StatsIntroCtrler({
-      el: $('body')
+      el: $main
     })
     .on('close', function()
     {
