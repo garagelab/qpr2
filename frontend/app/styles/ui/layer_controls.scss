@@ -11,9 +11,16 @@ $layer_ctrl_icon_top: 3px;
 
 .layers .grupo-title
 {
+  cursor: default;
   //font-size: 15px;
   font-weight: 600;
   line-height: 30px;
+}
+
+.layers .grupo-title .toggle
+{
+  cursor: pointer;
+  float: right;
 }
 
 .layers .layer 

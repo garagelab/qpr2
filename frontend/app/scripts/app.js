@@ -393,7 +393,8 @@ var App = function()
         ,visible: false
       })
 
-      .on( 'change:visibility'
+      .on( 
+        'change:visibility'
         ,function( v )
         {
           layer.setMap( v ? _gmap : null);
@@ -423,10 +424,29 @@ var App = function()
       el: $main
       ,mapview: mapview
     })
-    .on('select:feature', function( feature )
-    {
-      add_detalle( feature, mapview );
-    });
+    .on(
+      'select:feature'
+      ,function( feature )
+      {
+        add_detalle( feature, mapview );
+      })
+    .on(
+      'change:visibility:layers'
+      ,function( layer_names, visible )
+      {
+        var glayers = _.filter( 
+          _.values( layers )
+          ,function( layer ) 
+          {
+            return _.contains( 
+              layer_names, layer.name() );
+          });
+
+        _.each( glayers, function( layer ) 
+        {
+          layer.visible( visible );
+        });
+      });
 
   layers = make_layers(config.layers, mapview); 
 

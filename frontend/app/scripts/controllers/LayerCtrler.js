@@ -56,7 +56,7 @@ var LayerCtrler = function( opt, mapview )
       .make( name, opt.model );
  
   var overlays = layer_factory.overlays
-    .make( name, opt.view, collection, mapview); 
+    .make(name, opt.view, collection, mapview); 
 
   collection.on(
     'parse:complete'
@@ -94,22 +94,32 @@ var LayerCtrler = function( opt, mapview )
     'change:visibility',
     function( v )
     {
-      _.each( overlays, function( ol )
-      {
-        ol.visible( v );
-      });
-
-      self.trigger( 'change:visibility', v );
+      _visible( v );
     });
 
-    
+  function _visible( v )
+  {
+    _.each( overlays, function( ol )
+    {
+      ol.visible( v );
+    });
+
+    self.trigger( 'change:visibility', v );
+  }
+
   // TODO hacer getters
   // model == collection ?? ;)
   this.model = collection;
   this.view = { overlays: overlays };
 
   this.name = function() { return name; }
-  this.parsed = function() { return _parsed; }
+  this.parsed = function() { return _parsed; } 
+
+  this.visible = function( v )
+  {
+    ctrl_view.visible( v );
+    _visible( v );
+  }
 
   this.dispose = function()
   {

@@ -22,9 +22,11 @@ var UI = function( opt )
 {
   _.extend( this, Backbone.Events );
 
+  var self = this;
+
   var $win = $(window);
 
-  var $layers=$('<div class="layers sidebar"/>');
+  var $layers = $('<div class="layers sidebar"/>');
   var $widgets = $('<div class="widgets"/>');
   var $search = $('<div class="search"/>');
 
@@ -64,12 +66,48 @@ var UI = function( opt )
 
 
   $layers.append( 
-    _.template( tpl_layer_ctrls )(layer_controls)
+    _.template(tpl_layer_ctrls)(layer_controls)
   );
 
   $widgets.append( 
     _.template( tpl_widgets ) 
-  ); 
+  );  
+
+  $layers.find('.toggle').click( function(e)
+  {
+
+    var gname = _.find( 
+      $( e.currentTarget )
+        .attr('class').split(' ')
+      ,function(cl)
+      {
+        return cl.indexOf('grupo') > -1;
+      })
+      .split('-');
+
+    gname = gname
+      .slice( 1, gname.length )
+      .join('-');
+
+    var visible = $( e.target )
+        .attr('class')
+        .indexOf('expand') > -1;
+
+    var glayernames = 
+      _.pluck( 
+        _.find(
+          layer_controls.grupos,
+          function( grupo )
+          {
+            return grupo.name === gname;
+          })
+        .layers
+        , 'name' );
+
+    self.trigger(
+        'change:visibility:layers'
+        , glayernames, visible );
+  });
  
 
   $('.goto-origin').click( function(e)
@@ -161,6 +199,7 @@ var UI = function( opt )
   on_win_resize();
 
   $win.on('resize', on_win_resize); 
+ 
 
   // public
 
@@ -202,8 +241,6 @@ var UI = function( opt )
     //});
   //}
   //google.setOnLoadCallback( _init_feeds );
-
-
 
 };
 
