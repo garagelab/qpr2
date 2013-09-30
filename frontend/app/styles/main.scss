@@ -1,4 +1,10 @@
+
 @import 'lib/selectize';
+@import 'lib/pure-min';
+@import 'lib/jquery.qtip';
+@import 'lib/jquery.tipsy';
+@import 'lib/jquery.dataTables';
+
 @import 'vars';
 @import 'zindices';
 @import 'scrollbar';
@@ -20,6 +26,7 @@
 @import 'eventos';
 @import 'infowin';
 @import 'info';
+@import 'tabla';
 
 body 
 {

@@ -68,6 +68,8 @@ require.config({
       deps: [ 'jquery','sifter','microplugin' ]
     }
 
+    ,datatables: ['jquery']
+
   },
 
   paths: {
@@ -85,8 +87,8 @@ require.config({
     //,leaflet_google: '../lib/leaflet/Google'
 
     ,d3: '../bower_components/d3/d3'
-    ,parseuri: '../lib/parseuri'
     ,chroma: '../lib/chroma.min'
+    //,parseuri: '../lib/parseuri'
     //,architect: '../lib/architect/architect.min'
 
     ,'eventEmitter/EventEmitter': '../lib/eventemitter'
@@ -95,11 +97,14 @@ require.config({
     ,qtip2: '../lib/jquery.qtip.min'
     ,tipsy: '../lib/jquery.tipsy'
 
+    ,datatables: '../lib/jquery.dataTables'
+
     ,spin: '../bower_components/spin.js/spin'
 
     ,sifter: '../bower_components/sifter/sifter'
     ,microplugin: '../bower_components/microplugin/src/microplugin'
     ,selectize: '../bower_components/selectize/dist/js/selectize'
+
   }
 
 });

@@ -71,7 +71,24 @@ Router.prototype.init = function( layers )
   _.extend( fns, {
     'tabla': function( layer_name )
     {
-      self.trigger('route:tabla', layer_name);
+      var layer = layers[ layer_name ];
+
+      if ( layer.parsed() )
+      {
+        self.trigger(
+          'route:tabla', layer_name );
+        return;
+      }
+
+      add_loading();
+      layer.on( 
+        'parse:complete'
+        ,function()
+        {
+          self.trigger(
+            'route:tabla', layer_name );
+          remove_loading();
+        });
     }
   });
 
@@ -87,7 +104,8 @@ Router.prototype.init = function( layers )
   var _router = new _Router();
   var _route = null, loading;
 
-  this.navigate=_.bind(_router.navigate,_router);
+  this.navigate = _.bind(
+      _router.navigate, _router );
 
   Backbone.history.start();
   //Backbone.history.start({ pushState: true });
@@ -102,8 +120,7 @@ Router.prototype.init = function( layers )
 
   function route_on( route )
   {
-    loading = new LoadingRoute();
-    $('body').append( loading.render().el );
+    add_loading();
 
     _route = route; //save
 
@@ -120,8 +137,8 @@ Router.prototype.init = function( layers )
 
   function route_off()
   {
-    loading.remove();
-    loading = null;
+    remove_loading();
+
     _.each( layers, function( layer )
     {
       if ( _route.name === 'historias' )
@@ -131,6 +148,7 @@ Router.prototype.init = function( layers )
       else
         layer.off('add:feature', route_check);
     });
+
     _route = null;
   }
 
@@ -150,11 +168,22 @@ Router.prototype.init = function( layers )
     if ( props.type === name 
           && props.id === id )
     {
-      //add_detalle( feature, mapview );
-      self.trigger('route:ready', feature);
+      self.trigger('route:feature', feature);
       route_off();
     }
   } 
+
+  function add_loading()
+  {
+    loading = new LoadingRoute();
+    $('body').append( loading.render().el );
+  }
+
+  function remove_loading()
+  {
+    loading.remove();
+    loading = null;
+  }
 
 };
 

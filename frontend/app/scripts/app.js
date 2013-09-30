@@ -25,6 +25,7 @@ define( [
     ,'controllers/detalles/HistoriaDetalleCtrler'
     ,'controllers/detalles/FeatureDetalleCtrler'
     ,'controllers/abm/FeatureABMctrler'
+    ,'controllers/TablaCtrler'
     ], 
 
 function( 
@@ -50,6 +51,7 @@ function(
   ,HistoriaDetalleCtrler
   ,FeatureDetalleCtrler
   ,FeatureABMctrler
+  ,TablaCtrler
 
   ) 
 {
@@ -60,12 +62,11 @@ var App = function()
 { 
 
   var router;
-  var infoview;
   var user, ui;
   var layers;
   var stats, stats_layer, stats_intro;
   var mapview, cuencaview;
-  var cur_detalle;
+  var detalle, tabla, infoview;
 
   var $main = $('body');
 
@@ -209,12 +210,12 @@ var App = function()
 
     mapview.focus( feature );
 
-    if ( cur_detalle )
+    if ( detalle )
     {
-      if ( cur_detalle.feature() === feature )
+      if ( detalle.feature() === feature )
         return;
-      cur_detalle.close();
-      cur_detalle = null;
+      detalle.close();
+      detalle = null;
     }
 
     var props = feature.get('properties');
@@ -235,7 +236,7 @@ var App = function()
         ? HistoriaDetalleCtrler
         : FeatureDetalleCtrler;
 
-    cur_detalle = new DetalleCtrler({
+    detalle = new DetalleCtrler({
       el: $main
       ,layers: layers
       ,feature: feature
@@ -243,13 +244,13 @@ var App = function()
       ,config: _config 
     });   
 
-    cur_detalle.on( 
+    detalle.on( 
       'close', 
       function()
       {
-        cur_detalle.off();
-        cur_detalle.stopListening();
-        cur_detalle = null;
+        detalle.off();
+        detalle.stopListening();
+        detalle = null;
 
         if ( feature_abm )
         {
@@ -268,7 +269,7 @@ var App = function()
 
     ui.hide_widgets();
 
-    if ( cur_detalle instanceof 
+    if ( detalle instanceof 
         FeatureDetalleCtrler 
         && user.logged() )
     {
@@ -287,6 +288,64 @@ var App = function()
         });
 
     }
+
+  }
+
+  function add_info( pagina )
+  {
+    if ( infoview )
+    {
+      infoview.switching = true;
+      infoview.close();
+    }
+
+    if ( tabla )
+    {
+      tabla.switching = true;
+      tabla.close();
+    }
+
+    infoview = new InfoView({
+        info: pagina
+        ,className: 'info '+pagina
+      })
+      .on('close'
+        ,function()
+        {
+          if ( ! infoview.switching )
+            router.navigate();
+          infoview = null;
+        })
+      .render();
+
+    infoview.$el.appendTo( $main );
+  }
+
+  function add_tabla( layer_name )
+  {
+    if ( tabla )
+    {
+      tabla.switching = true;
+      tabla.close();
+    }
+
+    if ( infoview )
+    {
+      infoview.switching = true;
+      infoview.close();
+    }
+
+    tabla = new TablaCtrler({
+      el: $main
+      ,layer: layers[ layer_name ]
+    })
+    .on('close'
+      ,function()
+      {
+        if ( ! tabla.switching )
+          router.navigate();
+        tabla = null;
+      });
 
   }
 
@@ -373,34 +432,19 @@ var App = function()
 
   router = new Router();
   router
-    .on('route:ready', function( feature )
+    .on('route:feature', function( feature )
     {
       add_detalle( feature, mapview );
     })
 
     .on('route:info', function( pagina )
     {
-      if ( infoview )
-        infoview.close();
-
-      infoview = new InfoView({
-          info: pagina
-          ,className: 'info '+pagina
-        })
-        .on('close'
-          ,function()
-          {
-            infoview = null;
-            router.navigate();
-          })
-        .render();
-
-      infoview.$el.appendTo( $main );
+      add_info( pagina );
     })
 
     .on('route:tabla', function(layer_name)
     {
-      console.log('tabla',layer_name)
+      add_tabla( layer_name );
     })
     
     .init( layers );

@@ -255,10 +255,12 @@ var TimelineView = Backbone.View.extend({
 
     var f = ini.feature.clone();
 
-    var props = f.get('properties');
+    var props = _.extend({},f.get('properties'));
     props.icon = _.defaults({
       url: 'images/clock.png'
     }, props.icon );
+
+    f.set('properties', props);
 
     this.add_feature( f, ini.date );
     this._add_advocacy_timer();

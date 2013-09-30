@@ -20,6 +20,7 @@ function( data, sync_opt )
   var opt = this.opt; 
 
   var date
+    ,link_src
     ,titulo
     ,resumen
     ,locacion
@@ -41,6 +42,13 @@ function( data, sync_opt )
     //if ( r.incidentverified === '0' )
       ////continue;
       //return;
+
+    link_src = [
+      opt.url
+      ,'/reports/view/'
+      ,r.incidentid
+    ]
+    .join('');
 
     // remove html tags
     resumen = (r.incidentdescription.split(' ').slice(0,20).join(' ') + '...').replace(/<(?:.|\n)*?>/gm, '');
@@ -85,6 +93,7 @@ function( data, sync_opt )
       ,properties: {
         id: r.incidentid
         ,type: opt.name
+        ,link_src: link_src 
         ,date: {
           iso: date
           ,src: r.incidentdate

@@ -43,6 +43,7 @@ var LayerCtrler = function( opt, mapview )
 
   var self = this;
   var name = opt.name;
+  var _parsed = false;
 
   // copy ref [icon/marker].url 
   // from view to model
@@ -61,6 +62,7 @@ var LayerCtrler = function( opt, mapview )
     'parse:complete'
     ,function()
     {
+      _parsed = true;
       self.trigger('parse:complete');
     });
 
@@ -105,7 +107,9 @@ var LayerCtrler = function( opt, mapview )
   // model == collection ?? ;)
   this.model = collection;
   this.view = { overlays: overlays };
+
   this.name = function() { return name; }
+  this.parsed = function() { return _parsed; }
 
   this.dispose = function()
   {
@@ -172,6 +176,7 @@ function( name, opt )
   var parser = new Crowdmap.Parsers
     [parserclass]({
       name: name
+      ,url: opt.url 
       ,icon: opt.icon
     });
 
