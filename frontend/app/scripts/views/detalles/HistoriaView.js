@@ -37,6 +37,7 @@ var HistoriaView = Backbone.View.extend({
       function()
       {
         this.timeline.add_clock();
+        this.update_bottom();
       }
       , this );
 
@@ -72,7 +73,6 @@ var HistoriaView = Backbone.View.extend({
     //var date = feature.get('properties').date;
 
     this.timeline.add_feature( feature, date );
-
     this.update_bottom();
   }
 

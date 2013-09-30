@@ -46,10 +46,11 @@ var TimelineView = Backbone.View.extend({
     var layout = {
       width: 1000
       ,height: 500
-      ,margin: { x: 20, y: 20 }
+      ,margin: { x: 20, y: 0 }
       ,icons: {
         offset: { bottom: 40, top: 0 }
-        ,height: 30 //default
+        ,width: 33 //default
+        ,height: 33 //default
       }
     };
 
@@ -151,15 +152,17 @@ var TimelineView = Backbone.View.extend({
    */
   ,add_feature: function( feature, date )
   {
+    var self = this;
     var opt = this.options;
+    var vis = this.vis; 
 
     //var id = feature.get('id');
     var props = feature.get('properties');
 
-    var _advocacy = props.type === 'acciones' || props.type === 'respuestas';
+    var _advoc = this._is_advocacy( feature );
 
-    var vis = this.vis; 
-
+    // update icons layout
+    vis.layout.icons.width = props.icon.width;
     vis.layout.icons.height = props.icon.height + 10;
 
     var ics_off = vis.layout.icons.offset;
@@ -189,12 +192,13 @@ var TimelineView = Backbone.View.extend({
 
     .append( 'image' )
 
-      .attr( 'class', opt.icon_class )
-      .attr( 'id', function( d ) 
+      //.attr( 'class', opt.icon_class )
+      //.attr( 'id', function( d ) 
+      .attr( 'class', function( d ) 
       {
         //var props=d.feature.get('properties');
         var id = d.feature.get('id');
-        return opt.icon_class + '-' + id;
+        return opt.icon_class + ' id-' + id;
       })
 
       .attr( 'xlink:href', icon_url )
@@ -203,8 +207,7 @@ var TimelineView = Backbone.View.extend({
 
       .attr( 'x', function( d ) 
       { 
-        return vis.xscale( 
-          new Date( date.iso ) );
+        return vis.xscale( new Date(date.iso) );
       })
 
       .attr( 'y', function( d ) 
@@ -217,8 +220,11 @@ var TimelineView = Backbone.View.extend({
 
         img.each( function( d_img, i )
         {
-          var props = d_img.feature
-            .get('properties');
+          //var oprops = d_img.feature
+            //.get('properties');
+
+          var _oadvoc = self
+            ._is_advocacy( d_img.feature );
 
           var el = img[0][i];
 
@@ -229,21 +235,21 @@ var TimelineView = Backbone.View.extend({
             el.getAttribute('width') );
 
           //ow /= 2;
-          if ( x > ox-ow && x < ox+ow )
+          if ( _advoc === _oadvoc
+            && x > ox-ow && x < ox+ow )
           {
-            _top -= ics_h;
-            _bottom += ics_h;
+            if ( _advoc ) _top -= ics_h;
+            else _bottom += ics_h;
           }
 
         });
 
-        return _advocacy ? _top : _bottom;
+        return _advoc ? _top : _bottom;
         //return _bottom;
       })
 
     this._update_bottom_top();
     this._add_tooltips();
-    //this._add_advocacy_timer();
 
   } 
 
@@ -263,7 +269,7 @@ var TimelineView = Backbone.View.extend({
     f.set('properties', props);
 
     this.add_feature( f, ini.date );
-    this._add_advocacy_timer();
+    this._add_clock_data();
   }
 
   ,_update_bottom_top: function()
@@ -292,11 +298,9 @@ var TimelineView = Backbone.View.extend({
           y + ics_h + margin_y, self._bottom );
       });
 
-    var _top_offset = Math.abs( this._top );
-
     vis.svg.attr( 'transform',
         'translate( 0, '+
-          _top_offset+')')
+          Math.abs( this._top )+')')
   }
 
   ,_add_tooltips: function()
@@ -398,7 +402,7 @@ var TimelineView = Backbone.View.extend({
     //return 'images/clock.png';
   //} 
 
-  ,_add_advocacy_timer: function()
+  ,_add_clock_data: function()
   {
     var self = this;
     var opt = this.options;
@@ -423,13 +427,11 @@ var TimelineView = Backbone.View.extend({
 
     //var $clock = $([
         //'image'
-        //,'.'
         //,opt.icon_class
-        //,'#'
-        //,opt.icon_class+'-'
+        //,'id-'
         //,ini.feature.get('id')
       //]
-      //.join('') );
+      //.join('.') );
 
     if ( $clock.length === 0 )
     {
@@ -450,13 +452,20 @@ var TimelineView = Backbone.View.extend({
 
     // set x,y 
 
-    var _x = $clock.attr('x');
-    var _y = self._top;
-    //var _y = $clock.attr('y');
+    var _x = parseFloat( $clock.attr('x') );
+    var _y = parseFloat( $clock.attr('y') );
+    //var _y = self._top;
+
+    var toleft = _x > vis.layout.width/4*3;
+    var ic_w = vis.layout.icons.width;
+    var xoff = toleft ? -4 : ic_w + 4;
+    _x += xoff;
 
     _timer
       .attr( 'x', _x )
-      .attr( 'y', _y );
+      .attr( 'y', _y )
+      .attr( 'text-anchor', 
+          toleft ? 'end' : 'start' )
 
     // set time
 
@@ -473,7 +482,7 @@ var TimelineView = Backbone.View.extend({
     _timer.text( delay 
         + ' días ' 
         + ( end 
-          ? 'hasta la respuesta'
+          ? 'hasta la primer respuesta'
           : 'sin respuesta' ) );
 
   }
@@ -501,7 +510,7 @@ var TimelineView = Backbone.View.extend({
 
   ,_get_advocacy_end: function()
   {
-    // buscar la respuesta mas nueva
+    // buscar la respuesta advocacy mas antigua
 
     var end, props;
 
@@ -512,17 +521,29 @@ var TimelineView = Backbone.View.extend({
       if ( props.type !== 'respuestas' ) 
         return;
 
+      //end = ! end ? d 
+          //: ( new Date(end.date.iso).getTime() - new Date(d.date.iso).getTime() > 0 ) ? end : d;
+
       end = ! end ? d 
-          : ( new Date(end.date.iso).getTime() - new Date(d.date.iso).getTime() > 0 ) ? end : d;
+        : ( new Date( end.date.iso ).getTime() - new Date( d.date.iso ).getTime() > 0 ) ? d : end;
 
     });
 
     return end;
   }
 
+  ,_is_advocacy: function( feature )
+  {
+    var props = feature.get('properties');
+    return props.type === 'acciones' 
+      || props.type === 'respuestas';
+  }
+
   ,bottom: function()
   {
-    return this._bottom + Math.abs(this._top); 
+    return this._bottom 
+      + Math.abs(this._top)
+      //+ this.vis.layout.margin.y * 2
   }
 
 });

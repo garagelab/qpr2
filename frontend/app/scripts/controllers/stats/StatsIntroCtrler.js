@@ -44,7 +44,15 @@ var StatsIntroCtrler = function( opt )
     model = null;
   }
 
-  var up_ls = ['ac','pri','rec','basurales','ecopuntos','asentamientos'];
+  var up_ls = [
+    'ac'
+    ,'pri'
+    ,'rec'
+    ,'basurales'
+    ,'ecopuntos'
+    ,'asentamientos'
+    //,'subcuencas'
+  ];
 
   this.update = function( stats )
   {
@@ -66,12 +74,17 @@ var StatsIntroCtrler = function( opt )
   {
     switch( stat_key )
     {
+      case 'basurales':
+      return 'Basurales remanentes';
+
       case 'ac':
       return 'Industrias declaradas agentes contaminantes';
       case 'pri':
+
       return 'Industrias han presentado planes de reconversión';
       case 'rec':
       return 'Industrias han reconvertido sus procesos';
+
       default:
       return utils.capitalize(stat_key);
     }

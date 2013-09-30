@@ -1,7 +1,7 @@
 
 .stats-intro
 {
-  cursor: pointer;
+  cursor: default;
   background-color: rgba(250, 250, 250, 0.94);
   width: 40%;
   //height: 20px;
@@ -24,5 +24,16 @@
   -moz-border-radius-bottomleft: 5px;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
+}
+
+.stats-intro .close
+{
+  font-size: 85%;
+  padding: .4em .6em;
+}
+
+.stats-intro .close.pure-button:hover
+{
+  background-image: none;
 }
 

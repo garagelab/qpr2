@@ -20,10 +20,7 @@ require.config({
     ,leaflet: {
       exports: 'L'
     }
-
-    ,leaflet_google: {
-      deps: [ 'leaflet' ]
-    }
+    ,leaflet_google: [ 'leaflet' ]
 
     ,d3: {
       exports: 'd3'
@@ -49,24 +46,18 @@ require.config({
       //exports: 'Architect'
     //}
 
-    ,tipsy: {
-      deps: [ 'jquery' ]
-    }
+    ,tipsy: [ 'jquery' ]
 
-    ,qtip2: {
-      deps: [ 'jquery','imagesloaded' ]
-    }
-    ,imagesloaded: {
-      deps: [ 
-        'jquery'
-        ,'eventEmitter/EventEmitter'
-        ,'eventie/eventie' 
-      ]
-    }
+    ,qtip2: [ 'jquery','imagesloaded' ]
+    ,imagesloaded: [ 
+      'jquery'
+      ,'eventEmitter/EventEmitter'
+      ,'eventie/eventie' 
+    ]
 
-    ,selectize: {
-      deps: [ 'jquery','sifter','microplugin' ]
-    }
+    ,selectize: [ 
+      'jquery','sifter','microplugin' 
+    ]
 
     ,datatables: ['jquery']
 
@@ -95,7 +86,7 @@ require.config({
     ,'eventie/eventie': '../lib/eventie'
     ,imagesloaded: '../lib/imagesloaded'
     ,qtip2: '../lib/jquery.qtip.min'
-    ,tipsy: '../lib/jquery.tipsy'
+    //,tipsy: '../lib/jquery.tipsy'
 
     ,datatables: '../lib/jquery.dataTables'
 

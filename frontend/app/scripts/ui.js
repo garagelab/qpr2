@@ -79,12 +79,12 @@ var UI = function( opt )
   }); 
 
 
-  //TODO q feo......!
+  //TODO q feo......!!!!!@#$%ˆ&*
 
   var $enviar_alerta_frame = 
     $('#enviar-alerta-frame-container');
 
-  var $enviar_alerta = $('.enviar-alerta');
+  var $enviar_alerta_bt = $('.enviar-alerta');
 
   $enviar_alerta_frame.css({
     'width': '1000px'
@@ -92,13 +92,14 @@ var UI = function( opt )
     ,'background-color': 'rgba(0,0,0,0.5)'
     ,'position': 'absolute' 
     ,'left': '200px' 
+    ,'z-index': '1'
   });
 
   //$enviar_alerta_frame.hide();
   $enviar_alerta_frame.css(
       'visibility','hidden');
 
-  $enviar_alerta.click( function(e)
+  $enviar_alerta_bt.click( function(e)
   {
     //window.open('https://quepasariachuelo.crowdmap.com/reports/submit', '_blank');  
 
@@ -106,28 +107,47 @@ var UI = function( opt )
       .css('visibility') === 'hidden' )
       //.css('display') === 'none' )
     {
+
+      $enviar_alerta_frame.append('<div style="width:100%; height:34px; background-color:black; position:absolute;"/><button class="close pure-button" style="padding: .1em .4em; top: 4px;"><i class="icon-remove"></i></button>');
+
       $enviar_alerta_frame.append("<iframe id='enviar-alerta-frame' src='//quepasariachuelo.crowdmap.com/reports/submit' width='1000px' height='100%' frameborder='0' style='border:none; overflow-x:hiden; overflow-y:auto;'></iframe>");
+
       //$enviar_alerta_frame.show();
       $enviar_alerta_frame.css(
           'visibility','visible');
 
+      $enviar_alerta_frame
+        .find('.close')
+        .click( remove_enviar_alerta_frame );
+
       $widgets.hidden_on_enviar_alerta =
         $widgets.css('display') === 'none';
+
       $widgets.hide();
     }
 
     else
     {
-      $enviar_alerta_frame.empty();
-      //$enviar_alerta_frame.hide();
-      $enviar_alerta_frame.css(
-          'visibility','hidden');
-
-      //if ( ! cur_detalle )
-      if ( ! $widgets.hidden_on_enviar_alerta )
-        $widgets.show();
+      remove_enviar_alerta_frame(); 
     }
   });
+
+  function remove_enviar_alerta_frame()
+  {
+    $enviar_alerta_frame
+      .find('.close')
+      .unbind(
+        'click', remove_enviar_alerta_frame );
+
+    $enviar_alerta_frame.empty();
+
+    //$enviar_alerta_frame.hide();
+    $enviar_alerta_frame.css(
+        'visibility','hidden');
+
+    if ( ! $widgets.hidden_on_enviar_alerta )
+      $widgets.show();
+  }
 
   var on_win_resize = _.debounce( function()
   {
