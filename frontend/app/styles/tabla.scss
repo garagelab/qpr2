@@ -1,4 +1,15 @@
 
+.tabla tbody tr
+{
+  cursor: pointer;
+}
+
+.tabla tbody tr:hover
+{
+  background-color: #444;
+  color: white;
+}
+
 .tabla .info-contenido
 {
   padding: 20px 100px;

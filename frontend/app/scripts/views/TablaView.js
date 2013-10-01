@@ -41,10 +41,18 @@ var View = Backbone.View.extend({
       this.collection.toArray()
       ,function( feature )
       { 
+
+        var id = feature.get('id');
         var props = feature.get('properties');
+        var date = props.date 
+          ? utils.date_iso2arg( props.date.iso )
+          : 'undefined';
+
         return [
-          props.titulo
-          ,utils.date_iso2arg( props.date.iso )
+          id
+          ,props.type
+          ,props.titulo
+          ,date
           ,'<a href="'+props.link_src+'" target="_blank">'+props.link_src+'</a>'
         ];
       } );
@@ -67,11 +75,10 @@ var View = Backbone.View.extend({
       //'r' - pRocessing
 
       ,"aoColumns": [
-        { "sTitle": "Titulo" }
-        ,{ 
-          "sTitle": "Fecha" 
-          ,"sClass": "center"
-        }
+        { "sTitle": "id", "bVisible": false }
+        ,{ "sTitle": "type", "bVisible": false }
+        ,{ "sTitle": "Titulo" }
+        ,{ "sTitle": "Fecha", "sClass":"center" }
         ,{ "sTitle": "Fuente" }
       ]
 
@@ -81,6 +88,15 @@ var View = Backbone.View.extend({
 
   ,events: {
     'click .close': 'close'
+    ,'click tbody tr': 'select_feature'
+  }
+
+  ,select_feature: function( e )
+  {
+    var el = e.currentTarget;
+    var data = this.datatable.fnGetData( el ); 
+    var feature = this.collection.get( data[0] );
+    this.trigger( 'select:feature', feature );
   }
 
   ,close: function()

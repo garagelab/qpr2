@@ -13,8 +13,17 @@
   line-height: 25px;
 }
 
+.info.tabla
+{
+  font-weight: 400;
+}
+
 .info .info-contenido
 {
   padding: 40px 90px 140px 90px;
 }
+
+.info a:link { color: #5F9EA0; }
+.info a:visited { color: #5F9EA0; }
+.info a:hover { color: #20B2AA; }
 

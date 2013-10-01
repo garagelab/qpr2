@@ -29,6 +29,12 @@ var TablaCtrler = function( opt )
   }
   , this );
 
+  view.on( 'select:feature', function( feature )
+  {
+    this.trigger( 'select:feature', feature );
+  }
+  , this );
+
   $(opt.el).append( view.render().el ); 
 
   view.init_datatable();
@@ -36,6 +42,8 @@ var TablaCtrler = function( opt )
   this.dispose = function()
   {
     view.off();
+    this.off();
+    this.stopListening();
   }
 
   this.close = function()

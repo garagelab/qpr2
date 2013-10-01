@@ -314,6 +314,7 @@ var App = function()
         {
           if ( ! infoview.switching )
             router.navigate();
+          infoview.off();
           infoview = null;
         })
       .render();
@@ -339,12 +340,20 @@ var App = function()
       el: $main
       ,layer: layers[ layer_name ]
     })
-    .on('close'
+    .on(
+      'close'
       ,function()
       {
         if ( ! tabla.switching )
           router.navigate();
+        tabla.off();
         tabla = null;
+      })
+    .on(
+      'select:feature'
+      ,function( feature )
+      {
+        add_detalle( feature, mapview );
       });
 
   }
