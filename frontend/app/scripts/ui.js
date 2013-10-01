@@ -30,15 +30,13 @@ var UI = function( opt )
   var $widgets = $('<div class="widgets"/>');
   var $search = $('<div class="search"/>');
 
-  $(opt.el)
+  $( opt.el )
     .append( $layers )
     .append( $widgets )
     .append( $search )
 
-  var layer_controls = config.layer_controls;
-
   _.each( 
-    layer_controls.grupos
+    config.layer_controls.grupos
     ,function( grupo )
     {
       grupo.layers = _.map( 
@@ -66,12 +64,25 @@ var UI = function( opt )
 
 
   $layers.append( 
-    _.template(tpl_layer_ctrls)(layer_controls)
+    _.template( tpl_layer_ctrls )
+      ( config.layer_controls )
   );
 
   $widgets.append( 
     _.template( tpl_widgets ) 
   );  
+
+
+  //TODO FIXME 
+  //puaj q feo todo lo que viene....!!!@#$%ˆ&*
+
+
+  $('.goto-origin').click( function(e)
+  {
+    //close_all_infowins();
+    opt.mapview.origin(); 
+  }); 
+
 
   $layers.find('.toggle').click( function(e)
   {
@@ -96,7 +107,7 @@ var UI = function( opt )
     var glayernames = 
       _.pluck( 
         _.find(
-          layer_controls.grupos,
+          config.layer_controls.grupos,
           function( grupo )
           {
             return grupo.name === gname;
@@ -109,15 +120,6 @@ var UI = function( opt )
         , glayernames, visible );
   });
  
-
-  $('.goto-origin').click( function(e)
-  {
-    //close_all_infowins();
-    opt.mapview.origin(); 
-  }); 
-
-
-  //TODO q feo......!!!!!@#$%ˆ&*
 
   var $enviar_alerta_frame = 
     $('#enviar-alerta-frame-container');
@@ -168,6 +170,7 @@ var UI = function( opt )
     {
       remove_enviar_alerta_frame(); 
     }
+
   });
 
   function remove_enviar_alerta_frame()
