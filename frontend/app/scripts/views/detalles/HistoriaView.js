@@ -30,7 +30,7 @@ var HistoriaView = Backbone.View.extend({
     this.$el.addClass('historia-view');
 
     this.listenTo( this.collection,
-      'add', this.feature_historia_added, this );
+      'add', this.feature_historia_added, this);
 
     this.listenTo( this.collection,
       'parse:complete', 
@@ -85,6 +85,22 @@ var HistoriaView = Backbone.View.extend({
     var feature = this.options.feature; 
     var props = feature.get('properties');
 
+    var temas = props.temas
+      ? _.without(
+          props.temas.split(',')
+          ,props.type )
+        .join(', ')
+      : '';
+
+    //var date = props.date
+      //? utils.date_iso2arg( props.date.iso )
+      //: '';
+
+    //var locacion = props.locacion 
+      //? 'Localización: ' + props.locacion
+      //: '';
+
+
     var titulo = new TituloView();
     this.$el.append( 
         titulo.render({
@@ -94,9 +110,11 @@ var HistoriaView = Backbone.View.extend({
           //titulo: feature.get('id')
         }).el );
 
+
     var timeline = new TimelineView();
     this.$el.append( 
         timeline.render().el );
+
 
     var descripcion = 
       new DescripcionHistoriaView();
@@ -104,7 +122,11 @@ var HistoriaView = Backbone.View.extend({
     this.$el.append( 
         descripcion.render({
           txt: props.descripcion
+          ,temas: temas 
+          //,date: date
+          //,locacion: locacion
         }).el ); 
+
 
     var feature_preview = new FeaturePreview();
     feature_preview.$el.hide();
