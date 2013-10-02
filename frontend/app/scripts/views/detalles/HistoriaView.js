@@ -92,6 +92,9 @@ var HistoriaView = Backbone.View.extend({
         .join(', ')
       : '';
 
+    if ( !_.isEmpty( temas ) )
+      temas = 'Temas: '+temas;
+
     //var date = props.date
       //? utils.date_iso2arg( props.date.iso )
       //: '';
