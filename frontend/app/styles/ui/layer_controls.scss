@@ -23,6 +23,16 @@ $layer_ctrl_icon_top: 3px;
   float: right;
 }
 
+.layers .grupo-title .toggle i
+{
+  color: #aaa;
+}
+
+.layers .grupo-title .toggle i:hover
+{
+  color: black;
+}
+
 .layers .layer 
 {
   margin: 1px 0px; 
