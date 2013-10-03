@@ -2,11 +2,12 @@ define( [
     'jquery' 
     ,'underscore'
     ,'backbone'
+    ,'lang','config','utils'
     ,'models/qpr/Feature'
-    ,'utils'
     ], 
 
-function( $, _, Backbone, Feature, utils ) 
+function( $, _, Backbone,
+  lang, config, utils, Feature ) 
 {
 
 'use strict';
@@ -95,94 +96,94 @@ function( data, sync_opt )
 
       // TODO fecha hardcodeada
       '<div>'
-      ,'Información Actualizada al 11/09/2013'
+      ,lang('industrias_fecha_act')
       ,'</div>'
 
       ,'<h4>'
-      ,'Datos Generales'
+      ,lang('industrias_datos_grales')
       ,'</h4>'
 
       ,'<div>'
-      ,'Producto: '
+      ,lang('industrias_producto')
       ,d.producto_1
       ,'</div>'
 
       ,'<div>'
-      ,'CUIT '
+      ,lang('industrias_cuit')
       ,d.cuit
       ,'</div>'
 
       ,'<div>'
-      ,'CURT '
+      ,lang('industrias_curt')
       ,d.curt
       ,'</div>'
 
       ,'<div>'
-      ,'Actividad: '
+      ,lang('industrias_actividad')
       ,d.actividad_1
       ,'</div>'
 
       //,'<div>'
-      //,'Dirección: '
+      //,lang('industrias_direccion')
       //,d.location
       //,'</div>'
 
       ,'<h4>'
-      ,'Datos del Establecimiento'
+      ,lang('industrias_datos_establ')
       ,'</h4>'
 
       ,'<div>'
-      ,'Personal Fábrica: '
+      ,lang('industrias_personal_fab')
       ,d.personal_fabrica
       ,'</div>'
 
       ,'<div>'
-      ,'Personal Oficina: '
+      ,lang('industrias_personal_ofic')
       ,d.personal_oficina
       ,'</div>'
 
       ,'<div>'
-      ,'Superficie Total: '
+      ,lang('industrias_sup_total')
       ,d.superficie_total
       ,'</div>'
 
       ,'<div>'
-      ,'Consumo de Electricidad: '
+      ,lang('industrias_cons_elec')
       ,d.consumo_electricidad
       ,'</div>'
 
       ,'<div>'
-      ,'Vertido de Efluentes: '
+      ,lang('industrias_vert_efl')
       ,d.vertido_de_efluentes
       ,'</div>'
 
       ,'<div>'
-      ,'Tratamiento de Efluentes: '
+      ,lang('industrias_trat_efl')
       ,d.tratamiento_de_efluentes
       ,'</div>'
 
       ,'<div>'
-      ,'Residuos Peligrosos: '
+      ,lang('industrias_resid_pelig')
       ,d.residuos_peligrosos
       ,'</div>'
 
       ,'<div>'
-      ,'Sustancias Peligrosas: '
+      ,lang('industrias_sust_pelig')
       ,d.sustancias_peligrosas
       ,'</div>'
 
       ,'<div>'
-      ,'Sustancias Detalle: '
+      ,lang('industrias_sust_det')
       ,d.sustancias_detalle
       ,'</div>'
 
       ,'<div>'
-      ,'Zona Industrial: '
+      ,lang('industrias_zona_ind')
       ,d.zona_industrial
       ,'</div>'
 
       ,'<div>'
-      ,'Sitio web: '
+      ,lang('industrias_website')
       ,d.sitio_web
       ,'</div>'
     ]
@@ -195,19 +196,28 @@ function( data, sync_opt )
     if ( !_.isEmpty( d.ac_fecha ) )
       eventos.push({
         name: 'ac'
-        ,txt: 'agente contaminante desde '+d.ac_fecha
+        ,txt: [
+          lang('industrias_ev_ac')
+          ,d.ac_fecha 
+        ].join(' ')
       });
 
     if ( !_.isEmpty( d.pri ) )
       eventos.push({
         name: 'pri'
-        ,txt: 'presentó el PRI el '+d.pri
+        ,txt: [
+          lang('industrias_ev_pri')
+          ,d.pri
+        ].join(' ')
       });
 
     if ( !_.isEmpty( d.reconvertida ) )
       eventos.push({
         name: 'rec'
-        ,txt: 'reconvertida el '+d.reconvertida
+        ,txt: [
+          lang('industrias_ev_rec')
+          ,d.reconvertida
+        ].join(' ')
       });
 
     this.trigger( 'add:feature', new Feature({ 

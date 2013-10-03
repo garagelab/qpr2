@@ -2,11 +2,12 @@ define( [
     'jquery' 
     ,'underscore'
     ,'backbone'
+    ,'lang','config','utils'
     ,'models/qpr/Feature'
-    ,'utils'
     ],  
 
-function( $, _, Backbone, Feature, utils ) 
+function( $, _, Backbone,
+  lang, config, utils, Feature ) 
 {
 
 'use strict';
@@ -91,7 +92,7 @@ function( data, sync_opt )
     descripcion = [
       // TODO fecha hardcodeada
       '<div>'
-      ,'Fuente: Coordinación Acumar: GIRS/CPPF – Fecha actualización: 03/05/2013'
+      ,lang('basurales_fecha_act')
       ,'</div>'
     ]
     .join('');

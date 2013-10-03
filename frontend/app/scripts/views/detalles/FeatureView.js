@@ -2,11 +2,12 @@ define( [
   'jquery'
   ,'underscore'
   ,'backbone'
+  ,'lang'
   ,'utils'
   ,'text!tpl/detalles/feature.html'
   ], 
 
-function( $, _, Backbone, utils, tpl )
+function( $, _, Backbone, lang, utils, tpl )
 {
 
 'use strict';
@@ -33,14 +34,14 @@ var FeatureView = Backbone.View.extend({
       : '';
 
     if ( !_.isEmpty( temas ) )
-      temas = 'Temas: '+temas;
+      temas = lang('temas')+': '+temas;
 
     var date = props.date
       ? utils.date_iso2arg( props.date.iso )
       : '';
 
     var locacion = props.locacion 
-      ? 'Localización: ' + props.locacion
+      ? lang('localizacion')+': '+props.locacion
       : '';
 
     this.$el.html( 

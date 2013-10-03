@@ -2,12 +2,13 @@ define( [
   'jquery' 
   ,'underscore'
   ,'backbone'
+  ,'lang'
   ,'utils'
   ,'text!tpl/tabla.html'
   ,'datatables'
   ], 
 
-function( $, _, Backbone, utils, tpl )
+function( $, _, Backbone, lang, utils, tpl )
 {
 
 'use strict';
@@ -77,9 +78,12 @@ var View = Backbone.View.extend({
       ,"aoColumns": [
         { "sTitle": "id", "bVisible": false }
         ,{ "sTitle": "type", "bVisible": false }
-        ,{ "sTitle": "Titulo" }
-        ,{ "sTitle": "Fecha", "sClass":"center" }
-        ,{ "sTitle": "Fuente" }
+        ,{ "sTitle": lang('tabla_title') }
+        ,{ 
+          "sTitle": lang('tabla_date')
+          ,"sClass":"center" 
+        }
+        ,{ "sTitle": lang('tabla_source') }
       ]
 
     });

@@ -2,8 +2,9 @@ define( [
   'jquery'
   ,'underscore'
   ,'backbone'
-  ,'d3'
+  ,'lang'
   ,'utils'
+  ,'d3'
   ,'views/detalles/TimelineView'
   ,'views/detalles/TituloView'
   ,'views/detalles/DescripcionHistoriaView'
@@ -11,7 +12,7 @@ define( [
   ], 
 
 function( 
-  $, _, Backbone, d3, utils
+  $, _, Backbone, lang, utils, d3
   ,TimelineView
   ,TituloView 
   ,DescripcionHistoriaView 
@@ -93,15 +94,15 @@ var HistoriaView = Backbone.View.extend({
       : '';
 
     if ( !_.isEmpty( temas ) )
-      temas = 'Temas: '+temas;
+      temas = lang('temas')+': '+temas;
 
     //var date = props.date
       //? utils.date_iso2arg( props.date.iso )
       //: '';
 
     //var locacion = props.locacion 
-      //? 'Localización: ' + props.locacion
-      //: '';
+    //? lang('localizacion')+': '+props.locacion
+    //: '';
 
 
     var titulo = new TituloView();

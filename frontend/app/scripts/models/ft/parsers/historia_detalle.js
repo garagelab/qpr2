@@ -2,13 +2,14 @@ define( [
     'jquery' 
     ,'underscore'
     ,'backbone'
+    ,'lang','config','utils'
     ,'models/qpr/Feature'
     ,'models/qpr/FeatureHistoria'
-    ,'utils'
     ], 
 
 function( $, _, Backbone, 
-  Feature, FeatureHistoria, utils ) 
+  lang, config, utils,  
+  Feature, FeatureHistoria ) 
 {
 
 'use strict';

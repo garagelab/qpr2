@@ -2,10 +2,11 @@ define( [
   'jquery'
   ,'underscore'
   ,'backbone'
+  ,'lang'
   ,'text!tpl/stats/stats_layer.html'
   ], 
 
-function( $, _, Backbone, tpl )
+function( $, _, Backbone, lang, tpl )
 {
 
 'use strict';
@@ -18,7 +19,10 @@ var StatsLayerView = Backbone.View.extend({
       this.model, 'change', this.render );
   }
 
-  ,tpl: _.template( tpl )
+  //,tpl: _.template( tpl )
+  ,tpl: _.template( _.unescape(_.template(tpl)({
+    stats_layer: lang('stats_layer')
+  }) ) )
 
   ,render: function( data )
   {

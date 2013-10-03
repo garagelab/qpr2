@@ -2,13 +2,12 @@ define( [
     'jquery' 
     ,'underscore'
     ,'backbone'
+    ,'lang','config','utils'
     ,'models/qpr/Feature'
-    ,'utils'
-    ,'config'
     ], 
 
 function( $, _, Backbone, 
-  Feature, utils, config ) 
+  lang, config, utils, Feature ) 
 {
 
 'use strict';
@@ -89,10 +88,10 @@ function( data, sync_opt )
       return;
 
     resumen = [
-      ,'Cantidad de Familias: '
+      ,lang('asentamientos_cant_flias')
       ,d.flias
       ,', '
-      ,'Año de conformación: '
+      ,lang('asentamientos_anio')
       ,d.inicio
     ]
     .join('');
@@ -100,27 +99,26 @@ function( data, sync_opt )
     descripcion = [
 
       '<div>'
-      ,'Cantidad de Familias: '
+      ,lang('asentamientos_cant_flias')
       ,d.flias
       ,'</div>'
 
       ,'<div>'
-      ,'Año de Conformación: '
+      ,lang('asentamientos_anio')
       ,d.inicio
       ,'</div>'
 
       ,'<div>'
-      ,'Otra Denominación: '
+      ,lang('asentamientos_otra_denom')
       ,d.otra_denominacion
       ,'</div>'
 
       ,'<div>'
-      ,'Fecha de Relevamiento: '
-      ,'Enero 2013'
+      ,lang('asentamientos_fecha_relev')
       ,'</div>'
 
       //,'<div>'
-      //,'Red Clocal: '
+      //,lang('asentamientos_red_cloacal')
       //,d.red_cloacal
       //,'</div>'
 

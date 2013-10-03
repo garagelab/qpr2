@@ -2,11 +2,13 @@ define( [
   'jquery'
   ,'underscore'
   ,'backbone'
+  ,'lang'
   ,'utils'
   ,'views/stats/StatsIntroView'
   ], 
 
-function( $, _, Backbone, utils, StatsIntroView) 
+function( $, _, Backbone, 
+  lang, utils, StatsIntroView ) 
 {
 
 'use strict';
@@ -58,11 +60,13 @@ var StatsIntroCtrler = function( opt )
   {
 
     model.set({
-      items: _.map( up_ls, function( stat_key )
+      title: lang('stats_intro_title')
+      ,remate: lang('stats_intro_remate')
+      ,items: _.map( up_ls, function( stat_key )
       {
         return [
           stats.get( stat_key ).cant || '...'
-          ,str( stat_key )
+          ,texto( stat_key )
         ]
         .join(' ');
       })
@@ -70,24 +74,10 @@ var StatsIntroCtrler = function( opt )
 
   } 
 
-  function str( stat_key )
+  function texto( stat_key )
   {
-    switch( stat_key )
-    {
-      case 'basurales':
-      return 'Basurales remanentes';
-
-      case 'ac':
-      return 'Industrias declaradas agentes contaminantes';
-      case 'pri':
-
-      return 'Industrias han presentado planes de reconversión';
-      case 'rec':
-      return 'Industrias han reconvertido sus procesos';
-
-      default:
-      return utils.capitalize(stat_key);
-    }
+    return lang('stats_intro_'+stat_key)
+      || utils.capitalize(stat_key);
   }
 
 };

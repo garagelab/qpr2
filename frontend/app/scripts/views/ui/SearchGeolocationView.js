@@ -2,10 +2,11 @@ define( [
     'jquery'
     ,'underscore'
     ,'backbone'
+    ,'lang'
     ,'text!tpl/ui/search_geolocation.html'
     ], 
 
-function( $, _, Backbone, tpl ) 
+function( $, _, Backbone, lang, tpl ) 
 {
 
 'use strict';
@@ -63,7 +64,8 @@ var SearchGeolocationView = Backbone.View.extend({
 
       if ( ! place.geometry ) 
       {
-        $input.val('sin resultados...');
+        $input.val( 
+          lang('search_no_res') );
         return;
       }
 

@@ -2,10 +2,11 @@ define( [
     'jquery'
     ,'underscore'
     ,'backbone'
+    ,'lang'
     ,'text!tpl/ui/search_municipios.html'
     ], 
 
-function( $, _, Backbone, tpl ) 
+function( $, _, Backbone, lang, tpl ) 
 {
 
 'use strict';
@@ -73,7 +74,8 @@ var SearchMunicipiosView = Backbone.View.extend({
 
           if (st!=google.maps.GeocoderStatus.OK)
           {
-            self._selectize.setValue('sin resultados...');
+            self._selectize.setValue(
+              lang('search_no_res') );
             return;
           }
 

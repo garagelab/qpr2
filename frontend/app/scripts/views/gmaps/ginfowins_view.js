@@ -2,11 +2,12 @@ define( [
     'jquery'
     ,'underscore'
     ,'backbone'
-    ,'text!tpl/infowin.html'
+    ,'lang'
     ,'utils'
+    ,'text!tpl/infowin.html'
     ], 
 
-function( $, _, Backbone, tpl, utils ) 
+function( $, _, Backbone, lang, utils, tpl ) 
 {
 
 'use strict';
@@ -95,14 +96,14 @@ var GInfowinsView = Backbone.View.extend({
       : '';
 
     if ( !_.isEmpty( temas ) )
-      temas = 'Temas: '+temas;
+      temas = lang('temas')+': '+temas;
 
     var date = props.date
       ? utils.date_iso2arg( props.date.iso )
       : '';
 
     var locacion = props.locacion 
-      ? 'Localización: ' + props.locacion
+      ? lang('localizacion')+': '+props.locacion
       : '';
 
     var $infowin = $('<div/>')
