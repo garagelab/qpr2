@@ -38,58 +38,72 @@ var txt = { xxx:0
 
   ,industrias_zona_ind: {
     ar: 'Zona Industrial: '
+    ,en: 'Industrial Zone: '
   }
 
   ,industrias_sust_det: {
     ar: 'Sustancias Detalle: '
+    ,en: 'Substances Detalail: '
   }
 
   ,industrias_sust_pelig: {
     ar: 'Sustancias Peligrosas: '
+    ,en: 'Dangerous Substances: '
   }
 
   ,industrias_resid_pelig: {
     ar: 'Residuos Peligrosos: '
+    ,en: 'Dangerous Waste: '
   }
 
   ,industrias_trat_efl: {
     ar: 'Tratamiento de Efluentes: '
+    ,en: 'Effluent Treatment: '
   }
 
   ,industrias_vert_efl: {
     ar: 'Vertido de Efluentes: '
+    ,en: 'Effluent Discharge: '
   }
 
   ,industrias_cons_elec: {
     ar: 'Consumo de Electricidad: '
+    ,en: 'Electricity Consumption: '
   }
 
   ,industrias_sup_total: {
     ar: 'Superficie Total: '
+    ,en: 'Total Area: '
   }
 
   ,industrias_personal_ofic: {
     ar: 'Personal Oficina: '
+    ,en: 'Office Staff: '
   }
 
   ,industrias_personal_fab: {
     ar: 'Personal Fábrica: '
+    ,en: 'Factory Staff: '
   }
 
   ,industrias_datos_establ: {
     ar: 'Datos del Establecimiento'
+    ,en: 'Establishment Data: '
   }
 
   ,industrias_direccion: {
     ar: 'Dirección: '
+    ,en: 'Address: '
   }
 
   ,industrias_actividad: {
     ar: 'Actividad: '
+    ,en: 'Activity: '
   }
 
   ,industrias_curt: {
     ar: 'CURT '
+    ,en: 'CURT '
   }
 
   ,industrias_cuit: {
