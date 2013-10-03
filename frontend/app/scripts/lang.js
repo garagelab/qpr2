@@ -33,6 +33,7 @@ var txt = { xxx:0
 
   ,industrias_website: {
     ar: 'Sitio web: '
+    ,en: 'Website: '
   }
 
   ,industrias_zona_ind: {
