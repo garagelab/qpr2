@@ -198,7 +198,7 @@ function( data, sync_opt )
         name: 'ac'
         ,txt: [
           lang('industrias_ev_ac')
-          ,d.ac_fecha 
+          ,utils.date_iso2arg( d.ac_fecha )
         ].join(' ')
       });
 
@@ -207,7 +207,7 @@ function( data, sync_opt )
         name: 'pri'
         ,txt: [
           lang('industrias_ev_pri')
-          ,d.pri
+          ,utils.date_iso2arg( d.pri )
         ].join(' ')
       });
 
@@ -216,7 +216,7 @@ function( data, sync_opt )
         name: 'rec'
         ,txt: [
           lang('industrias_ev_rec')
-          ,d.reconvertida
+          ,utils.date_iso2arg( d.reconvertida )
         ].join(' ')
       });
 

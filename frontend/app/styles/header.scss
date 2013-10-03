@@ -1,0 +1,50 @@
+
+.container .header.pure-menu 
+{
+  background-color: #333;
+  //position: fixed;
+  //top: 0px;
+  //height: 40px;
+}
+
+.container .header.pure-menu .pure-menu-heading 
+{
+  color: #fff;
+}
+
+.container .header.pure-menu a, .pure-menu .pure-menu-can-have-children>li:after 
+{
+  color: #aaa;
+}
+
+.container .header.pure-menu li a:hover, 
+.container .header.pure-menu li a:focus 
+{
+  //background: #444;
+  background: #000;
+}
+
+.copete 
+{
+  //darktheme
+  //color: #aaa;
+  color: #555;
+  padding: 0px 20px;
+  /*left: 300px;*/
+  /*width: 200px;*/
+  /*font-size: 16px;*/
+}
+
+.copete .title 
+{
+  margin: 10px 0px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.copete .text 
+{
+  margin: 10px 0px;
+  font-size: 14px;
+}
+

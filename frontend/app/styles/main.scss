@@ -8,6 +8,9 @@
 @import 'vars';
 @import 'zindices';
 @import 'scrollbar';
+@import 'farn';
+@import 'header';
+@import 'login';
 @import 'ui/sidebar';
 @import 'ui/layer_controls';
 @import 'ui/widgets';
@@ -52,55 +55,6 @@ html, body
   left: 200px;
 }
 
-.container .header.pure-menu 
-{
-  background-color: #333;
-  //position: fixed;
-  //top: 0px;
-  //height: 40px;
-}
-
-.container .header.pure-menu .pure-menu-heading 
-{
-  color: #fff;
-}
-
-.container .header.pure-menu a, .pure-menu .pure-menu-can-have-children>li:after 
-{
-  color: #aaa;
-}
-
-.container .header.pure-menu li a:hover, 
-.container .header.pure-menu li a:focus 
-{
-  //background: #444;
-  background: #000;
-}
-
-.copete 
-{
-  //darktheme
-  //color: #aaa;
-  color: #555;
-  padding: 0px 20px;
-  /*left: 300px;*/
-  /*width: 200px;*/
-  /*font-size: 16px;*/
-}
-
-.copete .title 
-{
-  margin: 10px 0px;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.copete .text 
-{
-  margin: 10px 0px;
-  font-size: 14px;
-}
-
 #footer 
 {
   background-color: #eee;
@@ -135,25 +89,6 @@ html, body
 .container .pure-menu li a 
 {
   padding: 7px 20px;
-}
-
-#login img
-{
-  position: relative;
-  top: 6px;
-}
-
-#login button
-{
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  padding: 0.2em 1.1em;
-  font-size: 95%;
-
-  color: white;
-  border-radius: 4px;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-  //background: rgb(66, 184, 221);
-  background: rgb(30,30,30);
 }
 
 .icon.goto-origin

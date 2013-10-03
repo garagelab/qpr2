@@ -5,12 +5,14 @@ define( [
     ,'text!tpl/info/proyecto.html'
     ,'text!tpl/info/datos_abiertos.html'
     ,'text!tpl/info/como_visualizar.html'
+    ,'text!tpl/info/contacto.html'
     ], 
 
 function( $, _, Backbone
   ,tpl_proyecto
   ,tpl_datos_abiertos
   ,tpl_como_visualizar
+  ,tpl_contacto
 )
 {
 
@@ -30,6 +32,8 @@ var View = Backbone.View.extend({
       _.template( tpl_datos_abiertos )
     ,como_visualizar: 
       _.template( tpl_como_visualizar )
+    ,contacto: 
+      _.template( tpl_contacto )
   }
 
   ,render: function()

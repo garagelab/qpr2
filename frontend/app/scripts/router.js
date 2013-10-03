@@ -26,6 +26,7 @@ Router.prototype.init = function( layers )
     'proyecto'
     ,'datos_abiertos'
     ,'como_visualizar'
+    ,'contacto'
   ];
 
   var routes = {};

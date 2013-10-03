@@ -65,8 +65,8 @@ var SearchCtrler = function( opt )
     }
     , this );
 
-  $(opt.el).append( geo_view.render().el );
   $(opt.el).append( munis_view.render().el ); 
+  //$(opt.el).append( geo_view.render().el );
   $(opt.el).append( feature_view.render().el );
 
   function parse_features( layers ) 
