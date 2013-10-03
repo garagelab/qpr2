@@ -108,30 +108,36 @@ var txt = { xxx:0
 
   ,industrias_cuit: {
     ar: 'CUIT '
+    ,en: 'CUIT '
   }
 
   ,industrias_producto: {
     ar: 'Producto: '
+    ,en: 'Product '
   }
 
   ,industrias_datos_grales: {
     ar: 'Datos Generales'
+    ,en: 'General Information '
   }
 
   ,industrias_fecha_act: {
     ar: 'Información Actualizada al 11/09/2013'
+    ,en: 'Information Updated on 09/11/2013'
   }
 
   // basurales
 
   ,basurales_fecha_act: {
     ar: 'Fuente: Coordinación Acumar: GIRS/CPPF – Fecha actualización: 03/05/2013'
+    ,en: 'Source: Acumar: GIRS/CPPF – Update Date: 03/05/2013'
   }
 
   // asentamientos
 
   ,asentamientos_cant_flias: {
     ar: 'Cantidad de Familias: '
+    ,en: 'Number of Families: '
   }
 
   ,asentamientos_anio: {
