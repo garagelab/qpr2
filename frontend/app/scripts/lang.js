@@ -18,10 +18,12 @@ var txt = { xxx:0
 
   ,industrias_ev_rec: {
     ar: 'reconvertida el'
+    ,en: 'reconverted on'
   }
 
   ,industrias_ev_pri: {
     ar: 'presentó el PRI el'
+    ,en: 'presented PRI on'
   }
 
   ,industrias_ev_ac: {
