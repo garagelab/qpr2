@@ -28,6 +28,7 @@ var txt = { xxx:0
 
   ,industrias_ev_ac: {
     ar: 'agente contaminante desde'
+    ,en: 'pollutant from'
   }
 
   ,industrias_website: {
