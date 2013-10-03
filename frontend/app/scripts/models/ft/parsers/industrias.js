@@ -105,21 +105,25 @@ function( data, sync_opt )
 
       ,'<div>'
       ,lang('industrias_producto')
+      ,': '
       ,d.producto_1
       ,'</div>'
 
       ,'<div>'
       ,lang('industrias_cuit')
+      ,': '
       ,d.cuit
       ,'</div>'
 
       ,'<div>'
       ,lang('industrias_curt')
+      ,': '
       ,d.curt
       ,'</div>'
 
       ,'<div>'
       ,lang('industrias_actividad')
+      ,': '
       ,d.actividad_1
       ,'</div>'
 
@@ -134,56 +138,67 @@ function( data, sync_opt )
 
       ,'<div>'
       ,lang('industrias_personal_fab')
+      ,': '
       ,d.personal_fabrica
       ,'</div>'
 
       ,'<div>'
       ,lang('industrias_personal_ofic')
+      ,': '
       ,d.personal_oficina
       ,'</div>'
 
       ,'<div>'
       ,lang('industrias_sup_total')
+      ,': '
       ,d.superficie_total
       ,'</div>'
 
       ,'<div>'
       ,lang('industrias_cons_elec')
+      ,': '
       ,d.consumo_electricidad
       ,'</div>'
 
       ,'<div>'
       ,lang('industrias_vert_efl')
+      ,': '
       ,d.vertido_de_efluentes
       ,'</div>'
 
       ,'<div>'
       ,lang('industrias_trat_efl')
+      ,': '
       ,d.tratamiento_de_efluentes
       ,'</div>'
 
       ,'<div>'
       ,lang('industrias_resid_pelig')
+      ,': '
       ,d.residuos_peligrosos
       ,'</div>'
 
       ,'<div>'
       ,lang('industrias_sust_pelig')
+      ,': '
       ,d.sustancias_peligrosas
       ,'</div>'
 
       ,'<div>'
       ,lang('industrias_sust_det')
+      ,': '
       ,d.sustancias_detalle
       ,'</div>'
 
       ,'<div>'
       ,lang('industrias_zona_ind')
+      ,': '
       ,d.zona_industrial
       ,'</div>'
 
       ,'<div>'
       ,lang('industrias_website')
+      ,': '
       ,d.sitio_web
       ,'</div>'
     ]

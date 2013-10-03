@@ -89,9 +89,11 @@ function( data, sync_opt )
 
     resumen = [
       ,lang('asentamientos_cant_flias')
+      ,': '
       ,d.flias
       ,', '
       ,lang('asentamientos_anio')
+      ,': '
       ,d.inicio
     ]
     .join('');
@@ -100,25 +102,30 @@ function( data, sync_opt )
 
       '<div>'
       ,lang('asentamientos_cant_flias')
+      ,': '
       ,d.flias
       ,'</div>'
 
       ,'<div>'
       ,lang('asentamientos_anio')
+      ,': '
       ,d.inicio
       ,'</div>'
 
       ,'<div>'
       ,lang('asentamientos_otra_denom')
+      ,': '
       ,d.otra_denominacion
       ,'</div>'
 
       ,'<div>'
       ,lang('asentamientos_fecha_relev')
+      ,': '
       ,'</div>'
 
       //,'<div>'
       //,lang('asentamientos_red_cloacal')
+      //,': '
       //,d.red_cloacal
       //,'</div>'
 

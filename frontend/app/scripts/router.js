@@ -2,11 +2,13 @@ define( [
     'jquery'
     ,'underscore'
     ,'backbone'
+    ,'lang'
     ,'views/ui/LoadingRoute'
     ], 
 
 function( 
   $, _, Backbone
+  ,lang
   ,LoadingRoute )
 {
 
@@ -43,9 +45,15 @@ Router.prototype.init = function( layers )
       _.object(info,info) );
 
   _.extend( routes, {'tabla/:layer': 'tabla'} );
+  _.extend( routes, {'lang/:lang': 'lang'} );
 
 
-  var fns = {};
+  var fns = {
+    lang: function( _lang )
+    {
+      lang.set( _lang );
+    }
+  };
 
   _.extend( fns,
     _.object( _.map( 

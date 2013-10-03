@@ -540,7 +540,7 @@ var App = function()
 
   //});
 
-  window.layers = layers;
+  //window.layers = layers;
   //window.router = router;
   //window.stats = stats;
   //window.map = mapview.map();

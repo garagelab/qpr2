@@ -32,58 +32,58 @@ var txt = { xxx:0
   }
 
   ,industrias_website: {
-    ar: 'Sitio web: '
-    ,en: 'Website: '
+    ar: 'Sitio web'
+    ,en: 'Website'
   }
 
   ,industrias_zona_ind: {
-    ar: 'Zona Industrial: '
-    ,en: 'Industrial Zone: '
+    ar: 'Zona Industrial'
+    ,en: 'Industrial Zone'
   }
 
   ,industrias_sust_det: {
-    ar: 'Sustancias Detalle: '
-    ,en: 'Substances Detalail: '
+    ar: 'Sustancias Detalle'
+    ,en: 'Substances Detalail'
   }
 
   ,industrias_sust_pelig: {
-    ar: 'Sustancias Peligrosas: '
-    ,en: 'Dangerous Substances: '
+    ar: 'Sustancias Peligrosas'
+    ,en: 'Dangerous Substances'
   }
 
   ,industrias_resid_pelig: {
-    ar: 'Residuos Peligrosos: '
-    ,en: 'Dangerous Waste: '
+    ar: 'Residuos Peligrosos'
+    ,en: 'Dangerous Waste'
   }
 
   ,industrias_trat_efl: {
-    ar: 'Tratamiento de Efluentes: '
-    ,en: 'Effluent Treatment: '
+    ar: 'Tratamiento de Efluentes'
+    ,en: 'Effluent Treatment'
   }
 
   ,industrias_vert_efl: {
-    ar: 'Vertido de Efluentes: '
-    ,en: 'Effluent Discharge: '
+    ar: 'Vertido de Efluentes'
+    ,en: 'Effluent Discharge'
   }
 
   ,industrias_cons_elec: {
-    ar: 'Consumo de Electricidad: '
-    ,en: 'Electricity Consumption: '
+    ar: 'Consumo de Electricidad'
+    ,en: 'Electricity Consumption'
   }
 
   ,industrias_sup_total: {
-    ar: 'Superficie Total: '
-    ,en: 'Total Area: '
+    ar: 'Superficie Total'
+    ,en: 'Total Area'
   }
 
   ,industrias_personal_ofic: {
-    ar: 'Personal Oficina: '
-    ,en: 'Office Staff: '
+    ar: 'Personal Oficina'
+    ,en: 'Office Staff'
   }
 
   ,industrias_personal_fab: {
-    ar: 'Personal Fábrica: '
-    ,en: 'Factory Staff: '
+    ar: 'Personal Fábrica'
+    ,en: 'Factory Staff'
   }
 
   ,industrias_datos_establ: {
@@ -92,28 +92,28 @@ var txt = { xxx:0
   }
 
   ,industrias_direccion: {
-    ar: 'Dirección: '
-    ,en: 'Address: '
+    ar: 'Dirección'
+    ,en: 'Address'
   }
 
   ,industrias_actividad: {
-    ar: 'Actividad: '
-    ,en: 'Activity: '
+    ar: 'Actividad'
+    ,en: 'Activity'
   }
 
   ,industrias_curt: {
-    ar: 'CURT '
-    ,en: 'CURT '
+    ar: 'CURT'
+    ,en: 'CURT'
   }
 
   ,industrias_cuit: {
-    ar: 'CUIT '
-    ,en: 'CUIT '
+    ar: 'CUIT'
+    ,en: 'CUIT'
   }
 
   ,industrias_producto: {
-    ar: 'Producto: '
-    ,en: 'Product '
+    ar: 'Producto'
+    ,en: 'Product'
   }
 
   ,industrias_datos_grales: {
@@ -136,18 +136,18 @@ var txt = { xxx:0
   // asentamientos
 
   ,asentamientos_cant_flias: {
-    ar: 'Cantidad de Familias: '
-    ,en: 'Number of Families: '
+    ar: 'Cantidad de Familias'
+    ,en: 'Number of Families'
   }
 
   ,asentamientos_anio: {
-    ar: 'Año de conformación: '
-    ,en: 'Year of creation:'
+    ar: 'Año de conformación'
+    ,en: 'Year of creation'
   }
 
   ,asentamientos_otra_denom: {
-    ar: 'Otra Denominación: '
-    ,en: 'Another Name:'
+    ar: 'Otra Denominación'
+    ,en: 'Another Name'
   }
 
   ,asentamientos_fecha_relev: {
@@ -156,7 +156,7 @@ var txt = { xxx:0
   }
 
   ,asentamientos_red_cloacal: {
-    ar: 'Red Cloacal: '
+    ar: 'Red Cloacal'
     ,en: 'Red Sewage'
   }
 
@@ -200,13 +200,13 @@ var txt = { xxx:0
   }
 
   ,stats_intro_title: {
-    ar: 'En la Cuenca Matanza Riachuelo hay:'
-    ,en: 'In the basin of Matanza Riachuelo there are:'
+    ar: 'En la Cuenca Matanza Riachuelo hay'
+    ,en: 'In the basin of Matanza Riachuelo there are'
   }
 
   ,stats_intro_remate: {
-    ar: 'y un Proceso de Monitoreo Social en marcha...'
-    ,en: 'and Social Monitoring Process running...'
+    ar: 'y un Proceso de Monitoreo Social en marcha'
+    ,en: 'and a Social Monitoring Process running'
   }
 
   ,stats_intro_basurales: {

@@ -60,8 +60,8 @@ var StatsIntroCtrler = function( opt )
   {
 
     model.set({
-      title: lang('stats_intro_title')
-      ,remate: lang('stats_intro_remate')
+      title: lang('stats_intro_title')+':'
+      ,remate: lang('stats_intro_remate')+'...'
       ,items: _.map( up_ls, function( stat_key )
       {
         return [
