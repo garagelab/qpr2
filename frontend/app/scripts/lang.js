@@ -142,74 +142,91 @@ var txt = { xxx:0
 
   ,asentamientos_anio: {
     ar: 'Año de conformación: '
+    ,en: 'Year of creation:'
   }
 
   ,asentamientos_otra_denom: {
     ar: 'Otra Denominación: '
+    ,en: 'Another Name:'
   }
 
   ,asentamientos_fecha_relev: {
     ar: 'Fecha de Relevamiento: Enero 2013'
+    ,en: 'Survey Date: January 2013'
   }
 
   ,asentamientos_red_cloacal: {
-    ar: 'Red Clocal: '
+    ar: 'Red Cloacal: '
+    ,en: 'Red Sewage'
   }
 
   // tablas
 
   ,tabla_title: {
     ar: 'Titulo'
+    ,en: 'Title'
   }
 
   ,tabla_date: {
     ar: 'Fecha'
+    ,en: 'Date'
   }
 
   ,tabla_source: {
     ar: 'Fuente'
+    ,en: 'Source'
   }
 
   // ui
 
   ,temas: {
     ar: 'Temas'
+    ,en: 'Topics'
   }
 
   ,localizacion: {
     ar: 'Localización'
+    ,en: 'Location'
   }
 
   ,search_no_res: {
     ar: 'Sin resultados...'
+    ,en: 'No results...'
   }
 
   ,stats_layer: {
     ar: 'Hay <%- cant %> <%- layer_name %> en la Cuenca'
+    ,en: 'There are <%- cant %> <%- layer_name %> in the basin'
   }
 
   ,stats_intro_title: {
     ar: 'En la Cuenca Matanza Riachuelo hay:'
+    ,en: 'In the basin of Matanza Riachuelo there are:'
   }
 
   ,stats_intro_remate: {
     ar: 'y un Proceso de Monitoreo Social en marcha...'
+    ,en: 'and Social Monitoring Process running...'
   }
 
   ,stats_intro_basurales: {
     ar: 'Basurales remanentes'
+    ,en: 'Landfill remnants'
   }
 
   ,stats_intro_ac: {
     ar: 'Industrias declaradas agentes contaminantes'
+    ,en: 'Industries declared pollutants'
   }
 
   ,stats_intro_pri: {
     ar: 'Industrias han presentado planes de reconversión'
+    ,en: 'Industries have submitted conversion plans'
   }
 
   ,stats_intro_rec: {
     ar: 'Industrias han reconvertido sus procesos'
+    ,en: 'Industries have converted their processes'
   }
 
 };
