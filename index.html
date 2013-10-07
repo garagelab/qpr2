@@ -12,17 +12,12 @@
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
   <link rel="dns-prefetch" href="https://www.googleapis.com/">
   <link rel="dns-prefetch" href="https://quepasariachuelo.crowdmap.com/">
+
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
   <link href="styles/main.css" rel="stylesheet">
 
-  <link href="lib/pure-min.css" rel="stylesheet">
-  <!--<link href="lib/pure-nr-min.css" rel="stylesheet">-->
   <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-
-  <!--<link rel="stylesheet" href="lib/leaflet/leaflet.css" />-->
-
-  <link href="lib/jquery.qtip.min.css" rel="stylesheet">
-  <link href="lib/jquery.tipsy.css" rel="stylesheet">
 
   <script src="scripts/vendor/modernizr.js"></script>
 </head>
@@ -31,17 +26,25 @@
 
   <div class="container">
 
+    <img class="monitoreo-social" src="images/monitoreo-social.png">
+
     <div class="header pure-menu pure-menu-open pure-menu-horizontal">
 
       <a href="#" class="pure-menu-heading goto-origin">Qué Pasa, Riachuelo?</a>
+
       <ul>
         <!--<li class="pure-menu-selected"><a href="#">selected....</a></li>-->
-        <li><a href="#">El Proyecto</a></li>
-        <li><a href="#">Datos Abiertos</a></li>
-        <li><a href="#">Cómo visualizar QPR</a></li>
+        <li><a href="#proyecto">El Proyecto</a></li>
+        <li><a href="#datos_abiertos">Datos Abiertos</a></li>
+        <li><a href="#como_visualizar">Cómo visualizar QPR</a></li>
 
-        <!--<li class="layer documentos" style="cursor:pointer;background-color:rgba(0, 0, 0, 0);"><a>Documentos</a></li>-->
-        <!--<li class="layer normativas" style="cursor:pointer;background-color:rgba(0, 0, 0, 0);"><a>Normativas</a></li>-->
+        <!--poner class layer -->
+        <!--para que togglee los layers-->
+        <li class="documentos" style="cursor:pointer;background-color:rgba(0, 0, 0, 0)"><a href="#tabla/documentos">Documentos</a></li>
+
+        <li class="normativas" style="cursor:pointer;background-color:rgba(0, 0, 0, 0)"><a href="#tabla/normativas">Normativas</a></li>
+
+        <li><a href="#contacto">Contacto</a></li>
 
         <!--<li id="login"><a href="#"></a>-->
           <!--<i class="icon-user"></i>-->
@@ -67,19 +70,11 @@
 
     </div>         
 
-    <div class="content">
-
-      <div id="map"></div>
-
-      <div class="layers"></div>
-
-      <div class="widgets"></div>
-
-      <i class="icon-screenshot icon goto-origin"></i>
-
-    </div>   
+    <div id="map"></div>
+    <i class="icon-screenshot icon goto-origin"></i>
 
     <div id="footer" class="pure-menu pure-menu-open pure-menu-horizontal">
+      <!--<img src="images/monitoreo-social.png">-->
       <img src="images/farn.png">
       <img src="images/fund-ciudad.png">
       <img src="images/fopea.png">
@@ -89,8 +84,8 @@
 
   </div> 
 
-  <div id="enviar-alerta-frame-container">
-  <!--<iframe id='enviar-alerta-frame' src='//quepasariachuelo.crowdmap.com/reports/submit' width='1000px' height='100%' frameborder='0' style='position:absolute; left:200px; border:none; overflow-x:hiden; overflow-y:auto;'></iframe>-->
+  <div id="enviar-alerta-frame-container" style="visibility:hidden"> 
+    <!--<iframe id='enviar-alerta-frame' src='//quepasariachuelo.crowdmap.com/reports/submit' width='1000px' height='100%' frameborder='0' style='position:absolute; left:200px; border:none; overflow-x:hiden; overflow-y:auto;'></iframe>-->
   </div>
 
   <!--<iframe src='http://embed.verite.co/timeline/?source=0Agl_Dv6iEbDadHdKcHlHcTB5bzhvbF9iTWwyMmJHdkE&font=Bevan-PotanoSans&maptype=toner&lang=en&height=500' width='100%' height='500' frameborder='0' style='position:absolute; bottom:-450px;'></iframe>-->
@@ -107,9 +102,9 @@
       <!--s.parentNode.insertBefore(g,s)}(document,'script'));-->
   <!--</script>-->
 
-  <script src="https://maps.googleapis.com/maps/api/js?sensor=false&language=es"></script>
+  <!--<script src="https://maps.googleapis.com/maps/api/js?sensor=false&language=es"></script>-->
 
-  <!--<script src="https://maps.googleapis.com/maps/api/js?sensor=false&language=es&libraries=places"></script>--> 
+  <script src="https://maps.googleapis.com/maps/api/js?sensor=false&language=es&libraries=places"></script> 
 
   <script src="https://apis.google.com/js/client.js"></script>
 
