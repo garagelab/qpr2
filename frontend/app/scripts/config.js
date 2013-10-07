@@ -48,10 +48,10 @@ return {
       name: 'industrias'
       ,model: {
         type: 'fusiontables'
-        // industrias1 geolocalizada
-        //,ftid: '1iCgpDNL1LWwqnLvGyizaxlBol0jz2DH_lpR2ajw' 
         // industrias2
-        ,ftid: '1OM9zinDVTeLtWYSaWdcrdKbNeeY8gkUgqs3yqWU' 
+        //,ftid: '1OM9zinDVTeLtWYSaWdcrdKbNeeY8gkUgqs3yqWU' 
+        // industrias3
+        ,ftid: '1eFCc108mIsTWu2FP3HiTmd4htZRipdm__5G77bs' 
       }
       ,view: {
         icon: {

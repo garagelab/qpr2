@@ -227,10 +227,10 @@ if __name__ == '__main__':
     if os.path.isfile('qpr.sqlite'):
         os.unlink('qpr.sqlite')
 
-    parse_csv('data/agente_contaminante201324050726.csv', '|', campos_importantes_ac, 'agentes_contaminantes', 'qpr.sqlite')
-    parse_csv('data/plan_reconversion_industrial201324050726.csv', '|', campos_importantes_pri, 'pri', 'qpr.sqlite')
-    parse_csv('data/reconvertidos.txt201324050726.csv', '|', campos_importantes_fuera_ac, 'reconvertida', 'qpr.sqlite')
-    parse_csv('data/inspeccion201324050726.csv', '|', campos_importantes_inspecciones, 'inspecciones', 'qpr.sqlite')
+    parse_csv('data/agente_contaminante201302090704.csv', '|', campos_importantes_ac, 'agentes_contaminantes', 'qpr.sqlite')
+    parse_csv('data/plan_reconversion_industrial201302090704.csv', '|', campos_importantes_pri, 'pri', 'qpr.sqlite')
+    parse_csv('data/reconvertidos.txt201302090704.csv', '|', campos_importantes_fuera_ac, 'reconvertida', 'qpr.sqlite')
+    parse_csv('data/inspeccion201302090704.csv', '|', campos_importantes_inspecciones, 'inspecciones', 'qpr.sqlite')
     parse_csv('data/Dje_sicmar_2012_10_14_23.csv', '|', campos_importantes_industrias_dje, 'industrias_dje', 'qpr.sqlite', csv.QUOTE_NONE)
 
     try:

@@ -8,9 +8,13 @@
 
 .search .search-field
 {
-  margin: 10px 0px;
-  height: 30px;
+  position: absolute;
+  right: 0px;
 }
+
+.search .search-municipios { top: 10px; }
+.search .search-geoloc { top: 40px; }
+.search .search-feature { top: 90px; }
 
 .search .search-field .selectize-input
 ,.search .search-geoloc input[type=text]

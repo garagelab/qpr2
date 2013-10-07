@@ -177,6 +177,13 @@ var txt = { xxx:0
     ,en: 'Source'
   }
 
+  // layer controls
+
+  ,layer_controls_source: {
+    ar: 'Fuente'
+    ,en: 'Source'
+  }
+
   // ui
 
   ,temas: {
@@ -241,6 +248,11 @@ var lang = function(key)
 lang.set = function( _lang )
 {
   cur_lang = _lang;
+}
+
+lang.get = function()
+{
+  return cur_lang;
 }
 
 return lang;

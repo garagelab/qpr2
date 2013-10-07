@@ -1,4 +1,17 @@
 
+img.monitoreo-social
+{
+  float: left;
+  height: 30px;
+  margin-top: 5px;
+  margin-left: 5px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  //opacity: 0.7;
+  //filter:alpha(opacity=40); /* For IE8 and earlier */
+}
+
 .container .header.pure-menu 
 {
   background-color: #333;

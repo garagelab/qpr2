@@ -2,13 +2,14 @@ define( [
     'jquery'
     ,'underscore'
     ,'backbone'
-    ,'config'
+    ,'lang','config'
     ,'controllers/ui/SearchCtrler'
     ,'text!tpl/ui/layer_controls.html'
     ,'text!tpl/ui/widgets.html'
     ], 
 
 function( $, _, Backbone
+  ,lang
   ,config
   ,SearchCtrler
   ,tpl_layer_ctrls
@@ -44,7 +45,7 @@ var UI = function( opt )
         ,function( lc )
         {
           if ( lc.fuente )
-            lc.fuente = 'Fuente: '+lc.fuente;
+            lc.fuente = lang('layer_controls_source') + ': ' + lc.fuente;
           return lc;
         });
     });
