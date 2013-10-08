@@ -37,7 +37,7 @@ $layer_ctrl_icon_top: 3px;
 {
   margin: 1px 0px; 
   padding: 5px;
-  height: 27px;
+  height: 30px;
   line-height: 20px;
   cursor: pointer;
   color: #333;
@@ -45,10 +45,20 @@ $layer_ctrl_icon_top: 3px;
 
 .layers .layer .fuente
 {
-  font-size: 9px;
+  font-size: 10px;
   position: relative;
   top: -5px;
-  color: #444;
+}
+
+.layers .layer .fuente a 
+{
+  color: #454545;
+  text-decoration: none;
+}
+
+.layers .layer .fuente a:hover 
+{ 
+  background-color: rgba(0,0,0,0.1); 
 }
 
 .layers .layer.visible .layer-title
@@ -109,7 +119,7 @@ $layer_ctrl_icon_top: 3px;
 .layers .layer.historias
 ,.layers .layer.enviar-alerta
 {
-  height: 30px;
+  height: 33px;
   line-height: 30px;
   //font-weight: bold;
   //margin: 4px 0px;

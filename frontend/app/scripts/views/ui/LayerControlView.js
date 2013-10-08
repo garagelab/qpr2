@@ -20,6 +20,10 @@ var LayerControlView = Backbone.View.extend({
   {
     'click': function(e) 
     {
+      //dont change visibility 
+      //if clicked on <a> tag
+      if ( $(e.target).prop('tagName') === 'A' )
+        return;
       this.visible( ! this._visible );
       this.trigger( 
         'change:visibility',

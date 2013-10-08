@@ -2,12 +2,13 @@ define( [
   'jquery'
   ,'underscore'
   ,'backbone'
+  ,'lang'
   ,'d3'
   ,'text!tpl/detalles/timeline.html'
   ,'qtip2'
   ], 
 
-function( $, _, Backbone, d3, tpl ) 
+function( $, _, Backbone, lang, d3, tpl ) 
 {
 
 'use strict';
@@ -480,10 +481,11 @@ var TimelineView = Backbone.View.extend({
         ini_date, end_date ).length;
 
     _timer.text( delay 
-        + ' días ' 
+        + ' ' 
         + ( end 
-          ? 'hasta la primer respuesta'
-          : 'sin respuesta' ) );
+          ? lang('timeline_advocacy_conresp')
+          : lang('timeline_advocacy_sinresp') ) 
+        );
 
   }
 

@@ -34,21 +34,7 @@ var UI = function( opt )
   $( opt.el )
     .append( $layers )
     .append( $widgets )
-    .append( $search )
-
-  _.each( 
-    config.layer_controls.grupos
-    ,function( grupo )
-    {
-      grupo.layers = _.map( 
-        grupo.layers
-        ,function( lc )
-        {
-          if ( lc.fuente )
-            lc.fuente = lang('layer_controls_source') + ': ' + lc.fuente;
-          return lc;
-        });
-    });
+    .append( $search ) 
 
 
   var search = new SearchCtrler({
@@ -63,6 +49,21 @@ var UI = function( opt )
   }
   , this );
 
+
+  // preprocess layer_controls template
+  _.each( 
+    config.layer_controls.grupos
+    ,function( grupo )
+    {
+      grupo.layers = _.map( 
+        grupo.layers
+        ,function( lc )
+        {
+          if ( lc.fuente_name )
+            lc.fuente_name = lang('layer_controls_source') + ': ' + lc.fuente_name;
+          return lc;
+        });
+    });
 
   $layers.append( 
     _.template( tpl_layer_ctrls )

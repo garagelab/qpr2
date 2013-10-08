@@ -12,6 +12,18 @@ var cur_lang = 'ar';
 
 var txt = { xxx:0
 
+  // timeline
+
+  ,timeline_advocacy_conresp: {
+    ar: 'días hasta la respuesta'
+    ,en: 'days to response'
+  }
+
+  ,timeline_advocacy_sinresp: {
+    ar: 'días sin respuesta'
+    ,en: 'days without response'
+  }
+
   // layers 
 
   // industrias
