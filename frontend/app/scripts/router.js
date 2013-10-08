@@ -27,7 +27,7 @@ Router.prototype.init = function( layers )
   var info = [
     'proyecto'
     ,'datos_abiertos'
-    ,'como_visualizar'
+    ,'manual'
     ,'contacto'
   ];
 

@@ -4,14 +4,14 @@ define( [
     ,'backbone'
     ,'text!tpl/info/proyecto.html'
     ,'text!tpl/info/datos_abiertos.html'
-    ,'text!tpl/info/como_visualizar.html'
+    ,'text!tpl/info/manual.html'
     ,'text!tpl/info/contacto.html'
     ], 
 
 function( $, _, Backbone
   ,tpl_proyecto
   ,tpl_datos_abiertos
-  ,tpl_como_visualizar
+  ,tpl_manual
   ,tpl_contacto
 )
 {
@@ -30,8 +30,8 @@ var View = Backbone.View.extend({
       _.template( tpl_proyecto )
     ,datos_abiertos: 
       _.template( tpl_datos_abiertos )
-    ,como_visualizar: 
-      _.template( tpl_como_visualizar )
+    ,manual: 
+      _.template( tpl_manual )
     ,contacto: 
       _.template( tpl_contacto )
   }
