@@ -315,28 +315,28 @@ return {
           ,title: 'Acciones'
           ,icon_url: 'images/markers/accion.png'
           ,fuente_name: 'FARN'
-          ,fuente_url: 'https://qprmonitoreo.crowdmap.com/admin/reports/download'
+          ,fuente_url: 'https://qprmonitoreo.crowdmap.com'
         }
         ,{
           name: 'respuestas'
           ,title: 'Respuestas'
           ,icon_url:'images/markers/respuesta.png'
           ,fuente_name: 'FARN'
-          ,fuente_url: 'https://qprmonitoreo.crowdmap.com/admin/reports/download'
+          ,fuente_url: 'https://qprmonitoreo.crowdmap.com'
         } 
         //,{
           //name: 'documentos'
           //,title: 'Documentos'
           //,icon_url:'images/markers/documento.png'
           //,fuente_name: 'FARN'
-          //,fuente_url: 'https://qprmonitoreo.crowdmap.com/admin/reports/download'
+          //,fuente_url: 'https://qprmonitoreo.crowdmap.com'
         //}
         ,{
           name: 'noticias'
           ,title: 'Noticias'
           ,icon_url: 'images/markers/noticia.png'
           ,fuente_name: 'FOPEA'
-          ,fuente_url: 'https://qprmonitoreo.crowdmap.com/admin/reports/download'
+          ,fuente_url: 'https://qprmonitoreo.crowdmap.com'
         }
       ]
     }

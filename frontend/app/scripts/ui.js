@@ -4,7 +4,7 @@ define( [
     ,'backbone'
     ,'lang','config'
     ,'controllers/ui/SearchCtrler'
-    ,'text!tpl/ui/layer_controls.html'
+    ,'controllers/ui/LayerControlsCtrler'
     ,'text!tpl/ui/widgets.html'
     ], 
 
@@ -12,7 +12,7 @@ function( $, _, Backbone
   ,lang
   ,config
   ,SearchCtrler
-  ,tpl_layer_ctrls
+  ,LayerControlsCtrler
   ,tpl_widgets
   )
 {
@@ -39,7 +39,6 @@ var UI = function( opt )
 
   var search = new SearchCtrler({
     mapview: opt.mapview
-    //,el: $layers
     ,el: $search
   });
 
@@ -50,25 +49,10 @@ var UI = function( opt )
   , this );
 
 
-  // preprocess layer_controls template
-  _.each( 
-    config.layer_controls.grupos
-    ,function( grupo )
-    {
-      grupo.layers = _.map( 
-        grupo.layers
-        ,function( lc )
-        {
-          if ( lc.fuente_name )
-            lc.fuente_name = lang('layer_controls_source') + ': ' + lc.fuente_name;
-          return lc;
-        });
-    });
+  var layer_controls = new LayerControlsCtrler({
+    el: $layers
+  });
 
-  $layers.append( 
-    _.template( tpl_layer_ctrls )
-      ( config.layer_controls )
-  );
 
   $widgets.append( 
     _.template( tpl_widgets ) 
