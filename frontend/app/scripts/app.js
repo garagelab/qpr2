@@ -226,11 +226,6 @@ var App = function()
 
     var feature_abm;
 
-    var _config = {
-      type: 'fusiontables'
-      ,ftid: '1uIgt8vsouqvnDg3TZUFZe4bkMqC1IiM8R006Muw' 
-    };
-
     var DetalleCtrler = 
       props.type === 'historias'
         ? HistoriaDetalleCtrler
@@ -241,7 +236,7 @@ var App = function()
       ,layers: layers
       ,feature: feature
       ,mapview: mapview
-      ,config: _config 
+      ,config: config.links.model 
     });   
 
     detalle.on( 
@@ -277,7 +272,7 @@ var App = function()
         feature: feature
         ,layers: layers
         ,user: user
-        ,config: _config 
+        ,config: config.links.model 
       });
 
       feature_abm.on( 'select:historia', 

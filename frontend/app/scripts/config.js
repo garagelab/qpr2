@@ -13,7 +13,14 @@ var icon_size = 24;
 
 return { 
 
-  layers: [
+  links: {
+    model: {
+      type: 'fusiontables'
+      ,ftid: '1uIgt8vsouqvnDg3TZUFZe4bkMqC1IiM8R006Muw' 
+    }
+  }
+
+  ,layers: [
 
     {
       name: 'historias'
@@ -25,7 +32,7 @@ return {
       //,model: {
         //type: 'fusiontables'
         //,ftid: '1ub97omGUE5TmYe_fsFaBRNKo2KysE_QMW8iRreg' 
-      //}
+      //} 
       ,view: {
         icon: {
           url: 'images/markers/historia.png'
