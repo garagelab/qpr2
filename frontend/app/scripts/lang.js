@@ -12,6 +12,13 @@ var cur_lang = 'ar';
 
 var txt = { xxx:0
 
+  //layers
+
+  ,alertas: {
+    ar: 'Alertas'
+    ,en: 'Alerts'
+  }
+
   // timeline
 
   ,timeline_advocacy_conresp: {

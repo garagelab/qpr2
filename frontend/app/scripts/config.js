@@ -1,9 +1,10 @@
 define( [ 
     'jquery'
     ,'underscore'
+    ,'lang'
     ], 
 
-function( $, _ ) 
+function( $, _, lang ) 
 {
 
 'use strict';
@@ -305,7 +306,7 @@ return {
         }
         ,{
           name: 'alertas'
-          ,title: 'Alertas'
+          ,title: lang('alertas')
           ,icon_url: 'images/markers/alerta.png'
           ,fuente_name: 'Crowdmap'
           ,fuente_url: 'https://quepasariachuelo.crowdmap.com/'

@@ -17,6 +17,22 @@ function(
 var Router = function()
 {
   _.extend( this, Backbone.Events );
+
+
+  var _RouterLang = Backbone.Router.extend({
+    routes: {
+      'lang/:lang': 'lang'
+    }
+    ,lang: function( _lang )
+    {
+      lang.set( _lang );
+    }
+  });
+
+  var _router_lang = new _RouterLang();
+
+  //Backbone.history.start();
+
 }
 
 Router.prototype.init = function( layers )
@@ -45,15 +61,17 @@ Router.prototype.init = function( layers )
       _.object(info,info) );
 
   _.extend( routes, {'tabla/:layer': 'tabla'} );
-  _.extend( routes, {'lang/:lang': 'lang'} );
+  //_.extend( routes, {'lang/:lang': 'lang'} );
 
 
-  var fns = {
-    lang: function( _lang )
-    {
-      lang.set( _lang );
-    }
-  };
+  var fns = {};
+
+  //_.extend( fns, {
+    //lang: function( _lang )
+    //{
+      //lang.set( _lang );
+    //}
+  //});
 
   _.extend( fns,
     _.object( _.map( 
@@ -116,12 +134,14 @@ Router.prototype.init = function( layers )
   this.navigate = _.bind(
       _router.navigate, _router );
 
+
   Backbone.history.start();
-  //Backbone.history.start({ pushState: true });
+
 
   // listen each layer
   // add:feature || parse:complete
   // to check tha route
+
 
   function __route_check(){ _route_check(); }
 

@@ -3,7 +3,6 @@ define( [
     'jquery'
     ,'underscore'
     ,'backbone'
-    //qpr
     ,'config'
     ,'utils'
     ,'router'
@@ -33,6 +32,7 @@ function(
 
   ,config
   ,utils
+
   ,Router
   ,User
   ,UI
@@ -61,7 +61,8 @@ function(
 var App = function() 
 { 
 
-  var router;
+  var router = new Router();
+
   var user, ui;
   var layers;
   var stats, stats_layer, stats_intro;
@@ -407,6 +408,22 @@ var App = function()
 
   // init
 
+  router
+    .on('route:feature', function( feature )
+    {
+      add_detalle( feature, mapview );
+    })
+
+    .on('route:info', function( pagina )
+    {
+      add_info( pagina );
+    })
+
+    .on('route:tabla', function(layer_name)
+    {
+      add_tabla( layer_name );
+    });
+
   new LayerColors().add_css([{
     name: 'subcuencas'
     ,view: { color: '#20B2AA' }
@@ -452,26 +469,9 @@ var App = function()
         });
       });
 
-  layers = make_layers(config.layers, mapview); 
+  layers = make_layers(config.layers, mapview);
 
-  router = new Router();
-  router
-    .on('route:feature', function( feature )
-    {
-      add_detalle( feature, mapview );
-    })
-
-    .on('route:info', function( pagina )
-    {
-      add_info( pagina );
-    })
-
-    .on('route:tabla', function(layer_name)
-    {
-      add_tabla( layer_name );
-    })
-    
-    .init( layers );
+  router.init( layers );
 
   make_gsubcuencas_layer(
     mapview.map() );
