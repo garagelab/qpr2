@@ -17,7 +17,7 @@ return {
   links: {
     model: {
       type: 'fusiontables'
-      ,ftid: '1uIgt8vsouqvnDg3TZUFZe4bkMqC1IiM8R006Muw' 
+      ,ftid: '10GZaMtWXgSjpRHtvtMR8iPZ11EEkO4kIsoxH-6o' 
     }
   }
 
@@ -263,7 +263,7 @@ return {
           ,width: marker_size
         }
         ,color: "#5F9EA0"
-        //,visible: true
+        ,visible: true
       }
     }
 
@@ -286,7 +286,7 @@ return {
           ,width: marker_size
         }
         ,color: "#5F9EA0"
-        //,visible: true
+        ,visible: true
       }
     }
 
@@ -309,42 +309,49 @@ return {
           ,title: lang('alertas')
           ,icon_url: 'images/markers/alerta.png'
           ,fuente_name: 'Crowdmap'
-          ,fuente_url: 'https://quepasariachuelo.crowdmap.com/'
+          //,fuente_url: 'https://quepasariachuelo.crowdmap.com/'
         }
         ,{
           name: 'historias'
           ,title: 'Historias'
           ,icon_url: 'images/markers/historia.png'
           ,fuente_name: 'FARN'
-          ,fuente_url: 'https://www.google.com/fusiontables/DataSource?docid=1uIgt8vsouqvnDg3TZUFZe4bkMqC1IiM8R006Muw'
+          //,fuente_url: 'https://www.google.com/fusiontables/DataSource?docid=1uIgt8vsouqvnDg3TZUFZe4bkMqC1IiM8R006Muw'
         }
         ,{
           name: 'acciones'
           ,title: 'Acciones'
           ,icon_url: 'images/markers/accion.png'
           ,fuente_name: 'FARN'
-          ,fuente_url: 'https://qprmonitoreo.crowdmap.com'
+          //,fuente_url: 'https://qprmonitoreo.crowdmap.com'
         }
         ,{
           name: 'respuestas'
           ,title: 'Respuestas'
           ,icon_url:'images/markers/respuesta.png'
           ,fuente_name: 'FARN'
-          ,fuente_url: 'https://qprmonitoreo.crowdmap.com'
-        } 
-        //,{
-          //name: 'documentos'
-          //,title: 'Documentos'
-          //,icon_url:'images/markers/documento.png'
-          //,fuente_name: 'FARN'
           //,fuente_url: 'https://qprmonitoreo.crowdmap.com'
-        //}
+        } 
+        ,{
+          name: 'documentos'
+          ,title: 'Documentos'
+          ,icon_url:'images/markers/documento.png'
+          ,fuente_name: 'FARN'
+          //,fuente_url: 'https://qprmonitoreo.crowdmap.com'
+        }
+        ,{
+          name: 'normativas'
+          ,title: 'Normativas'
+          ,icon_url:'images/markers/normativa.png'
+          ,fuente_name: 'FARN'
+          //,fuente_url: 'https://qprmonitoreo.crowdmap.com'
+        }
         ,{
           name: 'noticias'
           ,title: 'Noticias'
           ,icon_url: 'images/markers/noticia.png'
           ,fuente_name: 'FOPEA'
-          ,fuente_url: 'https://qprmonitoreo.crowdmap.com'
+          //,fuente_url: 'https://qprmonitoreo.crowdmap.com'
         }
       ]
     }
@@ -358,35 +365,35 @@ return {
           ,title: 'Industrias'
           ,icon_url:'images/markers/industria.png'
           ,fuente_name: 'ACUMAR csv'
-          ,fuente_url: 'https://www.google.com/fusiontables/DataSource?docid=1eFCc108mIsTWu2FP3HiTmd4htZRipdm__5G77bs'
+          //,fuente_url: 'https://www.google.com/fusiontables/DataSource?docid=1eFCc108mIsTWu2FP3HiTmd4htZRipdm__5G77bs'
         }
         ,{
           name: 'basurales'
           ,title: 'Basurales'
           ,icon_url: 'images/markers/basural.png'
           ,fuente_name: 'ACUMAR pdf kml'
-          ,fuente_url: 'https://www.google.com/fusiontables/DataSource?docid=1hffu-50r0VQKUh7GKpEShnqOzE9yic_NaD8ZQzE'
+          //,fuente_url: 'https://www.google.com/fusiontables/DataSource?docid=1hffu-50r0VQKUh7GKpEShnqOzE9yic_NaD8ZQzE'
         }
         ,{
           name: 'asentamientos'
           ,title: 'Asentamientos'
           ,icon_url:'images/markers/asentamiento.png'
           ,fuente_name: 'TECHO fusiontables'
-          ,fuente_url: 'http://datospublicos.org/package/catastro-buenos-aires-2011-un-techo-para-mi-pais'
+          //,fuente_url: 'http://datospublicos.org/package/catastro-buenos-aires-2011-un-techo-para-mi-pais'
         }
         ,{
           name: 'ecopuntos'
           ,title: 'Ecopuntos'
           ,icon_url: 'images/markers/ecopunto.png'
           ,fuente_name: 'ACUMAR kml'
-          ,fuente_url: 'https://www.google.com/fusiontables/DataSource?docid=1-c4LH4aZ0U38z3EAj529xEgayza6C8zOdaqzJJA'
+          //,fuente_url: 'https://www.google.com/fusiontables/DataSource?docid=1-c4LH4aZ0U38z3EAj529xEgayza6C8zOdaqzJJA'
         }
         ,{
           name: 'subcuencas'
           ,title: 'Subcuencas'
           ,icon_url: 'images/markers/arroyo.png'
           ,fuente_name: 'ACUMAR kml'
-          ,fuente_url: 'https://www.google.com/fusiontables/DataSource?docid=1BSNFzXOaGd6wog43nNkZRqBdJ_ai-SkCkB2R2qs'
+          //,fuente_url: 'https://www.google.com/fusiontables/DataSource?docid=1BSNFzXOaGd6wog43nNkZRqBdJ_ai-SkCkB2R2qs'
         }
       ]
     }
