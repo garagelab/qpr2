@@ -17,7 +17,13 @@
       <div class="layer <%= layer.name %>">
         <span class="layer-title"><%= layer.title %></span>
         <img src="<%= layer.icon_url %>">
-        <div class="fuente"><a href="<%= layer.fuente_url %>" <% if (layer.fuente_filename) { %>download="<%= layer.fuente_filename %>"<% } %>target="_blank"><%= layer.fuente_name %></a></div>
+        <div class="fuente"> 
+          <% if (layer.fuente_url) { %> 
+            <a href="<%= layer.fuente_url %>" <% if (layer.fuente_filename) { %>download="<%= layer.fuente_filename %>"<% } %>target="_blank"><%= layer.fuente_name %></a> 
+          <% } else { %> 
+            <%= layer.fuente_name %>
+          <% } %> 
+        </div>
       </div>
 
     <% }); %>
