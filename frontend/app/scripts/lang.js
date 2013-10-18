@@ -8,15 +8,85 @@ function( $, _ )
 
 'use strict';
 
-var cur_lang = 'ar';
+var cur_lang = 'en';
 
 var txt = { xxx:0
 
   //layers
 
+  ,monitoreo: {
+    ar: 'Monitoreo Social'
+    ,en: 'Social Monitoring'
+  }
+
+  ,'datos-publicos': {
+    ar: 'Datos Públicos'
+    ,en: 'Public Data'
+  }
+
+  ,'enviar-alerta': {
+    ar: 'Enviá tu Alerta'
+    ,en: 'Send your Alert'
+  }
+
   ,alertas: {
     ar: 'Alertas'
     ,en: 'Alerts'
+  }
+
+  ,historias: {
+    ar: 'Historias'
+    ,en: 'Stories'
+  }
+
+  ,acciones: {
+    ar: 'Acciones'
+    ,en: 'Actions'
+  }
+
+  ,respuestas: {
+    ar: 'Respuestas'
+    ,en: 'Responses'
+  }
+
+  ,documentos: {
+    ar: 'Documentos'
+    ,en: 'Documents'
+  }
+
+  ,normativas: {
+    ar: 'Normativas'
+    ,en: 'Laws'
+  }
+
+  ,noticias: {
+    ar: 'Noticias'
+    ,en: 'News'
+  }
+
+  ,industrias: {
+    ar: 'Industrias'
+    ,en: 'Factories'
+  }
+
+  ,basurales: {
+    ar: 'Basurales'
+    ,en: 'Landfills'
+  }
+
+  ,ecopuntos: {
+    ar: 'Ecopuntos'
+    ,en: 'Eco-locaction'
+  }
+
+  ,asentamientos: {
+    ar: 'Asentamientos'
+    ,en: 'Settlement'
+  }
+
+  ,subcuencas: {
+    ar: 'Subcuencas'
+    ,en: 'Sub-Basin'
   }
 
   // timeline

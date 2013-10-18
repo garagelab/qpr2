@@ -83,9 +83,9 @@ function( data, sync_opt )
 
     // checkear que el feature este
     // dentro del poly en cuestion
-    if ( ! utils.point_in_polygon( 
-          coordarr, config.polygon ) )
-      return;
+    //if ( ! utils.point_in_polygon( 
+          //coordarr, config.polygon ) )
+      //return;
 
     resumen = [
       ,lang('asentamientos_cant_flias')
