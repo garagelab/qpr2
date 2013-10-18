@@ -76,7 +76,7 @@ var txt = { xxx:0
 
   ,ecopuntos: {
     ar: 'Ecopuntos'
-    ,en: 'Eco-locaction'
+    ,en: 'Eco-Location'
   }
 
   ,asentamientos: {

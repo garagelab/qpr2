@@ -362,7 +362,7 @@ return {
       ,layers: [
         {
           name: 'industrias'
-          ,title: 'Industrias'
+          ,title: lang('industrias')
           ,icon_url:'images/markers/industria.png'
           ,fuente_name: 'ACUMAR csv'
           //,fuente_url: 'https://www.google.com/fusiontables/DataSource?docid=1eFCc108mIsTWu2FP3HiTmd4htZRipdm__5G77bs'
