@@ -8,7 +8,7 @@ function( $, _ )
 
 'use strict';
 
-var cur_lang = 'en';
+var cur_lang = 'ar';
 
 var txt = { xxx:0
 
