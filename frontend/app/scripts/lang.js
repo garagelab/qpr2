@@ -66,7 +66,7 @@ var txt = { xxx:0
 
   ,industrias: {
     ar: 'Industrias'
-    ,en: 'Factories'
+    ,en: 'Industries'
   }
 
   ,basurales: {
@@ -76,7 +76,7 @@ var txt = { xxx:0
 
   ,ecopuntos: {
     ar: 'Ecopuntos'
-    ,en: 'Eco-Location'
+    ,en: 'Ecopoints'
   }
 
   ,asentamientos: {
@@ -86,7 +86,7 @@ var txt = { xxx:0
 
   ,subcuencas: {
     ar: 'Subcuencas'
-    ,en: 'Sub-Basin'
+    ,en: 'Sub Basins'
   }
 
   // timeline
