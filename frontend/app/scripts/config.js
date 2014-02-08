@@ -133,9 +133,11 @@ return {
       name: 'asentamientos'
       ,model: {
         type: 'fusiontables'
-        //Copy of Catastro Buenos Aires 2011 - Techo (enero 2013)
-        ,ftid: '1pvxuekPN-GVy_O936TbidjJXZaK1VdUtsVBpQ9c' 
-        //Catastro Buenos Aires 2011 - Techo (enero 2013)
+//6 de febrero 2014 - dic 4 Copy of Catastro Buenos Aires 2011 - Techo (enero 2013)
+        ,ftid: '1YYKgRc5PGvUl6hQKhH2Sy6nFgA57q7yILEGb6BA' 
+//dic 4 Copy of Catastro Buenos Aires 2011 - Techo (enero 2013)
+        //,ftid: '1pvxuekPN-GVy_O936TbidjJXZaK1VdUtsVBpQ9c' 
+//Catastro Buenos Aires 2011 - Techo (enero 2013)
         //,ftid: '1_fEVSZmIaCJzDQoOgTY7pIcjBLng1MFOoeeTtYY' 
       }
       ,view: {
