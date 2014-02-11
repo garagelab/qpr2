@@ -57,6 +57,12 @@ function( data, sync_opt )
   var rows = data.rows;
   //var row, i = rows.length;
 
+  var is_outexc, outexc_k, outexc = [
+    'Villa Inflamable'
+    ,'Santa Catalina'
+    ,'Danubio Azul'
+  ];
+
   //while( i-- )
   function parse( row )
   {
@@ -83,7 +89,14 @@ function( data, sync_opt )
 
     // checkear que el feature este
     // dentro del poly en cuestion
-    if ( ! utils.point_in_polygon( 
+    // salvo excepciones.... 
+
+    is_outexc = false;
+    for ( outexc_k in outexc )
+      if (d.barrio === outexc[outexc_k])
+        is_outexc = true;
+    if ( ! is_outexc
+        && ! utils.point_in_polygon( 
           coordarr, config.polygon ) )
       return;
 
