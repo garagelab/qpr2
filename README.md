@@ -15,7 +15,7 @@ ver en browser
 grunt server  
 ```
 
-buildear en /dist  
+compilar en /dist  
 ```
 grunt build  
 ```

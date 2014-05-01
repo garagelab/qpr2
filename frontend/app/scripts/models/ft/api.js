@@ -35,10 +35,13 @@ FT_API.prototype.access = function( callback )
   {
     gapi.client.request({
       path: '/fusiontables/v1/tables'
+      ,params: {
+        maxResults: 1000
+      }
       ,callback: function( res ) 
       {
         _fn.tables = res.items 
-          ? _.pluck( res.items, 'tableId' )
+          ? _.pluck(res.items, 'tableId')
           : [];
         _cb();
       }
