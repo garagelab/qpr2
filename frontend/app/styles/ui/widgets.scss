@@ -1,5 +1,10 @@
 @import 'vars';
 
+.widgets 
+{
+  width: $widgets_w;
+}
+
 .widget 
 {
   z-index: 1;
