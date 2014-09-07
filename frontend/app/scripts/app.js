@@ -221,9 +221,10 @@ var App = function()
 
     var props = feature.get('properties');
 
-    if ( router )
-      router.navigate( 
-        encodeURI( props.type+'/'+props.id ) );
+    var url = encodeURIComponent( props.type+'/'+props.id );
+
+    if ( router ) router.navigate( url );
+    ga( 'send', 'pageview', '/#'+url );
 
     var feature_abm;
 

@@ -8,7 +8,7 @@ function( $, _ )
 
 'use strict';
 
-//'http://nodejs-chparsons.rhcloud.com/jsonp?url='+encodeURIComponent('https://quepasariachuelo.crowdmap.com/api?task=incidents'
+//'http://qpr2-chparsons.rhcloud.com/jsonp?url='+encodeURIComponent('https://quepasariachuelo.crowdmap.com/api?task=incidents'
 
 var Crowdmap_API = function( opt )
 {
@@ -22,33 +22,33 @@ function( model, success, error )
   var base_url = this.options.url;
   var params = this.options.read.params;
 
+  //var url = [
+    ////'https://quepasariachuelo.crowdmap.com/api'
+    //base_url
+    //,'/api?'
+    //,$.param( params )
+    //,'&resp=jsonp'
+    //,'&callback=?'
+  //]
+  //.join('');
+
   var url = [
-  //'https://quepasariachuelo.crowdmap.com/api'
-    base_url
-    ,'/api?'
-    ,$.param( params )
-    ,'&resp=jsonp'
-    ,'&callback=?'
+    'http://qpr2-chparsons.rhcloud.com/jsonp'
+    ,'?url=' + encodeURIComponent([
+      base_url
+      ,'/api?'
+      ,$.param( params )
+    ].join(''))
   ]
   .join('');
-
-  //var q = [
-  //'https://quepasariachuelo.crowdmap.com/api'
-  //,'?', $.param( params )
-  //]
-  //.join('');
-
-  //return [
-  //'http://nodejs-chparsons.rhcloud.com/jsonp'
-  //,'?url=' + encodeURIComponent( q )
-  //,'&callback=?'
-  //]
-  //.join('');
 
   $.ajax({
     url: url,
     dataType: 'jsonp',
-    success: success
+    //success: success
+    success: function( res ) {
+      success( JSON.parse( decodeURIComponent( res.data ) ) );
+    }
   });
 
   //Architect.jsonp( url, success );

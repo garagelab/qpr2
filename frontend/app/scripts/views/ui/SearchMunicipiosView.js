@@ -29,7 +29,8 @@ var SearchMunicipiosView = Backbone.View.extend({
 
     this.$el.html( this.tpl({
       items: [
-        'Almirante Brown'
+        'Ciudad Autónoma de Buenos Aires'
+        ,'Almirante Brown'
         ,'Avellaneda'
         ,'Cañuelas'
         ,'Esteban Echeverría'

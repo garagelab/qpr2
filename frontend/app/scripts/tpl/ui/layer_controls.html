@@ -16,7 +16,9 @@
     <% _.each( grupo.layers, function(layer) { %> 
       <div class="layer <%= layer.name %>">
         <span class="layer-title"><%= layer.title %></span>
+        <% if (layer.icon_url) { %>
         <img src="<%= layer.icon_url %>">
+        <% } %>
         <div class="fuente"> 
           <% if (layer.fuente_url) { %> 
             <a href="<%= layer.fuente_url %>" <% if (layer.fuente_filename) { %>download="<%= layer.fuente_filename %>"<% } %>target="_blank"><%= layer.fuente_name %></a> 
