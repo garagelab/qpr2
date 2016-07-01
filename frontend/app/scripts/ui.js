@@ -5,7 +5,7 @@ define( [
     ,'lang','config'
     ,'controllers/ui/SearchCtrler'
     ,'controllers/ui/LayerControlsCtrler'
-    ,'text!tpl/ui/widgets.html'
+    //,'text!tpl/ui/widgets.html'
     ], 
 
 function( $, _, Backbone
@@ -13,7 +13,7 @@ function( $, _, Backbone
   ,config
   ,SearchCtrler
   ,LayerControlsCtrler
-  ,tpl_widgets
+  //,tpl_widgets
   )
 {
 
@@ -28,12 +28,12 @@ var UI = function( opt )
   var $win = $(window);
 
   var $layers = $('<div class="layers sidebar"/>');
-  var $widgets = $('<div class="widgets"/>');
+  //var $widgets = $('<div class="widgets"/>');
   var $search = $('<div class="search"/>');
 
   $( opt.el )
     .append( $layers )
-    .append( $widgets )
+    //.append( $widgets )
     .append( $search ) 
 
 
@@ -54,9 +54,9 @@ var UI = function( opt )
   });
 
 
-  $widgets.append( 
-    _.template( tpl_widgets ) 
-  );  
+  //$widgets.append( 
+    //_.template( tpl_widgets ) 
+  //);  
 
 
   //TODO FIXME 
@@ -146,10 +146,10 @@ var UI = function( opt )
         .find('.close')
         .click( remove_enviar_alerta_frame );
 
-      $widgets.hidden_on_enviar_alerta =
-        $widgets.css('display') === 'none';
+      //$widgets.hidden_on_enviar_alerta =
+        //$widgets.css('display') === 'none';
 
-      $widgets.hide();
+      //$widgets.hide();
     }
 
     else
@@ -172,8 +172,8 @@ var UI = function( opt )
     $enviar_alerta_frame.css(
         'visibility','hidden');
 
-    if ( ! $widgets.hidden_on_enviar_alerta )
-      $widgets.show();
+    //if ( ! $widgets.hidden_on_enviar_alerta )
+      //$widgets.show();
   }
 
   var on_win_resize = _.debounce( function()
@@ -204,12 +204,12 @@ var UI = function( opt )
 
   this.show_widgets = function()
   {
-    $widgets.show();
+    //$widgets.show();
   }
 
   this.hide_widgets = function()
   {
-    $widgets.hide();
+    //$widgets.hide();
   }
 
   //google.load("feeds", "1");
