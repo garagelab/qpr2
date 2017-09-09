@@ -8,6 +8,10 @@ function( $, _ )
 
 'use strict';
 
+var jsonp_service = 'https://json2jsonp.com/'
+//https://json2jsonp.com/?url='+encodeURIComponent('JSON_URL_HERE')+'&callback=CB_FUNCTION_HERE
+
+//var jsonp_service = 'http://qpr2-chparsons.rhcloud.com/jsonp'
 //'http://qpr2-chparsons.rhcloud.com/jsonp?url='+encodeURIComponent('https://quepasariachuelo.crowdmap.com/api?task=incidents'
 
 var Crowdmap_API = function( opt )
@@ -33,7 +37,7 @@ function( model, success, error )
   //.join('');
 
   var url = [
-    'http://qpr2-chparsons.rhcloud.com/jsonp'
+    jsonp_service
     ,'?url=' + encodeURIComponent([
       base_url
       ,'/api?'
@@ -47,7 +51,8 @@ function( model, success, error )
     dataType: 'jsonp',
     //success: success
     success: function( res ) {
-      success( JSON.parse( decodeURIComponent( res.data ) ) );
+      success( res );
+      //success( JSON.parse( decodeURIComponent( res.data ) ) );
     }
   });
 
